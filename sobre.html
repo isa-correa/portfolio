@@ -137,44 +137,39 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* ── ③ HERO SCROLL EFFECT ─────────────────
-       La ilustración ocupa toda la pantalla (100vh).
-       El rectángulo crema empieza visible un poco (peek)
-       y sube con scroll, tapando la ilustración.
+    /* ── HERO SCROLL EFFECT ───────────────────
+       La ilustración está fija (position: fixed) pegada arriba.
+       El rectángulo crema sube con el scroll y la tapa.
+       z-index: ilustración (2) < tarjeta (10)
     ─────────────────────────────────────────── */
 
     .hero-section {
       position: relative;
       height: 100vh;
-      background: var(--red);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end; /* imagen se centra mediante absolute */
+      background: transparent; /* el fondo rojo lo da el body */
       overflow: hidden;
     }
 
-    /* Ilustración: centrada, fija en la pantalla inicial */
+    /* Ilustración fija pegada al top, centrada */
     .hero-illustration {
-      position: absolute;
-      bottom: 120px; /* deja que la tarjeta asoma por debajo */
+      position: fixed;
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
       width: clamp(260px, 50vw, 540px);
-      mix-blend-mode: multiply; /* negro del PNG se funde con rojo */
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
     }
 
-    /* Pequeño "peek" de la tarjeta visible desde el inicio */
+    /* Peek de la tarjeta al fondo del hero */
     .card-peek {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
+      bottom: 0;
+      left: 10%; right: 10%;
       height: 120px;
       background: var(--cream);
       border-radius: 28px 28px 0 0;
-      z-index: 2;
-      /* indica al usuario que hay scroll */
+      z-index: 3;
       display: flex;
       align-items: flex-start;
       justify-content: center;
@@ -188,16 +183,16 @@
     }
 
     /* ── TARJETA PRINCIPAL ───────────────────── */
-    /* Se posiciona justo después de la sección hero */
     .card-outer {
       position: relative;
       z-index: 10;
       background: var(--cream);
-      border-radius: 28px 28px 0 0;
-      margin-top: -28px; /* solapa ligeramente con el hero */
+      border-radius: 28px;
+      margin-top: -28px;
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-bottom: 3rem;
       padding: 3.5rem 3.5rem 5rem;
-      width: 100%;
-      max-width: 100%;
     }
 
     .card-inner {
@@ -497,6 +492,15 @@
       border-color: var(--pink);
     }
 
+    /* ── PARTÍCULAS ──────────────────────────── */
+    #particles-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1; /* por debajo de la ilustración (2) y la tarjeta (10) */
+      pointer-events: none;
+    }
+
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 640px) {
       nav#mainNav { padding: 1.1rem 1.5rem; }
@@ -518,8 +522,9 @@
       .nav-links li   { width: 100%; text-align: center; }
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
-      .hero-illustration { width: 85vw; bottom: 90px; }
-      .card-outer        { padding: 2.2rem 1.4rem 3rem; }
+      .hero-illustration { width: 88vw; }
+      .card-peek  { left: 3%; right: 3%; }
+      .card-outer { padding: 2.2rem 1.4rem 3rem; margin-left: 3%; margin-right: 3%; }
       .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
@@ -536,6 +541,7 @@
 <body>
 
   <!-- NAV fixed -->
+  <canvas id="particles-canvas"></canvas>
   <nav id="mainNav">
     <a href="index.html" class="logo">
       <span class="logo-dot"></span>
@@ -746,6 +752,71 @@ humor_enabled</p>
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
+  </script>
+
+  <script>
+    // ── PARTÍCULAS ────────────────────────────────────────────────
+    (function () {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', () => { resize(); initParticles(); });
+
+      const COUNT = 55;
+      let particles = [];
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < COUNT; i++) {
+          particles.push({
+            x:     rand(0, canvas.width),
+            y:     rand(0, canvas.height),
+            r:     rand(1.5, 4.5),
+            vx:    rand(-0.3, 0.3),
+            vy:    rand(-0.5, -0.1),
+            alpha: rand(0.08, 0.25),
+          });
+        }
+      }
+
+      initParticles();
+
+      // Paleta: tonos crema y rosa muy sutiles sobre el rojo
+      const colors = ['#FAF6EE', '#F4A7B9', '#ffffff'];
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = colors[Math.floor(p.r * 10) % colors.length];
+          ctx.globalAlpha = p.alpha;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+
+          // movimiento
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // reborde — si sale por arriba reaparece abajo
+          if (p.y < -p.r)       p.y = canvas.height + p.r;
+          if (p.x < -p.r)       p.x = canvas.width  + p.r;
+          if (p.x > canvas.width  + p.r) p.x = -p.r;
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
   </script>
 </body>
 </html>
