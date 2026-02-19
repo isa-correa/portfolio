@@ -352,32 +352,32 @@
         border-radius: 50%;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
+        transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.25, 1.4, 0.5, 1);
       }
 
       .deco-circle.visible { opacity: 1; }
 
-      /* 4 alrededor del círculo izquierdo (Portfolio) */
-      .deco-l1 { width: 30px; height: 30px; background: var(--pink);   top: -20px; left: 5px;   transform: translate(-55px, -30px); }
-      .deco-l2 { width: 18px; height: 18px; background: var(--yellow); top: 50%;   left: -15px; transform: translate(-55px, 0); }
-      .deco-l3 { width: 22px; height: 22px; background: var(--red);    bottom: -10px; left: 10px; transform: translate(-55px, 30px); }
-      .deco-l4 { width: 14px; height: 14px; background: var(--blue);   top: 20%;   left: -5px;  transform: translate(-55px, -10px); }
+      /* 4 alrededor del círculo izquierdo — parten desde la izquierda */
+      .deco-l1 { width: 30px; height: 30px; background: var(--pink);      top: -20px;    left: 5px;   transform: translateX(-90px); }
+      .deco-l2 { width: 18px; height: 18px; background: var(--yellow);    top: 50%;      left: -15px; transform: translateX(-80px); }
+      .deco-l3 { width: 22px; height: 22px; background: var(--red);       bottom: -10px; left: 10px;  transform: translateX(-90px); }
+      .deco-l4 { width: 14px; height: 14px; background: var(--blue);      top: 20%;      left: -5px;  transform: translateX(-80px); }
 
-      /* 4 alrededor del círculo derecho (Contacto) */
-      .deco-r1 { width: 26px; height: 26px; background: var(--green);  top: -15px; right: 5px;   transform: translate(55px, -30px); }
-      .deco-r2 { width: 20px; height: 20px; background: var(--yellow); top: 50%;   right: -15px; transform: translate(55px, 0); }
-      .deco-r3 { width: 34px; height: 34px; background: var(--pink);   bottom: -5px; right: 10px; transform: translate(55px, 30px); }
-      .deco-r4 { width: 16px; height: 16px; background: var(--red);    top: 25%;   right: -5px;  transform: translate(55px, -10px); }
+      /* 4 alrededor del círculo derecho — parten desde la derecha */
+      .deco-r1 { width: 26px; height: 26px; background: var(--green);     top: -15px;    right: 5px;   transform: translateX(90px); }
+      .deco-r2 { width: 20px; height: 20px; background: var(--yellow);    top: 50%;      right: -15px; transform: translateX(80px); }
+      .deco-r3 { width: 34px; height: 34px; background: var(--pink);      bottom: -5px;  right: 10px;  transform: translateX(90px); }
+      .deco-r4 { width: 16px; height: 16px; background: var(--red);       top: 25%;      right: -5px;  transform: translateX(80px); }
 
-      .deco-l1.visible { transform: translate(0,0); animation: decoWiggle1 5s   ease-in-out infinite; }
-      .deco-l2.visible { transform: translate(0,0); animation: decoWiggle2 6.5s ease-in-out infinite; }
-      .deco-l3.visible { transform: translate(0,0); animation: decoWiggle3 4.5s ease-in-out infinite; }
-      .deco-l4.visible { transform: translate(0,0); animation: decoWiggle4 7s   ease-in-out infinite; }
+      .deco-l1.visible { transform: translateX(0); animation: decoWiggle1 5s   ease-in-out infinite; }
+      .deco-l2.visible { transform: translateX(0); animation: decoWiggle2 6.5s ease-in-out infinite; }
+      .deco-l3.visible { transform: translateX(0); animation: decoWiggle3 4.5s ease-in-out infinite; }
+      .deco-l4.visible { transform: translateX(0); animation: decoWiggle4 7s   ease-in-out infinite; }
 
-      .deco-r1.visible { transform: translate(0,0); animation: decoWiggle2 5.5s ease-in-out infinite; }
-      .deco-r2.visible { transform: translate(0,0); animation: decoWiggle3 7s   ease-in-out infinite; }
-      .deco-r3.visible { transform: translate(0,0); animation: decoWiggle4 4.8s ease-in-out infinite; }
-      .deco-r4.visible { transform: translate(0,0); animation: decoWiggle1 6s   ease-in-out infinite; }
+      .deco-r1.visible { transform: translateX(0); animation: decoWiggle2 5.5s ease-in-out infinite; }
+      .deco-r2.visible { transform: translateX(0); animation: decoWiggle3 7s   ease-in-out infinite; }
+      .deco-r3.visible { transform: translateX(0); animation: decoWiggle4 4.8s ease-in-out infinite; }
+      .deco-r4.visible { transform: translateX(0); animation: decoWiggle1 6s   ease-in-out infinite; }
     }
 
     @media (min-width: 641px) {
@@ -755,8 +755,8 @@
       if (window.innerWidth > 640 || !circlesBlock) return;
       const rect = circlesBlock.getBoundingClientRect();
       const blockHeight = rect.height;
-      // Aparecen cuando el 30% del bloque ha entrado en pantalla
-      const entered = rect.top < window.innerHeight - blockHeight * 0.3;
+      // Aparecen cuando el 45% del bloque ha entrado en pantalla
+      const entered = rect.top < window.innerHeight - blockHeight * 0.45;
       // Desaparecen cuando el bloque ha salido completamente por arriba
       const exited = rect.bottom < 0;
       const inView = entered && !exited;
