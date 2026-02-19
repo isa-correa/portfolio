@@ -102,10 +102,10 @@
       transition: color 0.2s, background 0.2s;
     }
 
-    /* Enlace activo: píldora rosa, texto crema */
+    /* ② Enlace activo: píldora rosa, texto rojo */
     .nav-links a.active {
       background: var(--pink);
-      color: var(--cream);
+      color: var(--red);
       border-radius: 999px;
     }
 
@@ -137,56 +137,58 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* ── HERO + SCROLL EFFECT ─────────────────
-       LÓGICA:
-       - nav: fixed, z-index 500
-       - ilustración: fixed, top = altura del nav (~64px), z-index 3
-         → queda justo debajo del nav, NO lo invade
-       - hero-section: altura 100vh, reserva espacio en el flujo
-         para que la tarjeta empiece abajo del todo
-       - card-outer: z-index 20, empieza en el flujo justo al
-         acabar el hero (sin margin negativo)
-         → al hacer scroll sube y tapa la ilustración
-       - JS: cuando el hero sale del viewport, ocultamos la ilustración
+    /* ── HERO SCROLL EFFECT ───────────────────
+       La ilustración está fija (position: fixed) pegada arriba.
+       El rectángulo crema sube con el scroll y la tapa.
+       z-index: ilustración (2) < tarjeta (10)
     ─────────────────────────────────────────── */
 
     .hero-section {
       position: relative;
       height: 100vh;
-      background: transparent;
+      background: transparent; /* el fondo rojo lo da el body */
+      overflow: hidden;
     }
 
+    /* Ilustración fija pegada al top, centrada */
     .hero-illustration {
       position: fixed;
-      top: 64px; /* justo debajo del nav */
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: clamp(220px, 42vw, 480px);
-      z-index: 3;   /* nav=500 > card=20 > ilu=3 > partículas=1 */
+      width: clamp(260px, 50vw, 540px);
+      z-index: 2;
       pointer-events: none;
-      transition: opacity 0.3s ease;
     }
 
-    .hero-illustration.hidden {
-      opacity: 0;
-      pointer-events: none;
+    /* Peek de la tarjeta al fondo del hero */
+    .card-peek {
+      position: absolute;
+      bottom: 0;
+      left: 10%; right: 10%;
+      height: 120px;
+      background: var(--cream);
+      border-radius: 28px 28px 0 0;
+      z-index: 3;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 1.2rem;
     }
 
     .peek-handle {
       width: 40px; height: 4px;
       background: rgba(0,0,0,0.15);
       border-radius: 2px;
-      margin: 1.2rem auto 0;
     }
 
     /* ── TARJETA PRINCIPAL ───────────────────── */
     .card-outer {
       position: relative;
-      z-index: 20;  /* tapa la ilustración (z-index 3) al subir */
+      z-index: 10;
       background: var(--cream);
       border-radius: 28px;
-      /* Sin margin negativo: empieza justo al acabar el hero (100vh) */
-      margin-top: 0;
+      margin-top: -28px;
       margin-left: 10%;
       margin-right: 10%;
       margin-bottom: 3rem;
@@ -476,16 +478,17 @@
       position: fixed;
       top: 0; left: 0;
       width: 36px; height: 36px;
-      border: 2px solid var(--dark);
+      border: 2px solid var(--cream);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
       transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
+      mix-blend-mode: difference;
     }
     #cursor.hover {
       width: 56px; height: 56px;
-      background: rgba(46,46,46,0.06);
+      background: rgba(250,246,238,0.1);
       border-color: var(--pink);
     }
 
@@ -519,35 +522,19 @@
       .nav-links li   { width: 100%; text-align: center; }
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
-      /* Móvil: hero 65vh, tarjeta asoma 35vh */
-      .hero-section       { height: 65vh; }
-      .hero-illustration  { width: 88vw; }
-      .card-outer         { margin-top: -35vh; padding: 2rem 1.2rem 3rem; margin-left: 4%; margin-right: 4%; }
-      .yellow-block       { grid-template-columns: 1fr; }
+      .hero-illustration { width: 88vw; }
+      .card-peek  { left: 3%; right: 3%; }
+      .card-outer { padding: 2.2rem 1.4rem 3rem; margin-left: 3%; margin-right: 3%; }
+      .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
         flex-direction: column;
         align-items: center;
         text-align: center;
         padding: 2rem 1.5rem;
-        gap: 1.2rem;
       }
-
-      /* ④ Links del footer en móvil: fila que no rompe */
-      footer nav {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        width: 100%;
-        gap: 0;
-      }
-      footer nav a {
-        flex: 1;
-        text-align: center;
-        white-space: nowrap;
-        font-size: 0.78rem;
-        padding: 0 0.3rem;
-      }
+      footer nav { justify-content: center; }
+      footer nav a { flex: 1; }
     }
   </style>
 </head>
@@ -574,18 +561,21 @@
     </ul>
   </nav>
 
-  <!-- HERO: ilustración fixed, ocupa 60vh -->
+  <!-- ③ HERO: ilustración a pantalla completa + peek de la tarjeta -->
   <section class="hero-section">
     <img
       src="sobre-mi.png"
       alt="Ilustración Isa Correa"
       class="hero-illustration"
     />
+    <!-- Borde superior de la tarjeta asomando -->
+    <div class="card-peek">
+      <div class="peek-handle"></div>
+    </div>
   </section>
 
-  <!-- TARJETA: empieza con margin-top -40vh, sube tapando la ilustración -->
+  <!-- TARJETA que sube con el scroll natural de la página -->
   <div class="card-outer">
-    <div class="peek-handle"></div>
     <div class="card-inner">
 
       <h2 class="card-title">Sobre mí</h2>
@@ -765,7 +755,7 @@ humor_enabled</p>
   </script>
 
   <script>
-    // ── PARTÍCULAS — flotan hacia arriba + atraídas por el cursor ─
+    // ── PARTÍCULAS — huyen del cursor ────────────────────────────
     (function () {
       const canvas = document.getElementById('particles-canvas');
       const ctx    = canvas.getContext('2d');
@@ -777,26 +767,33 @@ humor_enabled</p>
       resize();
       window.addEventListener('resize', () => { resize(); initParticles(); });
 
+      // Posición del cursor (empieza fuera de pantalla)
       let mouse = { x: -9999, y: -9999 };
-      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
 
-      const COUNT       = 65;
-      const ATTRACT_R   = 140;   // radio de atracción del cursor
-      const ATTRACT_F   = 0.05;  // fuerza de atracción (suave)
+      const COUNT        = 110;
+      const REPEL_RADIUS = 100;  // distancia a la que huyen
+      const REPEL_FORCE  = 2.8;  // fuerza de repulsión
+      const FRICTION     = 0.88; // cuánto frenan al alejarse del cursor
+      const RETURN_SPEED = 0.04; // velocidad de regreso a posición original
 
       let particles = [];
-      function rand(a, b) { return Math.random() * (b - a) + a; }
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
 
       function initParticles() {
         particles = [];
         for (let i = 0; i < COUNT; i++) {
+          const ox = rand(0, canvas.width);
+          const oy = rand(0, canvas.height);
           particles.push({
-            x:     rand(0, canvas.width),
-            y:     rand(0, canvas.height),
+            x: ox, y: oy,    // posición actual
+            ox, oy,           // posición "origen" a la que vuelven
             r:     rand(1.5, 3.5),
-            // velocidad base: deriva lateral suave + sube
-            vx:    rand(-0.25, 0.25),
-            vy:    rand(-0.6, -0.15),
+            vx: 0, vy: 0,    // velocidad actual
             alpha: rand(0.1, 0.28),
           });
         }
@@ -810,25 +807,30 @@ humor_enabled</p>
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
-          // Atracción hacia el cursor
-          const dx   = mouse.x - p.x;
-          const dy   = mouse.y - p.y;
+          // Vector desde el cursor a la partícula
+          const dx   = p.x - mouse.x;
+          const dy   = p.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < ATTRACT_R && dist > 1) {
-            const force = (ATTRACT_R - dist) / ATTRACT_R;
-            p.vx += (dx / dist) * force * ATTRACT_F;
-            p.vy += (dy / dist) * force * ATTRACT_F;
+          if (dist < REPEL_RADIUS && dist > 0) {
+            // Fuerza inversamente proporcional a la distancia
+            const force = (REPEL_RADIUS - dist) / REPEL_RADIUS;
+            p.vx += (dx / dist) * force * REPEL_FORCE;
+            p.vy += (dy / dist) * force * REPEL_FORCE;
           }
+
+          // Retorno suave a la posición original
+          p.vx += (p.ox - p.x) * RETURN_SPEED;
+          p.vy += (p.oy - p.y) * RETURN_SPEED;
+
+          // Fricción
+          p.vx *= FRICTION;
+          p.vy *= FRICTION;
 
           p.x += p.vx;
           p.y += p.vy;
 
-          // Reborde: sale por arriba → reaparece abajo
-          if (p.y < -p.r)                p.y = canvas.height + p.r;
-          if (p.x < -p.r)                p.x = canvas.width  + p.r;
-          if (p.x > canvas.width  + p.r) p.x = -p.r;
-
+          // Dibujar
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
           ctx.fillStyle = colors[Math.floor(p.r * 10) % colors.length];
