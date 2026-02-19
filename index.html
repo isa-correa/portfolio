@@ -425,7 +425,7 @@
       color: var(--dark);
       display: flex;
       align-items: flex-start;
-      gap: 0.55rem;
+      gap: 0.2rem;
     }
 
     .footer-dot {
@@ -437,13 +437,23 @@
       animation: pulse 2.4s ease-in-out infinite, colorCycle 10s linear infinite;
     }
 
+    footer nav {
+      display: flex;
+      align-items: center;
+    }
+
     footer nav a {
       color: var(--dark);
       text-decoration: none;
-      margin-left: 1.5rem;
       font-size: 0.9rem;
       letter-spacing: 0.02em;
       transition: color 0.2s;
+      padding: 0 0.6rem;
+      text-align: center;
+    }
+
+    footer nav a + a {
+      border-left: 1px solid rgba(0,0,0,0.08);
     }
 
     footer nav a:hover { color: var(--red); }
@@ -577,6 +587,15 @@
         align-items: center;
         text-align: center;
         padding: 2rem 1.5rem;
+      }
+
+      .footer-logo {
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .footer-dot {
+        margin-top: 0.3em;
       }
 
       footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
