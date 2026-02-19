@@ -81,11 +81,11 @@
     }
 
     .logo-dot {
-      margin-top: 0.3rem;
       width: 19px; height: 19px;
       border-radius: 50%;
       background: var(--red);
       flex-shrink: 0;
+      margin-top: 0.22em;
       animation: pulse 2.4s ease-in-out infinite, colorCycle 10s linear infinite;
     }
 
@@ -186,6 +186,37 @@
     @media (max-width: 640px) {
       .photo-avatar { width: 160px; height: 160px; margin-top: 1.1rem; }
       .photo-bar { display: none; }
+
+      .photo-bar-mobile {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        top: 50px;
+        left: 0; right: 0;
+        z-index: 9999;
+        pointer-events: none;
+        padding-top: 50px;
+      }
+
+      .photo-avatar-mobile {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .photo-avatar-mobile.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (min-width: 641px) {
+      .photo-bar-mobile { display: none; }
     }
 
     /* HERO */
@@ -333,7 +364,7 @@
       border-radius: 50%;
       background: var(--red);
       flex-shrink: 0;
-      margin-top: 0.35rem;
+      margin-top: 0.22em;
       animation: pulse 2.4s ease-in-out infinite, colorCycle 10s linear infinite;
     }
 
@@ -491,7 +522,7 @@
       <span class="logo-dot"></span>
       <span class="logo-text">
         Isa Correa
-        <span class="logo-sub">Visual Designer</span>
+        <span class="logo-sub">visual & art director</span>
       </span>
     </a>
     <button class="hamburger" id="hamburger" aria-label="Abrir menú">
@@ -505,7 +536,12 @@
     </ul>
   </nav>
 
-  <!-- PHOTO BAR -->
+  <!-- PHOTO BAR MÓVIL -->
+  <div class="photo-bar-mobile" id="photoBarMobile">
+    <img src="isabel-correa.PNG" alt="Isa Correa" class="photo-avatar-mobile" id="photoAvatarMobile"/>
+  </div>
+
+  <!-- PHOTO BAR DESKTOP -->
   <div class="photo-bar">
     <img src="isabel-correa.PNG" alt="Isa Correa" class="photo-avatar" id="photoAvatar"/>
   </div>
@@ -514,9 +550,8 @@
     <img src="isabel-correa.PNG" alt="Isa Correa" class="hero-avatar"/>
     <h1>Hola, soy Isa Correa</h1>
     <p>
-      Diseñadora y creativa con pasión por construir experiencias digitales con alma.<br/>
-      Me muevo entre el diseño visual, la web y los proyectos que merecen ser contados.<br/>
-      Aquí encontrarás mi trabajo, mis ideas y la forma en que veo el mundo.
+      Organizar el caos es lo primero que hago cada mañana para que al final del día todo luzca increíble y funcione. Mi nuevo superpoder es domar la IA para <em>hacer magia:</em> desde pasar de visual a código o ilustrar, hasta marcarme shootings y vídeos que antes dábamos por imposibles.<br/><br/>
+      Más de 6 años navegando entre píxeles y campañas internacionales dan para mucho... y aquí sigo, <em>fluyendo</em>.
     </p>
     <div class="circles">
       <a href="#portfolio" class="circle-link circle-green">Portfolio</a>
@@ -578,7 +613,7 @@
       <span class="footer-dot"></span>
       <span class="logo-text">
         Isa Correa
-        <span class="logo-sub">Visual Designer</span>
+        <span class="logo-sub">visual & art director</span>
       </span>
     </div>
     <nav>
@@ -616,6 +651,24 @@
         setTimeout(() => toast.classList.remove('show'), 2500);
       });
     });
+
+    // Photo móvil
+    const photoAvatarMobile = document.getElementById('photoAvatarMobile');
+
+    function updateMobilePhoto() {
+      if (window.innerWidth > 640) return;
+      const menuOpen = navLinks.classList.contains('open');
+      const halfPage = document.body.scrollHeight / 2;
+      const pastHalf = window.scrollY > halfPage;
+      if (pastHalf && !menuOpen) {
+        photoAvatarMobile.classList.add('visible');
+      } else {
+        photoAvatarMobile.classList.remove('visible');
+      }
+    }
+
+    window.addEventListener('scroll', updateMobilePhoto, { passive: true });
+    window.addEventListener('resize', updateMobilePhoto);
 
     // Nav background on scroll
     const navEl = document.querySelector('nav');
@@ -658,6 +711,7 @@
       hamburger.classList.toggle('open');
       navLinks.classList.toggle('open');
       updatePhotoVisibility();
+      updateMobilePhoto();
     });
 
     navLinks.querySelectorAll('a').forEach(a => {
@@ -665,6 +719,7 @@
         hamburger.classList.remove('open');
         navLinks.classList.remove('open');
         updatePhotoVisibility();
+        updateMobilePhoto();
       });
     });
 
