@@ -384,40 +384,20 @@
       .deco-circle { display: none; }
     }
 
-    /* LANDSCAPE — relación 3:2 */
+    /* LANDSCAPE */
     .landscape {
       width: 100%;
-      aspect-ratio: 3 / 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
     }
-    .landscape svg { width: 100%; height: 100%; display: block; }
 
-    .sky { animation: skyShift 10s ease-in-out infinite alternate; }
-    @keyframes skyShift {
-      from { stop-color: #d6eaf5; }
-      to   { stop-color: #f9dcc4; }
-    }
-
-    .sun { animation: sunFloat 8s ease-in-out infinite alternate; transform-origin: 80% 35%; }
-    @keyframes sunFloat {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-10px); }
-    }
-
-    .cloud1 { animation: cloudMove1 22s linear infinite; }
-    .cloud2 { animation: cloudMove2 30s linear infinite; }
-    @keyframes cloudMove1 { from { transform: translateX(-120px); } to { transform: translateX(110vw); } }
-    @keyframes cloudMove2 { from { transform: translateX(110vw); } to { transform: translateX(-200px); } }
-
-    .tree { animation: treeSway 4s ease-in-out infinite alternate; transform-origin: bottom center; }
-    .tree:nth-child(odd) { animation-duration: 5s; }
-    @keyframes treeSway { from { transform: rotate(-1.5deg); } to { transform: rotate(1.5deg); } }
-
-    .bird { animation: birdFly 18s linear infinite; }
-    @keyframes birdFly {
-      from { transform: translateX(-60px) translateY(0); }
-      50%  { transform: translateX(50vw) translateY(-20px); }
-      to   { transform: translateX(110vw) translateY(10px); }
+    .landscape dotlottie-wc {
+      width: 100%;
+      max-width: 860px;
+      height: auto;
+      aspect-ratio: 1 / 1;
     }
 
     /* FOOTER */
@@ -656,51 +636,13 @@
   </section>
 
   <div class="landscape">
-    <svg viewBox="0 0 1200 280" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop class="sky" offset="0%" stop-color="#d6eaf5"/>
-          <stop offset="100%" stop-color="#FAF6EE"/>
-        </linearGradient>
-      </defs>
-      <rect width="1200" height="280" fill="url(#skyGrad)"/>
-      <g class="sun">
-        <circle cx="960" cy="80" r="48" fill="#F5C842" opacity="0.85"/>
-        <circle cx="960" cy="80" r="60" fill="#F5C842" opacity="0.2"/>
-      </g>
-      <g class="cloud1" opacity="0.8">
-        <ellipse cx="180" cy="70" rx="55" ry="22" fill="#fff"/>
-        <ellipse cx="215" cy="60" rx="40" ry="20" fill="#fff"/>
-        <ellipse cx="150" cy="65" rx="32" ry="16" fill="#fff"/>
-      </g>
-      <g class="cloud2" opacity="0.6">
-        <ellipse cx="700" cy="55" rx="65" ry="24" fill="#fff"/>
-        <ellipse cx="740" cy="44" rx="44" ry="22" fill="#fff"/>
-        <ellipse cx="665" cy="50" rx="38" ry="18" fill="#fff"/>
-      </g>
-      <ellipse cx="200" cy="310" rx="380" ry="130" fill="#a8c98a" opacity="0.5"/>
-      <ellipse cx="900" cy="320" rx="420" ry="140" fill="#8fb870" opacity="0.45"/>
-      <ellipse cx="580" cy="330" rx="340" ry="120" fill="#7aa85c" opacity="0.4"/>
-      <rect x="0" y="220" width="1200" height="60" fill="#6B8F47"/>
-      <rect x="0" y="240" width="1200" height="40" fill="#5a7a3a"/>
-      <rect x="0" y="255" width="1200" height="25" fill="#4e6e30"/>
-      <g class="tree"><rect x="108" y="170" width="10" height="55" fill="#5a3e1b" rx="2"/><ellipse cx="113" cy="160" rx="28" ry="34" fill="#4e7a2a"/><ellipse cx="113" cy="148" rx="20" ry="24" fill="#5d8f34"/></g>
-      <g class="tree"><rect x="248" y="155" width="12" height="70" fill="#5a3e1b" rx="2"/><ellipse cx="254" cy="142" rx="34" ry="42" fill="#456e25"/><ellipse cx="254" cy="128" rx="24" ry="28" fill="#5d8f34"/></g>
-      <g class="tree"><rect x="458" y="168" width="10" height="57" fill="#5a3e1b" rx="2"/><ellipse cx="463" cy="157" rx="26" ry="32" fill="#4e7a2a"/><ellipse cx="463" cy="145" rx="18" ry="22" fill="#6b9e3a"/></g>
-      <g class="tree"><rect x="680" y="160" width="11" height="65" fill="#5a3e1b" rx="2"/><ellipse cx="685" cy="148" rx="30" ry="38" fill="#456e25"/><ellipse cx="685" cy="135" rx="22" ry="26" fill="#5d8f34"/></g>
-      <g class="tree"><rect x="880" y="170" width="10" height="55" fill="#5a3e1b" rx="2"/><ellipse cx="885" cy="158" rx="27" ry="33" fill="#4e7a2a"/><ellipse cx="885" cy="146" rx="19" ry="23" fill="#6b9e3a"/></g>
-      <g class="tree"><rect x="1050" y="158" width="12" height="67" fill="#5a3e1b" rx="2"/><ellipse cx="1056" cy="145" rx="33" ry="40" fill="#456e25"/><ellipse cx="1056" cy="132" rx="23" ry="27" fill="#5d8f34"/></g>
-      <path d="M 560 225 Q 580 240 580 280" stroke="#c9a96e" stroke-width="28" fill="none" opacity="0.5"/>
-      <path d="M 560 225 Q 540 240 540 280" stroke="#c9a96e" stroke-width="28" fill="none" opacity="0.5"/>
-      <circle cx="80"  cy="230" r="5" fill="#F4A7B9"/>
-      <circle cx="320" cy="235" r="4" fill="#F4A7B9"/>
-      <circle cx="750" cy="228" r="5" fill="#fff"/>
-      <circle cx="980" cy="232" r="4" fill="#F4A7B9"/>
-      <circle cx="1130" cy="230" r="5" fill="#fff"/>
-      <g class="bird">
-        <path d="M 50 60 Q 58 54 66 60 Q 74 54 82 60" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round"/>
-      </g>
-    </svg>
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+    <dotlottie-wc
+      src="https://lottie.host/cd114278-fe5b-4ddb-9bdc-c60719a90c71/mH6ZbyNgDY.lottie"
+      autoplay
+      loop
+      speed="0.1">
+    </dotlottie-wc>
   </div>
 
   <footer>
