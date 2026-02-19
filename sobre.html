@@ -241,7 +241,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 3%;
+      padding: 2.5rem 5%;
     }
 
     .yellow-block p {
@@ -256,7 +256,7 @@
       color: #5a4500;
       margin-top: 0;
       white-space: pre-wrap;
-      line-height: 1.6;
+      line-height: 1.35;
       text-align: center;
     }
 
@@ -622,8 +622,8 @@
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
       .hero-illustration { top: 120px; width: 84vw; }
-      .card-peek  { left: 7%; right: 7%; height: 40vh; }
-      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 7%; margin-right: 7%; }
+      .card-peek  { left: 6%; right: 6%; height: 40vh; }
+      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 6%; margin-right: 6%; }
       .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
@@ -692,7 +692,7 @@
       <h2 class="card-title">¿Quién hay detrás?</h2>
 
       <p class="card-intro">
-        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución — solo hay que encontrar el sistema de capas correcto.
+        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
       </p>
 
       <div class="yellow-block yellow-block--centered">
@@ -872,35 +872,6 @@
         currentY = window.scrollY;
       }, { passive: true });
 
-      // Touch (móvil) — misma resistencia que desktop en el primer 20%
-      let touchStartY = 0;
-      window.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
-        currentY = window.scrollY;
-      }, { passive: true });
-
-      window.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const touchDelta = touchStartY - e.touches[0].clientY;
-        touchStartY = e.touches[0].clientY;
-
-        const maxScroll = getMaxScroll();
-        const progress  = currentY / maxScroll;
-
-        let delta = touchDelta;
-        if (progress < RESISTANCE_ZONE) {
-          const resistRatio = 1 - (progress / RESISTANCE_ZONE);
-          const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
-          delta = delta * factor;
-        }
-
-        currentY = Math.min(Math.max(currentY + delta, 0), maxScroll);
-
-        if (!ticking) {
-          requestAnimationFrame(applyScroll);
-          ticking = true;
-        }
-      }, { passive: false });
     })();
 
     // Nav bg on scroll + ocultar ilustración al 50% de scroll total
