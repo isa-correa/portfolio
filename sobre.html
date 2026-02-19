@@ -154,10 +154,10 @@
 
     .hero-illustration {
       position: fixed;
-      top: 144px; /* nav ~64px + 80px margen */
+      top: 144px;
       left: 50%;
       transform: translateX(-50%);
-      width: clamp(240px, 44vw, 500px);
+      width: 500px; /* tamaño fijo en desktop, no se achica con el ancho */
       z-index: 3;
       pointer-events: none;
       transition: opacity 0.4s ease;
@@ -527,8 +527,8 @@
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
       .hero-illustration { top: 120px; width: 84vw; }
-      .card-peek  { left: 4%; right: 4%; height: 45vh; }
-      .card-outer { margin-top: -45vh; padding: 2rem 1.2rem 3rem; margin-left: 4%; margin-right: 4%; }
+      .card-peek  { left: 4%; right: 4%; height: 40vh; }
+      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 4%; margin-right: 4%; }
       .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
@@ -720,7 +720,7 @@ humor_enabled</p>
     const navEl  = document.getElementById('mainNav');
     const heroIllu = document.querySelector('.hero-illustration');
     window.addEventListener('scroll', () => {
-      navEl.style.background = window.scrollY > 40 ? 'var(--red)' : 'transparent';
+      navEl.style.background = 'transparent';
       // Altura total scrollable
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress  = window.scrollY / maxScroll;
@@ -810,7 +810,7 @@ humor_enabled</p>
             r:     rand(1.5, 3.5),
             vx:    rand(-0.25, 0.25),  // ligera deriva lateral
             vy:    rand(-0.55, -0.15), // sube
-            alpha: rand(0.1, 0.28),
+            alpha: rand(0.2, 0.4),
           });
         }
       }
