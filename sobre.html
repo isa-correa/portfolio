@@ -237,6 +237,13 @@
       margin-bottom: 2.5rem;
     }
 
+    .yellow-block--centered {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2.2rem;
+    }
+
     .yellow-block p {
       font-size: 0.95rem;
       line-height: 1.75;
@@ -245,11 +252,25 @@
 
     .prompt {
       font-family: 'Courier New', monospace;
-      font-size: 0.83rem;
+      font-size: 0.92rem;
       color: #5a4500;
-      margin-top: 0.6rem;
+      margin-top: 0;
       white-space: pre-wrap;
       line-height: 1.6;
+      text-align: center;
+    }
+
+    /* Cursor parpadeante del typewriter */
+    .prompt::after {
+      content: '|';
+      animation: blink 0.75s step-end infinite;
+      opacity: 1;
+    }
+    .prompt.done::after { display: none; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
     }
 
     /* Skills */
@@ -388,6 +409,76 @@
       stroke-linecap: round;
       stroke-linejoin: round;
     }
+
+    /* ── CV CTA SECTION ──────────────────────── */
+    .cv-section {
+      margin-top: 3rem;
+      background: var(--red);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cv-section h3 {
+      font-family: 'Kiwi Maru', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 400;
+      color: var(--cream);
+    }
+
+    .cv-section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(250,246,238,0.85);
+      max-width: 520px;
+    }
+
+    .cv-cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn-cv {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--cream);
+      color: var(--red);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.75rem 1.8rem;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-cv:hover { transform: translateY(-2px); background: var(--pink); }
+    .btn-cv svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .btn-cv-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--cream);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.75rem 1.8rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(250,246,238,0.4);
+      text-decoration: none;
+      transition: transform 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--pink); color: var(--pink); }
+    .btn-cv-ghost svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── FOOTER ──────────────────────────────── */
     footer {
@@ -603,32 +694,24 @@
         No creo en el diseño como algo puramente estético. Para mí, diseñar es solucionar problemas y organizar el caos (especialmente esos briefs que llegan un lunes por la mañana). Después de más de 6 años dando vueltas por agencias, estudios y marcas internacionales, he aprendido que lo más importante no es qué herramienta usas, sino cómo conectas la estrategia con el impacto visual.
       </p>
 
-      <div class="yellow-block">
-        <div>
-          <p>Mi curiosidad me ha llevado a especializarme en IA Creativa. No para sustituir ideas, sino para darles esteroides. Mi flujo de trabajo actual se resume en esto:</p>
-          <p class="prompt">/imagine prompt:
-creative_lead_isabel_correa --
-high_responsibility --
-international_experience --ai_powered --
-humor_enabled</p>
-        </div>
-        <div>
-          <p>Uso la IA para lo que antes parecía ciencia ficción: desde generar shootings de producto hiperrealistas sin salir del estudio, hasta optimizar la producción de vídeo complejo o convertir diseños en código funcional en tiempo récord. Si se puede imaginar, probablemente pueda encontrar la forma de automatizarlo o escalarlo.</p>
-        </div>
+      <div class="yellow-block yellow-block--centered">
+        <p class="prompt" id="typewriterPrompt"></p>
       </div>
 
       <p class="skills-label">Lo que hago bien</p>
       <div class="tags-row">
         <span class="tag tag-r">Dirección de Arte</span>
-        <span class="tag tag-b">Diseño Visual</span>
-        <span class="tag tag-g">Campañas 360°</span>
         <span class="tag tag-y">IA Generativa</span>
         <span class="tag tag-p">Branding</span>
-        <span class="tag tag-r">Art Direction</span>
-        <span class="tag tag-b">Fotografía</span>
+        <span class="tag tag-b">UX/UI</span>
         <span class="tag tag-g">Motion &amp; Vídeo</span>
-        <span class="tag tag-y">Figma / Adobe</span>
+        <span class="tag tag-r">Liderazgo Creativo</span>
+        <span class="tag tag-y">Estrategia IA</span>
+        <span class="tag tag-g">Campañas 360°</span>
+        <span class="tag tag-b">Fotografía</span>
         <span class="tag tag-p">Gestión de proyectos</span>
+        <span class="tag tag-r">Paid Media</span>
+        <span class="tag tag-b">Figma / Adobe</span>
       </div>
 
       <div class="divider"></div>
@@ -660,15 +743,32 @@ humor_enabled</p>
 
       <div class="divider"></div>
 
+      <!-- CV CTA -->
+      <div class="cv-section">
+        <h3>¿Te has quedado con ganas de más?</h3>
+        <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
+        <div class="cv-cta-row">
+          <a href="mailto:isacorreaur@gmail.com?subject=CV%20completo" class="btn-cv">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
+            Pídeme el CV
+          </a>
+          <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" class="btn-cv-ghost">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
       <h3 class="section-title">Fuera del trabajo</h3>
       <div class="fun-grid">
-        <div class="fun-item">🌿 Fanática de las plantas</div>
-        <div class="fun-item">🎬 Cinéfila empedernida</div>
+        <div class="fun-item">🐶 Dog lover</div>
+        <div class="fun-item">🌷 Fanática de los tulipanes</div>
         <div class="fun-item">🍜 Obsesionada con la comida asiática</div>
         <div class="fun-item">✈️ Siempre con la maleta lista</div>
-        <div class="fun-item">🎨 Colecciona paletas de color</div>
+        <div class="fun-item">📷 Vivo con una cámara en mano</div>
         <div class="fun-item">🤖 Early adopter de cada IA nueva</div>
-        <div class="fun-item">📚 Lectora voraz de newsletters de diseño</div>
       </div>
 
       <div class="cta-row">
@@ -770,7 +870,7 @@ humor_enabled</p>
         currentY = window.scrollY;
       }, { passive: true });
 
-      // Touch (móvil)
+      // Touch (móvil) — resistencia mínima, solo los primeros 2 toques
       let touchStartY = 0;
       window.addEventListener('touchstart', (e) => {
         touchStartY = e.touches[0].clientY;
@@ -785,9 +885,10 @@ humor_enabled</p>
         const progress  = currentY / maxScroll;
 
         let delta = touchDelta;
+        // En móvil la resistencia es muy suave: factor mínimo 0.55
         if (progress < RESISTANCE_ZONE) {
           const resistRatio = 1 - (progress / RESISTANCE_ZONE);
-          const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
+          const factor = 0.55 + (1 - 0.55) * (1 - resistRatio);
           delta = delta * factor;
         }
 
@@ -844,6 +945,33 @@ humor_enabled</p>
         setTimeout(() => t.classList.remove('show'), 2500);
       });
     });
+
+    // ── TYPEWRITER ────────────────────────────────────────────────
+    (function () {
+      const el   = document.getElementById('typewriterPrompt');
+      const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
+      const duration = 3000; // 3 segundos
+      const delay    = 400;  // espera antes de empezar
+
+      // Usar IntersectionObserver para arrancar cuando sea visible
+      const obs = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        setTimeout(() => {
+          let i = 0;
+          const interval = duration / text.length;
+          const timer = setInterval(() => {
+            el.textContent = text.slice(0, ++i);
+            if (i >= text.length) {
+              clearInterval(timer);
+              el.classList.add('done');
+            }
+          }, interval);
+        }, delay);
+      }, { threshold: 0.5 });
+
+      obs.observe(el);
+    })();
 
     // Cursor
     const cursor = document.getElementById('cursor');
