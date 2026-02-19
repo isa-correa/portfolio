@@ -19,7 +19,9 @@
       --dark:      #2E2E2E;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: auto;
+    }
 
     body {
       background: var(--red);
@@ -27,6 +29,7 @@
       color: var(--dark);
       min-height: 100vh;
       overflow-x: hidden;
+      overflow-y: scroll;
     }
 
     /* ── NAV ─────────────────────────────────── */
@@ -193,7 +196,7 @@
       z-index: 10;
       background: var(--cream);
       border-radius: 28px;
-      margin-top: -25vh; /* se solapa con el peek, ambos forman una sola tarjeta */
+      margin-top: -25vh;
       margin-left: 10%;
       margin-right: 10%;
       margin-bottom: 3rem;
@@ -634,24 +637,24 @@ humor_enabled</p>
       <div class="timeline">
         <div class="tl-item">
           <div class="tl-dot"></div>
-          <p class="tl-year">2022 — Presente</p>
-          <p class="tl-role">Art Director &amp; AI Creative Lead</p>
-          <p class="tl-company">Freelance · Internacional</p>
-          <p class="tl-desc">Dirección creativa para marcas internacionales integrando herramientas de IA generativa en el flujo de producción visual: desde ideación hasta entrega de activos finales.</p>
+          <p class="tl-year">2024 — Actual</p>
+          <p class="tl-role">Visual &amp; Art Director | AI Visual Strategist</p>
+          <p class="tl-company">Liderazgo Creativo y Gestión Estratégica</p>
+          <p class="tl-desc">Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos —como vídeos y shootings digitales— que antes parecían imposibles y garantizando la optimización e implementación.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-year">2022 — 2024</p>
+          <p class="tl-role">Mid Graphic Designer &amp; Art Direction</p>
+          <p class="tl-company">Proyectos Internacionales y Mercados Globales</p>
+          <p class="tl-desc">Diseñé y dirigí identidades visuales para mercados internacionales (Europa y Oriente Medio). Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala, integrando por primera vez la IA para optimizar la producción.</p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2020 — 2022</p>
-          <p class="tl-role">Senior Art Director</p>
-          <p class="tl-company">Agencia Digital · Madrid</p>
-          <p class="tl-desc">Lideré la dirección visual de más de 40 campañas para clientes del sector moda, belleza y lifestyle en mercados europeos.</p>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <p class="tl-year">2018 — 2020</p>
-          <p class="tl-role">Diseñadora Visual &amp; Art Director Jr.</p>
-          <p class="tl-company">Estudio Creativo · Barcelona</p>
-          <p class="tl-desc">Producción de campañas de branding, identidad visual y dirección de fotografía. Aprendí a hacer magia con recursos limitados.</p>
+          <p class="tl-role">Junior Graphic Designer</p>
+          <p class="tl-company">Gestión Integral y Producción Creativa</p>
+          <p class="tl-desc">Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva bajo presión, encargándome desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando lo posible los recursos disponibles.</p>
         </div>
       </div>
 
@@ -716,11 +719,92 @@ humor_enabled</p>
     // Lo hacemos con position: sticky en la ilustración dentro del hero.
     // El hero ocupa 100vh y el card-outer tiene z-index mayor → efecto natural.
 
+    // ── SCROLL CON RESISTENCIA en el primer 20% ───────────────────
+    // Interceptamos la rueda del ratón y el touch para ralentizar
+    // el scroll cuando estamos en el primer 20% del recorrido total.
+    (function () {
+      const RESISTANCE_ZONE = 0.20; // primeros 20% de la página
+      const SLOW_FACTOR     = 0.12; // cuánto de cada delta pasa (más bajo = más lento)
+
+      let targetY  = 0;
+      let currentY = 0;
+      let ticking  = false;
+
+      function getMaxScroll() {
+        return document.documentElement.scrollHeight - window.innerHeight;
+      }
+
+      function applyScroll() {
+        window.scrollTo(0, currentY);
+        ticking = false;
+      }
+
+      // Escuchamos la rueda
+      window.addEventListener('wheel', (e) => {
+        e.preventDefault();
+
+        const maxScroll  = getMaxScroll();
+        const progress   = currentY / maxScroll;
+
+        let delta = e.deltaY;
+
+        // Si estamos en el primer 20%, aplicamos resistencia
+        if (progress < RESISTANCE_ZONE) {
+          // Cuánto queda del tramo resistido (1 → 0 conforme avanza)
+          const resistRatio = 1 - (progress / RESISTANCE_ZONE);
+          // Mezclamos: en el 0% solo pasa SLOW_FACTOR, en el 20% pasa todo
+          const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
+          delta = delta * factor;
+        }
+
+        currentY = Math.min(Math.max(currentY + delta, 0), maxScroll);
+
+        if (!ticking) {
+          requestAnimationFrame(applyScroll);
+          ticking = true;
+        }
+      }, { passive: false });
+
+      // Sincronizar si el usuario usa teclado o scrollbar nativo
+      window.addEventListener('scroll', () => {
+        currentY = window.scrollY;
+      }, { passive: true });
+
+      // Touch (móvil)
+      let touchStartY = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touchDelta = touchStartY - e.touches[0].clientY;
+        touchStartY = e.touches[0].clientY;
+
+        const maxScroll = getMaxScroll();
+        const progress  = currentY / maxScroll;
+
+        let delta = touchDelta;
+        if (progress < RESISTANCE_ZONE) {
+          const resistRatio = 1 - (progress / RESISTANCE_ZONE);
+          const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
+          delta = delta * factor;
+        }
+
+        currentY = Math.min(Math.max(currentY + delta, 0), maxScroll);
+
+        if (!ticking) {
+          requestAnimationFrame(applyScroll);
+          ticking = true;
+        }
+      }, { passive: false });
+    })();
+
     // Nav bg on scroll + ocultar ilustración al 50% de scroll total
     const navEl  = document.getElementById('mainNav');
     const heroIllu = document.querySelector('.hero-illustration');
     window.addEventListener('scroll', () => {
-      navEl.style.background = 'transparent';
+      navEl.style.background = window.scrollY > 40 ? 'var(--red)' : 'transparent';
       // Altura total scrollable
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress  = window.scrollY / maxScroll;
