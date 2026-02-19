@@ -173,7 +173,7 @@
     .card-peek {
       position: absolute;
       bottom: 0;
-      left: 10%; right: 10%;
+      left: 15%; right: 15%;
       height: 25vh;
       background: var(--cream);
       border-radius: 28px 28px 0 0;
@@ -197,8 +197,8 @@
       background: var(--cream);
       border-radius: 28px;
       margin-top: -25vh;
-      margin-left: 10%;
-      margin-right: 10%;
+      margin-left: 15%;
+      margin-right: 15%;
       margin-bottom: 3rem;
       padding: 3.5rem 3.5rem 5rem;
     }
@@ -241,7 +241,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 2.2rem;
+      padding: 2.5rem 3%;
     }
 
     .yellow-block p {
@@ -459,7 +459,8 @@
       text-decoration: none;
       transition: transform 0.2s, background 0.2s;
     }
-    .btn-cv:hover { transform: translateY(-2px); background: var(--pink); }
+    .btn-cv:hover { transform: translateY(-2px); background: var(--yellow-bg); color: #8a6800; }
+    .btn-cv:hover svg { fill: #8a6800; stroke: #8a6800; }
     .btn-cv svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     .btn-cv-ghost {
@@ -477,7 +478,7 @@
       text-decoration: none;
       transition: transform 0.2s, border-color 0.2s, color 0.2s;
     }
-    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--pink); color: var(--pink); }
+    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--yellow-bg); color: var(--yellow-bg); }
     .btn-cv-ghost svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── FOOTER ──────────────────────────────── */
@@ -621,8 +622,8 @@
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
       .hero-illustration { top: 120px; width: 84vw; }
-      .card-peek  { left: 4%; right: 4%; height: 40vh; }
-      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 4%; margin-right: 4%; }
+      .card-peek  { left: 7%; right: 7%; height: 40vh; }
+      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 7%; margin-right: 7%; }
       .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
@@ -688,10 +689,10 @@
   <div class="card-outer">
     <div class="card-inner">
 
-      <h2 class="card-title">Sobre mí</h2>
+      <h2 class="card-title">¿Quién hay detrás?</h2>
 
       <p class="card-intro">
-        No creo en el diseño como algo puramente estético. Para mí, diseñar es solucionar problemas y organizar el caos (especialmente esos briefs que llegan un lunes por la mañana). Después de más de 6 años dando vueltas por agencias, estudios y marcas internacionales, he aprendido que lo más importante no es qué herramienta usas, sino cómo conectas la estrategia con el impacto visual.
+        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución — solo hay que encontrar el sistema de capas correcto.
       </p>
 
       <div class="yellow-block yellow-block--centered">
@@ -748,7 +749,7 @@
         <h3>¿Te has quedado con ganas de más?</h3>
         <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
         <div class="cv-cta-row">
-          <a href="mailto:isacorreaur@gmail.com?subject=CV%20completo" class="btn-cv">
+          <a href="/cdn-cgi/l/email-protection#4e273d2f2d213c3c2b2f3b3c0e29232f2722602d2123713d3b2c242b2d3a730d186b7c7e2d21233e222b3a21" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             Pídeme el CV
           </a>
@@ -813,7 +814,7 @@
   <div class="toast" id="toast">✓ Correo copiado</div>
   <div id="cursor"></div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ③ Efecto scroll: la ilustración se queda fija (sticky)
     // mientras el contenido de la tarjeta sube y la tapa.
     // Lo hacemos con position: sticky en la ilustración dentro del hero.
@@ -839,8 +840,9 @@
         ticking = false;
       }
 
-      // Escuchamos la rueda
+      // Escuchamos la rueda (solo desktop)
       window.addEventListener('wheel', (e) => {
+        if (window.matchMedia('(max-width: 640px)').matches) return;
         e.preventDefault();
 
         const maxScroll  = getMaxScroll();
@@ -870,10 +872,11 @@
         currentY = window.scrollY;
       }, { passive: true });
 
-      // Touch (móvil) — resistencia mínima, solo los primeros 2 toques
+      // Touch (móvil) — misma resistencia que desktop en el primer 20%
       let touchStartY = 0;
       window.addEventListener('touchstart', (e) => {
         touchStartY = e.touches[0].clientY;
+        currentY = window.scrollY;
       }, { passive: true });
 
       window.addEventListener('touchmove', (e) => {
@@ -885,10 +888,9 @@
         const progress  = currentY / maxScroll;
 
         let delta = touchDelta;
-        // En móvil la resistencia es muy suave: factor mínimo 0.55
         if (progress < RESISTANCE_ZONE) {
           const resistRatio = 1 - (progress / RESISTANCE_ZONE);
-          const factor = 0.55 + (1 - 0.55) * (1 - resistRatio);
+          const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
           delta = delta * factor;
         }
 
@@ -906,13 +908,14 @@
     const heroIllu = document.querySelector('.hero-illustration');
     window.addEventListener('scroll', () => {
       navEl.style.background = window.scrollY > 40 ? 'var(--red)' : 'transparent';
-      // Altura total scrollable
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress  = window.scrollY / maxScroll;
-      if (progress >= 0.5) {
-        heroIllu.classList.add('fading');
-      } else {
-        heroIllu.classList.remove('fading');
+      if (!window.matchMedia('(max-width: 640px)').matches) {
+        if (progress >= 0.5) {
+          heroIllu.classList.add('fading');
+        } else {
+          heroIllu.classList.remove('fading');
+        }
       }
     }, { passive: true });
 
@@ -950,12 +953,14 @@
     (function () {
       const el   = document.getElementById('typewriterPrompt');
       const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
-      const duration = 3000; // 3 segundos
+      const duration = 6000; // 6 segundos
       const delay    = 400;  // espera antes de empezar
+      let played = false;
 
-      // Usar IntersectionObserver para arrancar cuando sea visible
+      // Solo se ejecuta una vez, aunque se vuelva al top
       const obs = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
+        if (!entries[0].isIntersecting || played) return;
+        played = true;
         obs.disconnect();
         setTimeout(() => {
           let i = 0;
@@ -1057,14 +1062,69 @@
           ctx.fillStyle = colors[Math.floor(p.r * 10) % colors.length];
           ctx.globalAlpha = p.alpha;
           ctx.fill();
-          ctx.globalAlpha = 1;
         });
 
+        ctx.globalAlpha = 1;
         requestAnimationFrame(draw);
       }
 
       draw();
     })();
   </script>
+
+  <script>
+    // ── MOBILE TOUCH BOUNCE ───────────────────────────────────────
+    // Solo en móvil: al inicio y al final, frena suave con un pequeño
+    // "bounce" de ~50px para indicar el límite, luego scroll normal.
+    (function () {
+      if (!window.matchMedia('(max-width: 640px)').matches) return;
+
+      const BOUNCE_PX   = 50;   // desplazamiento visual del bounce
+      const EASE_MS     = 380;  // duración de la animación de freno
+      let bouncing      = false;
+      let touchStartY   = 0;
+      let lastScrollY   = 0;
+
+      function animateBounce(fromY, toY) {
+        bouncing = true;
+        const start     = performance.now();
+        const dist      = toY - fromY;
+
+        function step(now) {
+          const t = Math.min((now - start) / EASE_MS, 1);
+          // ease-out cubic
+          const ease = 1 - Math.pow(1 - t, 3);
+          window.scrollTo(0, fromY + dist * ease);
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            window.scrollTo(0, toY);
+            bouncing = false;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+        lastScrollY = window.scrollY;
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (bouncing) return;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const sy = window.scrollY;
+
+        if (sy <= 0) {
+          // Estamos arriba del todo: pequeño bounce hacia abajo y vuelve a 0
+          animateBounce(-BOUNCE_PX, 0);
+        } else if (sy >= maxScroll) {
+          // Estamos abajo del todo: pequeño bounce hacia arriba y vuelve al max
+          animateBounce(maxScroll + BOUNCE_PX, maxScroll);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
 </body>
 </html>
