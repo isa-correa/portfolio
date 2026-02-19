@@ -352,7 +352,7 @@
         border-radius: 50%;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.25, 1.4, 0.5, 1);
+        transition: opacity 1.1s ease, transform 1.3s cubic-bezier(0.25, 1.2, 0.5, 1);
       }
 
       .deco-circle.visible { opacity: 1; }
@@ -396,6 +396,12 @@
       width: 50%;
       height: auto;
       aspect-ratio: 1 / 1;
+    }
+
+    @media (min-width: 641px) {
+      .landscape dotlottie-wc {
+        width: 20%;
+      }
     }
 
     /* FOOTER */
@@ -695,8 +701,8 @@
       if (window.innerWidth > 640 || !circlesBlock) return;
       const rect = circlesBlock.getBoundingClientRect();
       const blockHeight = rect.height;
-      // Aparecen cuando el 45% del bloque ha entrado en pantalla
-      const entered = rect.top < window.innerHeight - blockHeight * 0.45;
+      // Aparecen cuando el 55% del bloque ha entrado en pantalla
+      const entered = rect.top < window.innerHeight - blockHeight * 0.55;
       // Desaparecen cuando el bloque ha salido completamente por arriba
       const exited = rect.bottom < 0;
       const inView = entered && !exited;
