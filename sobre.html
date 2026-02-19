@@ -257,7 +257,8 @@
       margin-top: 0;
       white-space: pre-wrap;
       line-height: 1.35;
-      text-align: center;
+      text-align: left;
+      display: inline-block;
     }
 
     /* Cursor parpadeante del typewriter */
@@ -881,12 +882,10 @@
       navEl.style.background = window.scrollY > 40 ? 'var(--red)' : 'transparent';
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress  = window.scrollY / maxScroll;
-      if (!window.matchMedia('(max-width: 640px)').matches) {
-        if (progress >= 0.5) {
-          heroIllu.classList.add('fading');
-        } else {
-          heroIllu.classList.remove('fading');
-        }
+      if (progress >= 0.5) {
+        heroIllu.classList.add('fading');
+      } else {
+        heroIllu.classList.remove('fading');
       }
     }, { passive: true });
 
@@ -923,7 +922,7 @@
     // ── TYPEWRITER ────────────────────────────────────────────────
     (function () {
       const el   = document.getElementById('typewriterPrompt');
-      const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
+      const text = '/imagine prompt: creative_lead_isabel_correa--high_responsibility--international_experience--ai_powered--humor_enabled';
       const duration = 6000; // 6 segundos
       const delay    = 400;  // espera antes de empezar
       let played = false;
