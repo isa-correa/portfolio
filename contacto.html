@@ -14,7 +14,6 @@
       --pink:  #F4A7B9;
       --red:   #C94A3F;
       --blue:  #92B8CC;
-      --blue-dark: #6a9ab5;
       --yellow:#F5C842;
       --green: #6B8F47;
       --dark:  #2E2E2E;
@@ -101,6 +100,18 @@
       100% { background: var(--red); }
     }
 
+    /* FIX 7 — diamond: same pulse as logo-dot + fast green↔blue color toggle */
+    @keyframes diamondColor {
+      0%, 49%  { color: var(--green); }
+      50%, 100%{ color: var(--blue);  }
+    }
+
+    .diamond {
+      display: inline-block;
+      font-size: 1.6rem;
+      animation: pulse 2.4s ease-in-out infinite, diamondColor 1.2s step-end infinite;
+    }
+
     .nav-links {
       display: flex;
       gap: 2rem;
@@ -121,11 +132,7 @@
     }
 
     .nav-links a::after { display: none; }
-
-    .nav-links a:hover {
-      color: var(--cream);
-      background: var(--red);
-    }
+    .nav-links a:hover { color: var(--cream); background: var(--red); }
 
     /* HAMBURGER */
     .hamburger {
@@ -151,7 +158,7 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* MAIN CONTENT */
+    /* MAIN */
     main {
       position: relative;
       z-index: 2;
@@ -165,16 +172,16 @@
     .cards-wrapper {
       display: flex;
       gap: 2rem;
-      max-width: 1000px;
+      max-width: 1060px;
       width: 100%;
       align-items: stretch;
     }
 
-    /* CARD LEFT — cream */
+    /* CARD LEFT */
     .card-left {
       background: var(--cream);
       border-radius: 2rem;
-      padding: 2.5rem 2rem 2rem;
+      padding: 2.5rem 2rem 0;
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -190,27 +197,30 @@
       color: var(--dark);
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
 
-    .card-left h1 .diamond {
-      color: var(--green);
-      font-size: 1.8rem;
+    /* FIX 4: text left, CTAs right and vertically centred */
+    .card-body {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .card-left p {
       font-size: 0.95rem;
       line-height: 1.75;
       color: #555;
-      max-width: 280px;
+      max-width: 260px;
+      flex-shrink: 0;
     }
 
     .cta-buttons {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      align-self: flex-end;
-      margin-top: -1rem;
+      flex-shrink: 0;
     }
 
     .btn-green {
@@ -227,43 +237,43 @@
       align-items: center;
       gap: 0.5rem;
       cursor: none;
+      white-space: nowrap;
       transition: background 0.25s ease, transform 0.25s ease;
     }
 
-    .btn-green:hover {
-      background: var(--dark);
-      transform: translateY(-2px);
-    }
+    .btn-green:hover { background: var(--dark); transform: translateY(-2px); }
 
     .btn-green svg {
-      width: 18px;
-      height: 18px;
+      width: 18px; height: 18px;
       fill: #fff;
       flex-shrink: 0;
     }
 
-    /* LOTTIE WALK CONTAINER */
+    /* FIX 3: lottie walk — flush at card bottom, left→right loop */
     .lottie-walk-wrap {
       position: relative;
-      height: 160px;
-      overflow: hidden;
+      width: 100%;
+      height: 170px;
       margin-top: auto;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
     .lottie-walker {
       position: absolute;
       bottom: 0;
-      width: 140px;
-      height: 140px;
-      animation: walkLoop 6s linear infinite;
+      left: -180px;
+      width: 160px;
+      height: 160px;
+      animation: walkLoop 7s linear infinite;
     }
 
     @keyframes walkLoop {
-      0%   { left: -160px; }
+      0%   { left: -180px; }
       100% { left: calc(100% + 20px); }
     }
 
-    /* CARD RIGHT — green */
+    /* CARD RIGHT */
     .card-right {
       background: var(--green);
       border-radius: 2rem;
@@ -284,7 +294,7 @@
       line-height: 1.3;
     }
 
-    .card-right p {
+    .card-right > p {
       font-size: 0.92rem;
       line-height: 1.7;
       color: rgba(255,255,255,0.85);
@@ -292,7 +302,31 @@
       max-width: 340px;
     }
 
-    /* CIRCLES on green card */
+    /* WIGGLE */
+    @keyframes wiggle1 {
+      0%   { transform: translate(0,0) rotate(0deg); }
+      20%  { transform: translate(6px,-4px) rotate(1.2deg); }
+      40%  { transform: translate(-4px,5px) rotate(-1deg); }
+      60%  { transform: translate(5px,6px) rotate(0.9deg); }
+      80%  { transform: translate(-6px,-3px) rotate(-1.2deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+    @keyframes wiggle2 {
+      0%   { transform: translate(0,0) rotate(0deg); }
+      25%  { transform: translate(-5px,6px) rotate(-1deg); }
+      50%  { transform: translate(6px,-4px) rotate(1.2deg); }
+      75%  { transform: translate(-3px,-6px) rotate(-0.9deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+    @keyframes wiggle3 {
+      0%   { transform: translate(0,0) rotate(0deg); }
+      30%  { transform: translate(5px,5px) rotate(1deg); }
+      55%  { transform: translate(-6px,-3px) rotate(-1.2deg); }
+      80%  { transform: translate(3px,-6px) rotate(0.9deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+
+    /* FIX 1: all circles same size */
     .nav-circles {
       display: flex;
       gap: 1.5rem;
@@ -300,33 +334,9 @@
       align-items: center;
     }
 
-    /* Wiggle animations */
-    @keyframes wiggle1 {
-      0%   { transform: translate(0px, 0px) rotate(0deg); }
-      20%  { transform: translate(6px, -4px) rotate(1.2deg); }
-      40%  { transform: translate(-4px, 5px) rotate(-1deg); }
-      60%  { transform: translate(5px, 6px) rotate(0.9deg); }
-      80%  { transform: translate(-6px, -3px) rotate(-1.2deg); }
-      100% { transform: translate(0px, 0px) rotate(0deg); }
-    }
-    @keyframes wiggle2 {
-      0%   { transform: translate(0px, 0px) rotate(0deg); }
-      25%  { transform: translate(-5px, 6px) rotate(-1deg); }
-      50%  { transform: translate(6px, -4px) rotate(1.2deg); }
-      75%  { transform: translate(-3px, -6px) rotate(-0.9deg); }
-      100% { transform: translate(0px, 0px) rotate(0deg); }
-    }
-    @keyframes wiggle3 {
-      0%   { transform: translate(0px, 0px) rotate(0deg); }
-      30%  { transform: translate(5px, 5px) rotate(1deg); }
-      55%  { transform: translate(-6px, -3px) rotate(-1.2deg); }
-      80%  { transform: translate(3px, -6px) rotate(0.9deg); }
-      100% { transform: translate(0px, 0px) rotate(0deg); }
-    }
-
     .nav-circle {
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       background: var(--cream);
       display: flex;
@@ -339,7 +349,7 @@
       font-weight: 500;
       color: var(--green);
       gap: 0.4rem;
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
     }
 
     .nav-circle:hover {
@@ -352,8 +362,7 @@
     .nav-circle:hover svg { fill: #fff; }
 
     .nav-circle svg {
-      width: 24px;
-      height: 24px;
+      width: 24px; height: 24px;
       fill: var(--green);
       transition: fill 0.3s ease;
     }
@@ -362,12 +371,30 @@
     .nav-circle.circle-w2 { animation: wiggle2 7.5s ease-in-out infinite; }
     .nav-circle.circle-w3 { animation: wiggle3 5.5s ease-in-out infinite; }
 
-    /* middle circle slightly bigger */
-    .nav-circle.circle-mid {
-      width: 150px;
-      height: 150px;
-      font-size: 1.1rem;
+    /* DECO small circles — shown only on mobile */
+    @keyframes decoWiggle1 {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      25%  { transform: translate(3px,-3px) rotate(0.8deg); }
+      75%  { transform: translate(-3px,3px) rotate(-0.8deg); }
     }
+    @keyframes decoWiggle2 {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      30%  { transform: translate(-3px,-2px) rotate(-0.9deg); }
+      70%  { transform: translate(3px,2px) rotate(0.9deg); }
+    }
+    @keyframes decoWiggle3 {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      40%  { transform: translate(2px,3px) rotate(0.7deg); }
+      80%  { transform: translate(-2px,-3px) rotate(-0.7deg); }
+    }
+    @keyframes decoWiggle4 {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      20%  { transform: translate(-3px,2px) rotate(-0.8deg); }
+      60%  { transform: translate(3px,-2px) rotate(0.8deg); }
+    }
+
+    /* hidden desktop */
+    .deco-circle { display: none; }
 
     /* FOOTER */
     footer {
@@ -420,25 +447,16 @@
       letter-spacing: 0.02em;
       transition: color 0.2s;
       padding: 0 0.4rem;
-      text-align: center;
     }
 
-    footer nav a + a {
-      border-left: 1px solid rgba(0,0,0,0.08);
-    }
-
+    footer nav a + a { border-left: 1px solid rgba(0,0,0,0.08); }
     footer nav a:hover { color: var(--red); }
     .footer-copy { color: #555; font-size: 13px; }
 
-    .footer-social {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
+    .footer-social { display: flex; gap: 0.75rem; align-items: center; }
 
     .footer-social a {
-      width: 38px;
-      height: 38px;
+      width: 38px; height: 38px;
       border-radius: 50%;
       background: var(--dark);
       display: flex;
@@ -448,16 +466,8 @@
       flex-shrink: 0;
     }
 
-    .footer-social a:hover {
-      background: var(--red);
-      transform: translateY(-3px) scale(1.08);
-    }
-
-    .footer-social a svg {
-      width: 18px;
-      height: 18px;
-      fill: #fff;
-    }
+    .footer-social a:hover { background: var(--red); transform: translateY(-3px) scale(1.08); }
+    .footer-social a svg { width: 18px; height: 18px; fill: #fff; }
 
     .toast {
       position: fixed;
@@ -475,12 +485,8 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
       z-index: 9999;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* CURSOR */
     #cursor {
       position: fixed;
       top: 0; left: 0;
@@ -502,28 +508,73 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .cards-wrapper {
+      .cards-wrapper { flex-direction: column; }
+
+      /* FIX 6: CTAs centred mobile */
+      .card-body {
         flex-direction: column;
+        align-items: center;
+        text-align: center;
       }
 
-      .cta-buttons {
-        align-self: flex-start;
-      }
+      .card-left p { max-width: 100%; text-align: center; }
 
+      .cta-buttons { align-items: center; width: 100%; }
+      .btn-green { justify-content: center; }
+
+      /* FIX 2: circles stack vertically + deco cream circles */
       .nav-circles {
-        gap: 1rem;
+        flex-direction: column;
+        gap: 2.5rem;
+        position: relative;
+        overflow: visible;
+        padding: 1rem 0;
       }
 
-      .nav-circle { width: 100px; height: 100px; font-size: 0.85rem; }
-      .nav-circle.circle-mid { width: 115px; height: 115px; font-size: 0.9rem; }
+      .nav-circle { width: 150px; height: 150px; }
+
+      /* Deco cream circles */
+      .deco-circle {
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        background: var(--cream);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1.1s ease, transform 1.3s cubic-bezier(0.25, 1.2, 0.5, 1);
+      }
+
+      .deco-circle.visible { opacity: 1; }
+
+      /* around top circle — from left */
+      .deco-t1 { width: 28px; height: 28px; top: 5px;   left: 10px;  transform: translateX(-100px); }
+      .deco-t2 { width: 16px; height: 16px; top: 65px;  left: -5px;  transform: translateX(-90px); }
+      .deco-t3 { width: 20px; height: 20px; top: 130px; left: 15px;  transform: translateX(-100px); }
+      /* around top circle — from right */
+      .deco-t4 { width: 22px; height: 22px; top: 5px;   right: 10px; transform: translateX(100px); }
+      .deco-t5 { width: 14px; height: 14px; top: 65px;  right: -5px; transform: translateX(90px); }
+      .deco-t6 { width: 26px; height: 26px; top: 130px; right: 15px; transform: translateX(100px); }
+
+      /* around bottom circle */
+      .deco-b1 { width: 20px; height: 20px; bottom: 5px;  left: 10px;  transform: translateX(-100px); }
+      .deco-b2 { width: 30px; height: 30px; bottom: 80px; left: -8px;  transform: translateX(-90px); }
+      .deco-b3 { width: 14px; height: 14px; bottom: 5px;  right: 10px; transform: translateX(100px); }
+      .deco-b4 { width: 24px; height: 24px; bottom: 80px; right: -6px; transform: translateX(90px); }
+
+      .deco-t1.visible { transform: translateX(0); animation: decoWiggle1 5s   ease-in-out infinite; }
+      .deco-t2.visible { transform: translateX(0); animation: decoWiggle2 6.5s ease-in-out infinite; }
+      .deco-t3.visible { transform: translateX(0); animation: decoWiggle3 4.5s ease-in-out infinite; }
+      .deco-t4.visible { transform: translateX(0); animation: decoWiggle4 7s   ease-in-out infinite; }
+      .deco-t5.visible { transform: translateX(0); animation: decoWiggle1 5.5s ease-in-out infinite; }
+      .deco-t6.visible { transform: translateX(0); animation: decoWiggle3 6s   ease-in-out infinite; }
+      .deco-b1.visible { transform: translateX(0); animation: decoWiggle2 5.5s ease-in-out infinite; }
+      .deco-b2.visible { transform: translateX(0); animation: decoWiggle4 4.8s ease-in-out infinite; }
+      .deco-b3.visible { transform: translateX(0); animation: decoWiggle1 6s   ease-in-out infinite; }
+      .deco-b4.visible { transform: translateX(0); animation: decoWiggle3 7.2s ease-in-out infinite; }
     }
 
     @media (max-width: 640px) {
-      nav {
-        padding: 1.2rem 1.5rem;
-        position: sticky;
-        top: 0;
-      }
+      nav { padding: 1.2rem 1.5rem; position: sticky; top: 0; }
 
       .hamburger { display: flex; }
 
@@ -549,20 +600,13 @@
         padding: 0.55rem 1.6rem;
         font-size: 1.05rem;
         border-radius: 9999px;
-        transition: color 0.2s, background 0.2s;
         width: auto;
       }
 
-      .nav-links a:hover,
-      .nav-links a:active {
-        color: var(--cream);
-        background: var(--red);
-      }
-
+      .nav-links a:hover, .nav-links a:active { color: var(--cream); background: var(--red); }
       .nav-links li { width: 100%; text-align: center; }
 
       main { padding: 2rem 1.2rem; min-height: auto; }
-
       .card-left h1 { font-size: 2rem; }
 
       footer {
@@ -572,12 +616,8 @@
         padding: 2rem 1.5rem;
       }
 
-      .footer-logo {
-        justify-content: center;
-        align-items: flex-start;
-      }
-
-      footer nav { display: flex; flex-wrap: nowrap; justify-content: center; width: 100%; }
+      .footer-logo { justify-content: center; align-items: flex-start; }
+      footer nav { flex-wrap: nowrap; justify-content: center; width: 100%; }
       footer nav a { flex: 1; }
     }
   </style>
@@ -608,23 +648,27 @@
 
       <!-- TARJETA IZQUIERDA -->
       <div class="card-left">
+
         <h1>Hablemos <span class="diamond">✦</span></h1>
 
-        <div style="display:flex; gap:2rem; align-items: flex-start; justify-content: space-between; flex-wrap: wrap;">
+        <!-- FIX 4 & 6 -->
+        <div class="card-body">
           <p>¿Tienes un proyecto en mente? ¿Quieres colaborar o simplemente decir hola? Me encantaría escucharte. Escríbeme y te respondo en menos de 24 h.</p>
+
           <div class="cta-buttons">
-            <a href="mailto:isacorreaur@gmail.com" class="btn-green">
+            <!-- FIX 5: correct mailto + real phone -->
+            <a href="mailto:isacorreaur@gmail.com?subject=%C2%A1Hola%20Isa!%20Me%20gustar%C3%ADa%20contactar%20contigo%20%E2%9C%A8" class="btn-green">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
               ¡Escríbeme!
             </a>
-            <a href="tel:+34000000000" class="btn-green">
+            <a href="tel:+34680391173" class="btn-green">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
               ¿Hablamos?
             </a>
           </div>
         </div>
 
-        <!-- Lottie walker -->
+        <!-- FIX 3: flush bottom, walks left→right -->
         <div class="lottie-walk-wrap">
           <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
           <dotlottie-wc
@@ -635,6 +679,7 @@
             speed="1">
           </dotlottie-wc>
         </div>
+
       </div>
 
       <!-- TARJETA DERECHA -->
@@ -642,12 +687,26 @@
         <h2>¿Quieres cotillear un poco más?</h2>
         <p>Si no tienes una urgencia pero te apetece ver en qué estoy metida o cómo pienso, te dejo estos accesos directos:</p>
 
-        <div class="nav-circles">
+        <!-- FIX 1 & 2 -->
+        <div class="nav-circles" id="circlesBlock">
+
+          <!-- Deco circles cream (visible only mobile) -->
+          <div class="deco-circle deco-t1"></div>
+          <div class="deco-circle deco-t2"></div>
+          <div class="deco-circle deco-t3"></div>
+          <div class="deco-circle deco-t4"></div>
+          <div class="deco-circle deco-t5"></div>
+          <div class="deco-circle deco-t6"></div>
+          <div class="deco-circle deco-b1"></div>
+          <div class="deco-circle deco-b2"></div>
+          <div class="deco-circle deco-b3"></div>
+          <div class="deco-circle deco-b4"></div>
+
           <a href="contacto.html" class="nav-circle circle-w1">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
             Conectar
           </a>
-          <a href="index.html#portfolio" class="nav-circle circle-w2 circle-mid">
+          <a href="index.html#portfolio" class="nav-circle circle-w2">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
             Proyectos
           </a>
@@ -676,13 +735,13 @@
       <a href="contacto.html">Contacto</a>
     </nav>
     <div class="footer-social">
-      <a href="#" class="icon-mail" id="copyEmail" title="Copiar correo">
+      <a href="#" id="copyEmail" title="Copiar correo">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
       </a>
-      <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" class="icon-linkedin" title="LinkedIn">
+      <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" title="LinkedIn">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <a href="https://www.behance.net/isacorrea97" target="_blank" class="icon-behance" title="Behance">
+      <a href="https://www.behance.net/isacorrea97" target="_blank" title="Behance">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
       </a>
     </div>
@@ -690,12 +749,10 @@
   </footer>
 
   <div class="toast" id="toast">✓ Correo copiado</div>
-
   <canvas id="grain-canvas"></canvas>
   <div id="cursor"></div>
 
   <script>
-    // Copy email
     document.getElementById('copyEmail').addEventListener('click', (e) => {
       e.preventDefault();
       navigator.clipboard.writeText('isacorreaur@gmail.com').then(() => {
@@ -705,17 +762,11 @@
       });
     });
 
-    // Nav background on scroll
     const navEl = document.querySelector('nav');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 10) {
-        navEl.style.background = 'var(--blue)';
-      } else {
-        navEl.style.background = 'transparent';
-      }
+      navEl.style.background = window.scrollY > 10 ? 'var(--blue)' : 'transparent';
     });
 
-    // Hamburger
     const hamburger = document.getElementById('hamburger');
     const navLinks  = document.getElementById('navLinks');
 
@@ -731,14 +782,27 @@
       });
     });
 
+    // Deco circles on scroll (mobile)
+    const decoCircles  = document.querySelectorAll('.deco-circle');
+    const circlesBlock = document.getElementById('circlesBlock');
+
+    function updateDecoCircles() {
+      if (window.innerWidth > 768 || !circlesBlock) return;
+      const rect    = circlesBlock.getBoundingClientRect();
+      const entered = rect.top < window.innerHeight - rect.height * 0.4;
+      const exited  = rect.bottom < 0;
+      decoCircles.forEach(c => (entered && !exited) ? c.classList.add('visible') : c.classList.remove('visible'));
+    }
+
+    window.addEventListener('scroll', updateDecoCircles, { passive: true });
+    window.addEventListener('resize', updateDecoCircles);
+    updateDecoCircles();
+
     // Cursor
     const cursor = document.getElementById('cursor');
     let mouseX = 0, mouseY = 0, curX = 0, curY = 0;
 
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
     (function animate() {
       curX += (mouseX - curX) * 0.18;
@@ -755,32 +819,23 @@
   </script>
 
   <script>
-    // Animated grain
     (function() {
       const canvas = document.getElementById('grain-canvas');
       const ctx = canvas.getContext('2d');
-
-      function resize() {
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       resize();
       window.addEventListener('resize', resize);
-
       let frame = 0;
       function generateGrain() {
         frame++;
         if (frame % 3 === 0) {
-          const w = canvas.width;
-          const h = canvas.height;
+          const w = canvas.width, h = canvas.height;
           const imageData = ctx.createImageData(w, h);
           const data = imageData.data;
           for (let i = 0; i < data.length; i += 4) {
             const val = Math.random() * 255 | 0;
-            data[i]     = val;
-            data[i + 1] = val;
-            data[i + 2] = val;
-            data[i + 3] = 255;
+            data[i] = data[i+1] = data[i+2] = val;
+            data[i+3] = 255;
           }
           ctx.putImageData(imageData, 0, 0);
         }
