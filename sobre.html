@@ -620,10 +620,34 @@
       .nav-links li   { width: 100%; text-align: center; }
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
-      .hero-illustration { top: 120px; width: 84vw; }
-      .card-peek  { left: 4%; right: 4%; height: 40vh; }
-      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 4%; margin-right: 4%; }
-      .yellow-block      { grid-template-columns: 1fr; }
+      /* Sin efectos de scroll en móvil — layout normal */
+      .hero-section {
+        height: auto;
+        min-height: 0;
+        padding-top: 80px;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-illustration {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 80vw;
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+      }
+      .card-peek  { display: none; }
+      .card-outer {
+        margin-top: 1rem;
+        padding: 2rem 1.2rem 3rem;
+        margin-left: 4%;
+        margin-right: 4%;
+      }
+      .yellow-block { grid-template-columns: 1fr; }
 
       footer {
         flex-direction: column;
@@ -748,7 +772,7 @@
         <h3>¿Te has quedado con ganas de más?</h3>
         <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
         <div class="cv-cta-row">
-          <a href="mailto:isacorreaur@gmail.com?subject=%C2%A1Hola%20Isa!%20P%C3%A1same%20ese%20CV%20(y%20dime%20qu%C3%A9%20caf%C3%A9%20tomas%20%E2%98%95%EF%B8%8F)" class="btn-cv">
+          <a href="/cdn-cgi/l/email-protection#a2cbd1c3c1cdd0d0c7c3d7d0e2c5cfc3cbce8cc1cdcf9dd1d7c0c8c7c1d69f87e19087e393eacdcec3879092ebd1c383879092f287e19187e393d1c3cfc7879092c7d1c7879092e1f48790928adb879092c6cbcfc7879092d3d787e19187e39b879092c1c3c487e19187e39b879092d6cdcfc3d187909287e790879b9a879b9787e7e487e09a879ae48b" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             Pídeme el CV
           </a>
@@ -813,20 +837,21 @@
   <div class="toast" id="toast">✓ Correo copiado</div>
   <div id="cursor"></div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ③ Efecto scroll: la ilustración se queda fija (sticky)
     // mientras el contenido de la tarjeta sube y la tapa.
     // Lo hacemos con position: sticky en la ilustración dentro del hero.
     // El hero ocupa 100vh y el card-outer tiene z-index mayor → efecto natural.
 
     // ── SCROLL CON RESISTENCIA en el primer 20% ───────────────────
-    // Interceptamos la rueda del ratón y el touch para ralentizar
-    // el scroll cuando estamos en el primer 20% del recorrido total.
+    // Solo en desktop (no móvil)
     (function () {
-      const RESISTANCE_ZONE = 0.20; // primeros 20% de la página
-      const SLOW_FACTOR     = 0.12; // cuánto de cada delta pasa (más bajo = más lento)
+      const isMobile = window.matchMedia('(max-width: 640px)').matches || ('ontouchstart' in window && window.innerWidth <= 640);
+      if (isMobile) return; // Sin efectos de scroll en móvil
 
-      let targetY  = 0;
+      const RESISTANCE_ZONE = 0.20;
+      const SLOW_FACTOR     = 0.12;
+
       let currentY = 0;
       let ticking  = false;
 
@@ -839,7 +864,6 @@
         ticking = false;
       }
 
-      // Escuchamos la rueda
       window.addEventListener('wheel', (e) => {
         e.preventDefault();
 
@@ -848,11 +872,8 @@
 
         let delta = e.deltaY;
 
-        // Si estamos en el primer 20%, aplicamos resistencia
         if (progress < RESISTANCE_ZONE) {
-          // Cuánto queda del tramo resistido (1 → 0 conforme avanza)
           const resistRatio = 1 - (progress / RESISTANCE_ZONE);
-          // Mezclamos: en el 0% solo pasa SLOW_FACTOR, en el 20% pasa todo
           const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
           delta = delta * factor;
         }
@@ -865,40 +886,9 @@
         }
       }, { passive: false });
 
-      // Sincronizar si el usuario usa teclado o scrollbar nativo
       window.addEventListener('scroll', () => {
         currentY = window.scrollY;
       }, { passive: true });
-
-      // Touch (móvil) — resistencia mínima, solo los primeros 2 toques
-      let touchStartY = 0;
-      window.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
-      }, { passive: true });
-
-      window.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const touchDelta = touchStartY - e.touches[0].clientY;
-        touchStartY = e.touches[0].clientY;
-
-        const maxScroll = getMaxScroll();
-        const progress  = currentY / maxScroll;
-
-        let delta = touchDelta;
-        // En móvil la resistencia es muy suave: factor mínimo 0.55
-        if (progress < RESISTANCE_ZONE) {
-          const resistRatio = 1 - (progress / RESISTANCE_ZONE);
-          const factor = 0.55 + (1 - 0.55) * (1 - resistRatio);
-          delta = delta * factor;
-        }
-
-        currentY = Math.min(Math.max(currentY + delta, 0), maxScroll);
-
-        if (!ticking) {
-          requestAnimationFrame(applyScroll);
-          ticking = true;
-        }
-      }, { passive: false });
     })();
 
     // Nav bg on scroll + ocultar ilustración al 50% de scroll total
@@ -1061,17 +1051,4 @@
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = colors[Math.floor(p.r * 10) % colors.length];
-          ctx.globalAlpha = p.alpha;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-        });
-
-        requestAnimationFrame(draw);
-      }
-
-      draw();
-    })();
-  </script>
-</body>
-</html>
+     
