@@ -929,11 +929,8 @@
     // Copy email
     document.getElementById('copyEmail').addEventListener('click', e => {
       e.preventDefault();
-      navigator.clipboard.writeText('isacorreaur@gmail.com').then(() => {
-        const t = document.getElementById('toast');
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
-      });
+      const mailtoLink = 'mailto:isacorreaur@gmail.com?subject=' + encodeURIComponent('¡Hola Isa! Pásame ese CV (y dime qué café tomas ☕️)');
+      window.location.href = mailtoLink;
     });
 
     // ── TYPEWRITER ────────────────────────────────────────────────
