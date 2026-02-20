@@ -161,7 +161,7 @@
       left: 50%;
       transform: translateX(-50%);
       width: 500px; /* tamaño fijo en desktop, no se achica con el ancho */
-      z-index: 11;
+      z-index: 3;
       pointer-events: none;
       transition: opacity 0.4s ease;
     }
@@ -201,7 +201,6 @@
       margin-right: 10%;
       margin-bottom: 3rem;
       padding: 3.5rem 3.5rem 5rem;
-      animation: slideUpIn 0.8s ease-out;
     }
 
     .card-inner {
@@ -272,28 +271,6 @@
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
-    }
-
-    @keyframes slideUpFade {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideUpIn {
-      0% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     /* Skills */
@@ -654,16 +631,18 @@
         align-items: center;
       }
       .hero-illustration {
-        position: fixed;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
         width: 80vw;
         max-width: 300px;
+        margin: 0 auto;
+        display: block;
       }
       .card-peek  { display: none; }
       .card-outer {
-        margin-top: 60vh;
+        margin-top: 1rem;
         padding: 2rem 1.2rem 3rem;
         margin-left: 4%;
         margin-right: 4%;
@@ -733,10 +712,10 @@
   <div class="card-outer">
     <div class="card-inner">
 
-      <h2 class="card-title">¿Quién hay detrás?</h2>
+      <h2 class="card-title">Sobre mí</h2>
 
       <p class="card-intro">
-        Spoiler: Detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
+        No creo en el diseño como algo puramente estético. Para mí, diseñar es solucionar problemas y organizar el caos (especialmente esos briefs que llegan un lunes por la mañana). Después de más de 6 años dando vueltas por agencias, estudios y marcas internacionales, he aprendido que lo más importante no es qué herramienta usas, sino cómo conectas la estrategia con el impacto visual.
       </p>
 
       <div class="yellow-block yellow-block--centered">
@@ -793,7 +772,7 @@
         <h3>¿Te has quedado con ganas de más?</h3>
         <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
         <div class="cv-cta-row">
-          <a href="mailto:isacorreaur@gmail.com?subject=%C2%A1Hola%20Isa!%20P%C3%A1same%20ese%20CV%20(y%20dime%20qu%C3%A9%20caf%C3%A9%20tomas%20%E2%98%95)" class="btn-cv">
+          <a href="/cdn-cgi/l/email-protection#a2cbd1c3c1cdd0d0c7c3d7d0e2c5cfc3cbce8cc1cdcf9dd1d7c0c8c7c1d69f87e19087e393eacdcec3879092ebd1c383879092f287e19187e393d1c3cfc7879092c7d1c7879092e1f48790928adb879092c6cbcfc7879092d3d787e19187e39b879092c1c3c487e19187e39b879092d6cdcfc3d187909287e790879b9a879b9787e7e487e09a879ae48b" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             Pídeme el CV
           </a>
@@ -961,7 +940,7 @@
     (function () {
       const el   = document.getElementById('typewriterPrompt');
       const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
-      const duration = 6000; // 6 segundos
+      const duration = 3000; // 3 segundos
       const delay    = 400;  // espera antes de empezar
 
       // Usar IntersectionObserver para arrancar cuando sea visible
