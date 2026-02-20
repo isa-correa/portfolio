@@ -691,7 +691,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="sobre.html" class="active">Sobre mí</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
     </ul>
   </nav>
 
@@ -796,7 +796,7 @@
       </div>
 
       <div class="cta-row">
-        <a href="#contacto" class="btn-cta">
+        <a href="contacto.html" class="btn-cta">
           Hablemos
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -818,7 +818,7 @@
       <a href="index.html">Home</a>
       <a href="#portfolio">Portfolio</a>
       <a href="sobre.html">Sobre mí</a>
-      <a href="#contacto">Contacto</a>
+      <a href="contacto.html">Contacto</a>
     </nav>
     <div class="footer-social">
       <a href="#" id="copyEmail" title="Copiar correo">
@@ -998,7 +998,7 @@
 
       const COUNT      = 110;
       const ATTRACT_R  = 180;   // radio de atracción más amplio
-      const ATTRACT_F  = 0.08;  // fuerza de atracción
+      const ATTRACT_F  = 0.04;  // fuerza de atracción
       const FRICTION   = 0.97;  // fricción suave para que no aceleren infinito
 
       let particles = [];
@@ -1051,4 +1051,17 @@
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-     
+          ctx.fillStyle = colors[Math.floor(p.r * 10) % colors.length];
+          ctx.globalAlpha = p.alpha;
+          ctx.fill();
+        });
+
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+</body>
+</html>
