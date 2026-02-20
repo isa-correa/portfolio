@@ -40,6 +40,11 @@
       mix-blend-mode: multiply;
     }
 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* NAV */
     nav {
       display: flex;
@@ -52,6 +57,7 @@
       z-index: 200;
       transition: background 0.3s ease;
       border-bottom: 1px solid rgba(0,0,0,0.06);
+      animation: fadeUp 0.6s ease 0s both;
     }
 
     .logo {
@@ -233,7 +239,7 @@
 
 
       margin-bottom: 1.5rem;
-      animation: fadeUp 0.8s ease both;
+      animation: fadeUp 0.8s 0.2s ease both;
     }
 
     .hero h1 {
@@ -243,7 +249,7 @@
       line-height: 1.15;
       color: var(--dark);
       margin-bottom: 1.5rem;
-      animation: fadeUp 0.8s ease both;
+      animation: fadeUp 0.8s 0.35s ease both;
     }
 
     .hero p {
@@ -254,7 +260,7 @@
       color: #555;
       max-width: 580px;
       margin: 0 auto 3rem;
-      animation: fadeUp 0.8s 0.15s ease both;
+      animation: fadeUp 0.8s 0.5s ease both;
     }
 
     @keyframes wiggle1 {
@@ -290,7 +296,7 @@
       justify-content: center;
       gap: clamp(1rem, 3vw, 2.5rem);
       margin-bottom: 5rem;
-      animation: fadeUp 0.8s 0.3s ease both;
+      animation: fadeUp 0.8s 0.65s ease both;
     }
 
     .circle-link {
@@ -766,7 +772,7 @@
       }
     });
 
-    // Photo scroll trigger
+    // Photo scroll trigger — espera a que terminen las animaciones de entrada (≈1.5s)
     const photoAvatar = document.getElementById('photoAvatar');
     const hero = document.querySelector('.hero');
     let heroGone = false;
@@ -778,7 +784,7 @@
       });
     }, { threshold: 0.5 });
 
-    observer.observe(hero);
+    setTimeout(() => observer.observe(hero), 1500);
 
     function updatePhotoVisibility() {
       const menuOpen = navLinks.classList.contains('open');
