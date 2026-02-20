@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>¿Quién hay detrás? — Isa Correa</title>
+  <title>Sobre mí — Isa Correa</title>
   <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -157,7 +157,7 @@
 
     .hero-illustration {
       position: fixed;
-      top: 80px;
+      top: 144px;
       left: 50%;
       transform: translateX(-50%);
       width: 500px; /* tamaño fijo en desktop, no se achica con el ancho */
@@ -173,7 +173,7 @@
     .card-peek {
       position: absolute;
       bottom: 0;
-      left: 10%; right: 10%;
+      left: 15%; right: 15%;
       height: 25vh;
       background: var(--cream);
       border-radius: 28px 28px 0 0;
@@ -197,8 +197,8 @@
       background: var(--cream);
       border-radius: 28px;
       margin-top: -25vh;
-      margin-left: 10%;
-      margin-right: 10%;
+      margin-left: 15%;
+      margin-right: 15%;
       margin-bottom: 3rem;
       padding: 3.5rem 3.5rem 5rem;
     }
@@ -241,7 +241,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 2.2rem;
+      padding: 2.5rem 5%;
     }
 
     .yellow-block p {
@@ -256,8 +256,9 @@
       color: #5a4500;
       margin-top: 0;
       white-space: pre-wrap;
-      line-height: 1.6;
-      text-align: center;
+      line-height: 1.35;
+      text-align: left;
+      display: inline-block;
     }
 
     /* Cursor parpadeante del typewriter */
@@ -459,7 +460,8 @@
       text-decoration: none;
       transition: transform 0.2s, background 0.2s;
     }
-    .btn-cv:hover { transform: translateY(-2px); background: var(--pink); }
+    .btn-cv:hover { transform: translateY(-2px); background: var(--yellow-bg); color: #8a6800; }
+    .btn-cv:hover svg { fill: #8a6800; stroke: #8a6800; }
     .btn-cv svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     .btn-cv-ghost {
@@ -477,7 +479,7 @@
       text-decoration: none;
       transition: transform 0.2s, border-color 0.2s, color 0.2s;
     }
-    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--pink); color: var(--pink); }
+    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--yellow-bg); color: var(--yellow-bg); }
     .btn-cv-ghost svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── FOOTER ──────────────────────────────── */
@@ -620,34 +622,10 @@
       .nav-links li   { width: 100%; text-align: center; }
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
-      /* Sin efectos de scroll en móvil — layout normal */
-      .hero-section {
-        height: auto;
-        min-height: 0;
-        padding-top: 80px;
-        overflow: visible;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .hero-illustration {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        width: 80vw;
-        max-width: 300px;
-        margin: 0 auto;
-        display: block;
-      }
-      .card-peek  { display: none; }
-      .card-outer {
-        margin-top: 55vh;
-        padding: 2rem 1.2rem 3rem;
-        margin-left: 4%;
-        margin-right: 4%;
-      }
-      .yellow-block { grid-template-columns: 1fr; }
+      .hero-illustration { top: 120px; width: 84vw; }
+      .card-peek  { left: 6%; right: 6%; height: 40vh; }
+      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 6%; margin-right: 6%; }
+      .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
         flex-direction: column;
@@ -666,7 +644,6 @@
         flex: 1;
         text-align: center;
         white-space: nowrap;
-        font-size: 0.75rem;
         padding: 0 0.25rem;
       }
     }
@@ -690,8 +667,8 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="sobre.html" class="active">¿Quién hay detrás?</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="sobre.html" class="active">Sobre mí</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
 
@@ -715,7 +692,7 @@
       <h2 class="card-title">¿Quién hay detrás?</h2>
 
       <p class="card-intro">
-        Spoiler: Detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
+        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
       </p>
 
       <div class="yellow-block yellow-block--centered">
@@ -736,6 +713,7 @@
         <span class="tag tag-p">Gestión de proyectos</span>
         <span class="tag tag-r">Paid Media</span>
         <span class="tag tag-b">Figma / Adobe</span>
+        <span class="tag tag-r">Email Design</span>
       </div>
 
       <div class="divider"></div>
@@ -747,21 +725,21 @@
           <p class="tl-year">2024 — Actual</p>
           <p class="tl-role">Visual &amp; Art Director | AI Visual Strategist</p>
           <p class="tl-company">Liderazgo Creativo y Gestión Estratégica</p>
-          <p class="tl-desc">Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos (como vídeos y shootings digitales) que antes parecían imposibles y garantizando la optimización e implementación.</p>
+          <p class="tl-desc">Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos y garantizando la optimización e implementación.</p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2022 — 2024</p>
           <p class="tl-role">Mid Graphic Designer &amp; Art Direction</p>
           <p class="tl-company">Proyectos Internacionales y Mercados Globales</p>
-          <p class="tl-desc">Diseñé y dirigí identidades visuales para mercados internacionales, moviéndome entre Europa y Oriente Medio. Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala. Llegando a proyectar mi trabajo en sitios como Londres, Dubái o Abu Dabi. Como dato extra, fue aquí donde empecé a integrar la IA por primera vez para optimizar la producción y elevar el resultado visual.</p>
+          <p class="tl-desc">Diseñé y dirigí identidades visuales para mercados internacionales (Europa y Oriente Medio). Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala, integrando por primera vez la IA para optimizar la producción.</p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2020 — 2022</p>
           <p class="tl-role">Junior Graphic Designer</p>
           <p class="tl-company">Gestión Integral y Producción Creativa</p>
-          <p class="tl-desc">Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva sola en el departamento, con el título del grado recién sacado bajo el brazo y asumiendo desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando siempre los recursos disponibles.</p>
+          <p class="tl-desc">Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva sola en el departamento, encargándome de todo con el título del grado recién sacado bajo el brazo, encargándome desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando lo posible los recursos disponibles.</p>
         </div>
       </div>
 
@@ -772,7 +750,7 @@
         <h3>¿Te has quedado con ganas de más?</h3>
         <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
         <div class="cv-cta-row">
-          <a href="/cdn-cgi/l/email-protection#a2cbd1c3c1cdd0d0c7c3d7d0e2c5cfc3cbce8cc1cdcf9dd1d7c0c8c7c1d69f87e19087e393eacdcec3879092ebd1c383879092f287e19187e393d1c3cfc7879092c7d1c7879092e1f48790928adb879092c6cbcfc7879092d3d787e19187e39b879092c1c3c487e19187e39b879092d6cdcfc3d187909287e790879b9a879b9787e7e487e09a879ae48b" class="btn-cv">
+          <a href="mailto:isacorreaur@gmail.com" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             Pídeme el CV
           </a>
@@ -796,7 +774,7 @@
       </div>
 
       <div class="cta-row">
-        <a href="contacto.html" class="btn-cta">
+        <a href="#contacto" class="btn-cta">
           Hablemos
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -817,8 +795,8 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="#portfolio">Portfolio</a>
-      <a href="sobre.html">¿Quién hay detrás?</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="sobre.html">Sobre mí</a>
+      <a href="#contacto">Contacto</a>
     </nav>
     <div class="footer-social">
       <a href="#" id="copyEmail" title="Copiar correo">
@@ -837,21 +815,20 @@
   <div class="toast" id="toast">✓ Correo copiado</div>
   <div id="cursor"></div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ③ Efecto scroll: la ilustración se queda fija (sticky)
     // mientras el contenido de la tarjeta sube y la tapa.
     // Lo hacemos con position: sticky en la ilustración dentro del hero.
     // El hero ocupa 100vh y el card-outer tiene z-index mayor → efecto natural.
 
     // ── SCROLL CON RESISTENCIA en el primer 20% ───────────────────
-    // Solo en desktop (no móvil)
+    // Interceptamos la rueda del ratón y el touch para ralentizar
+    // el scroll cuando estamos en el primer 20% del recorrido total.
     (function () {
-      const isMobile = window.matchMedia('(max-width: 640px)').matches || ('ontouchstart' in window && window.innerWidth <= 640);
-      if (isMobile) return; // Sin efectos de scroll en móvil
+      const RESISTANCE_ZONE = 0.20; // primeros 20% de la página
+      const SLOW_FACTOR     = 0.12; // cuánto de cada delta pasa (más bajo = más lento)
 
-      const RESISTANCE_ZONE = 0.20;
-      const SLOW_FACTOR     = 0.12;
-
+      let targetY  = 0;
       let currentY = 0;
       let ticking  = false;
 
@@ -864,7 +841,9 @@
         ticking = false;
       }
 
+      // Escuchamos la rueda (solo desktop)
       window.addEventListener('wheel', (e) => {
+        if (window.matchMedia('(max-width: 640px)').matches) return;
         e.preventDefault();
 
         const maxScroll  = getMaxScroll();
@@ -872,8 +851,11 @@
 
         let delta = e.deltaY;
 
+        // Si estamos en el primer 20%, aplicamos resistencia
         if (progress < RESISTANCE_ZONE) {
+          // Cuánto queda del tramo resistido (1 → 0 conforme avanza)
           const resistRatio = 1 - (progress / RESISTANCE_ZONE);
+          // Mezclamos: en el 0% solo pasa SLOW_FACTOR, en el 20% pasa todo
           const factor = SLOW_FACTOR + (1 - SLOW_FACTOR) * (1 - resistRatio);
           delta = delta * factor;
         }
@@ -886,9 +868,11 @@
         }
       }, { passive: false });
 
+      // Sincronizar si el usuario usa teclado o scrollbar nativo
       window.addEventListener('scroll', () => {
         currentY = window.scrollY;
       }, { passive: true });
+
     })();
 
     // Nav bg on scroll + ocultar ilustración al 50% de scroll total
@@ -896,7 +880,6 @@
     const heroIllu = document.querySelector('.hero-illustration');
     window.addEventListener('scroll', () => {
       navEl.style.background = window.scrollY > 40 ? 'var(--red)' : 'transparent';
-      // Altura total scrollable
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress  = window.scrollY / maxScroll;
       if (progress >= 0.5) {
@@ -929,20 +912,25 @@
     // Copy email
     document.getElementById('copyEmail').addEventListener('click', e => {
       e.preventDefault();
-      const mailtoLink = 'mailto:isacorreaur@gmail.com?subject=' + encodeURIComponent('¡Hola Isa! Pásame ese CV (y dime qué café tomas ☕️)');
-      window.location.href = mailtoLink;
+      navigator.clipboard.writeText('isacorreaur@gmail.com').then(() => {
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+      });
     });
 
     // ── TYPEWRITER ────────────────────────────────────────────────
     (function () {
       const el   = document.getElementById('typewriterPrompt');
-      const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
+      const text = '/imagine prompt: creative_lead_isabel_correa--high_responsibility--international_experience--ai_powered--humor_enabled';
       const duration = 6000; // 6 segundos
       const delay    = 400;  // espera antes de empezar
+      let played = false;
 
-      // Usar IntersectionObserver para arrancar cuando sea visible
+      // Solo se ejecuta una vez, aunque se vuelva al top
       const obs = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
+        if (!entries[0].isIntersecting || played) return;
+        played = true;
         obs.disconnect();
         setTimeout(() => {
           let i = 0;
@@ -994,9 +982,8 @@
       window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
       const COUNT      = 110;
-      const ATTRACT_R  = 180;   // radio de atracción más amplio
+      const ATTRACT_R  = 130;   // radio de atracción
       const ATTRACT_F  = 0.05;  // fuerza de atracción
-      const FRICTION   = 0.97;  // fricción suave para que no aceleren infinito
 
       let particles = [];
       function rand(a, b) { return Math.random() * (b - a) + a; }
@@ -1008,9 +995,8 @@
             x:     rand(0, canvas.width),
             y:     rand(0, canvas.height),
             r:     rand(1.5, 3.5),
-            vx:    rand(-0.25, 0.25),  // deriva lateral base
-            vy:    rand(-0.55, -0.15), // velocidad ascendente base
-            ax:    0, ay: 0,           // aceleración extra por atracción
+            vx:    rand(-0.25, 0.25),  // ligera deriva lateral
+            vy:    rand(-0.55, -0.15), // sube
             alpha: rand(0.2, 0.4),
           });
         }
@@ -1023,23 +1009,18 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
-          // Atracción al cursor — acumula en ax/ay por separado
+          // Atracción al cursor
           const dx   = mouse.x - p.x;
           const dy   = mouse.y - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < ATTRACT_R && dist > 1) {
             const force = (ATTRACT_R - dist) / ATTRACT_R;
-            p.ax += (dx / dist) * force * ATTRACT_F;
-            p.ay += (dy / dist) * force * ATTRACT_F;
+            p.vx += (dx / dist) * force * ATTRACT_F;
+            p.vy += (dy / dist) * force * ATTRACT_F;
           }
 
-          // Fricción solo sobre la aceleración extra (no sobre la velocidad base)
-          p.ax *= FRICTION;
-          p.ay *= FRICTION;
-
-          // Mover: velocidad base + desviación por atracción
-          p.x += p.vx + p.ax;
-          p.y += p.vy + p.ay;
+          p.x += p.vx;
+          p.y += p.vy;
 
           // Reborde: sale por arriba → reaparece abajo
           if (p.y < -p.r)                p.y = canvas.height + p.r;
@@ -1060,5 +1041,60 @@
       draw();
     })();
   </script>
+
+  <script>
+    // ── MOBILE TOUCH BOUNCE ───────────────────────────────────────
+    // Solo en móvil: al inicio y al final, frena suave con un pequeño
+    // "bounce" de ~50px para indicar el límite, luego scroll normal.
+    (function () {
+      if (!window.matchMedia('(max-width: 640px)').matches) return;
+
+      const BOUNCE_PX   = 50;   // desplazamiento visual del bounce
+      const EASE_MS     = 380;  // duración de la animación de freno
+      let bouncing      = false;
+      let touchStartY   = 0;
+      let lastScrollY   = 0;
+
+      function animateBounce(fromY, toY) {
+        bouncing = true;
+        const start     = performance.now();
+        const dist      = toY - fromY;
+
+        function step(now) {
+          const t = Math.min((now - start) / EASE_MS, 1);
+          // ease-out cubic
+          const ease = 1 - Math.pow(1 - t, 3);
+          window.scrollTo(0, fromY + dist * ease);
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            window.scrollTo(0, toY);
+            bouncing = false;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+        lastScrollY = window.scrollY;
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (bouncing) return;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const sy = window.scrollY;
+
+        if (sy <= 0) {
+          // Estamos arriba del todo: pequeño bounce hacia abajo y vuelve a 0
+          animateBounce(-BOUNCE_PX, 0);
+        } else if (sy >= maxScroll) {
+          // Estamos abajo del todo: pequeño bounce hacia arriba y vuelve al max
+          animateBounce(maxScroll + BOUNCE_PX, maxScroll);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
 </body>
 </html>
