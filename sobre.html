@@ -235,6 +235,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 1.5rem 2.5rem;
       margin-bottom: 2.5rem;
+      animation: slideUpFade 6s ease-out;
     }
 
     .yellow-block--centered {
@@ -271,6 +272,17 @@
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
+    }
+
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Skills */
@@ -712,10 +724,10 @@
   <div class="card-outer">
     <div class="card-inner">
 
-      <h2 class="card-title">Sobre mí</h2>
+      <h2 class="card-title">¿Quién hay detrás?</h2>
 
       <p class="card-intro">
-        No creo en el diseño como algo puramente estético. Para mí, diseñar es solucionar problemas y organizar el caos (especialmente esos briefs que llegan un lunes por la mañana). Después de más de 6 años dando vueltas por agencias, estudios y marcas internacionales, he aprendido que lo más importante no es qué herramienta usas, sino cómo conectas la estrategia con el impacto visual.
+        Spoiler: Detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
       </p>
 
       <div class="yellow-block yellow-block--centered">
