@@ -114,22 +114,17 @@
       text-decoration: none;
       letter-spacing: 0.02em;
       position: relative;
-      transition: color 0.2s;
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      transition: color 0.2s, background 0.2s;
     }
 
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0;
-      width: 0; height: 2px;
+    .nav-links a::after { display: none; }
+
+    .nav-links a:hover {
+      color: var(--cream);
       background: var(--red);
-      transition: width 0.25s ease;
     }
-
-    .nav-links a:hover { color: var(--red); }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-links a.active { color: var(--red); }
-    .nav-links a.active::after { width: 100%; }
 
     /* HAMBURGER */
     .hamburger {
@@ -575,7 +570,17 @@
 
       .nav-links.open { display: flex; }
       .nav-links li { width: 100%; text-align: center; }
-      .nav-links a { display: block; padding: 0.8rem 1rem; font-size: 1.05rem; }
+      .nav-links a {
+        display: block;
+        padding: 0.8rem 1rem;
+        font-size: 1.05rem;
+        border-radius: 0;
+        transition: background 0.2s, color 0.2s;
+      }
+      .nav-links a:hover {
+        background: none;
+        color: var(--red);
+      }
       .nav-links a::after { display: none; }
 
       .contact-hero { padding: 3rem 1.5rem 1.5rem; }
@@ -647,7 +652,7 @@
       <div class="contact-block">
         <span class="contact-label">Correo</span>
         <span style="display:flex;align-items:center;gap:0.5rem;">
-          <a href="mailto:isacorreaur@gmail.com" class="contact-value">isacorreaur@gmail.com</a>
+          <a href="/cdn-cgi/l/email-protection#9af3e9fbf9f5e8e8fffbefe8dafdf7fbf3f6b4f9f5f7" class="contact-value"><span class="__cf_email__" data-cfemail="c7aeb4a6a4a8b5b5a2a6b2b587a0aaa6aeabe9a4a8aa">[email&#160;protected]</span></a>
           <button class="copy-btn" id="copyEmailBtn" title="Copiar correo">
             <svg viewBox="0 0 24 24"><path d="M16 1H4C3 1 2 2 2 3v14h2V3h12V1zm3 4H8C7 5 6 6 6 7v14c0 1 1 2 2 2h11c1 0 2-1 2-2V7c0-1-1-2-2-2zm0 16H8V7h11v14z"/></svg>
           </button>
@@ -673,7 +678,7 @@
       <div class="contact-block">
         <span class="contact-label">Encuéntrame en</span>
         <div class="social-circles">
-          <a href="mailto:isacorreaur@gmail.com" class="social-circle" id="copyEmailBtn2" title="Email">
+          <a href="/cdn-cgi/l/email-protection#40293321232f32322521353200272d21292c6e232f2d" class="social-circle" id="copyEmailBtn2" title="Email">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
           </a>
           <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" class="social-circle" title="LinkedIn">
@@ -766,7 +771,7 @@
   <canvas id="grain-canvas"></canvas>
   <div id="cursor"></div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Copy email
     function copyEmail(e) {
       e && e.preventDefault();
@@ -863,17 +868,4 @@
           const imageData = ctx.createImageData(w, h);
           const data = imageData.data;
           for (let i = 0; i < data.length; i += 4) {
-            const val = Math.random() * 255 | 0;
-            data[i] = data[i+1] = data[i+2] = val;
-            data[i+3] = 255;
-          }
-          ctx.putImageData(imageData, 0, 0);
-        }
-        requestAnimationFrame(generateGrain);
-      }
-      generateGrain();
-    })();
-  </script>
-
-</body>
-</html>
+            const val
