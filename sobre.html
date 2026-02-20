@@ -173,7 +173,7 @@
     .card-peek {
       position: absolute;
       bottom: 0;
-      left: 15%; right: 15%;
+      left: 10%; right: 10%;
       height: 25vh;
       background: var(--cream);
       border-radius: 28px 28px 0 0;
@@ -197,8 +197,8 @@
       background: var(--cream);
       border-radius: 28px;
       margin-top: -25vh;
-      margin-left: 15%;
-      margin-right: 15%;
+      margin-left: 10%;
+      margin-right: 10%;
       margin-bottom: 3rem;
       padding: 3.5rem 3.5rem 5rem;
     }
@@ -241,7 +241,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 5%;
+      padding: 2.5rem 2.2rem;
     }
 
     .yellow-block p {
@@ -256,9 +256,8 @@
       color: #5a4500;
       margin-top: 0;
       white-space: pre-wrap;
-      line-height: 1.35;
-      text-align: left;
-      display: inline-block;
+      line-height: 1.6;
+      text-align: center;
     }
 
     /* Cursor parpadeante del typewriter */
@@ -460,8 +459,7 @@
       text-decoration: none;
       transition: transform 0.2s, background 0.2s;
     }
-    .btn-cv:hover { transform: translateY(-2px); background: var(--yellow-bg); color: #8a6800; }
-    .btn-cv:hover svg { fill: #8a6800; stroke: #8a6800; }
+    .btn-cv:hover { transform: translateY(-2px); background: var(--pink); }
     .btn-cv svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     .btn-cv-ghost {
@@ -479,7 +477,7 @@
       text-decoration: none;
       transition: transform 0.2s, border-color 0.2s, color 0.2s;
     }
-    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--yellow-bg); color: var(--yellow-bg); }
+    .btn-cv-ghost:hover { transform: translateY(-2px); border-color: var(--pink); color: var(--pink); }
     .btn-cv-ghost svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── FOOTER ──────────────────────────────── */
@@ -623,8 +621,8 @@
       .nav-links a    { display: inline-block; padding: 0.6rem 1.5rem; font-size: 1rem; }
 
       .hero-illustration { top: 120px; width: 84vw; }
-      .card-peek  { left: 6%; right: 6%; height: 40vh; }
-      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 6%; margin-right: 6%; }
+      .card-peek  { left: 4%; right: 4%; height: 40vh; }
+      .card-outer { margin-top: -40vh; padding: 2rem 1.2rem 3rem; margin-left: 4%; margin-right: 4%; }
       .yellow-block      { grid-template-columns: 1fr; }
 
       footer {
@@ -644,6 +642,7 @@
         flex: 1;
         text-align: center;
         white-space: nowrap;
+        font-size: 0.75rem;
         padding: 0 0.25rem;
       }
     }
@@ -689,10 +688,10 @@
   <div class="card-outer">
     <div class="card-inner">
 
-      <h2 class="card-title">¿Quién hay detrás?</h2>
+      <h2 class="card-title">Sobre mí</h2>
 
       <p class="card-intro">
-        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
+        No creo en el diseño como algo puramente estético. Para mí, diseñar es solucionar problemas y organizar el caos (especialmente esos briefs que llegan un lunes por la mañana). Después de más de 6 años dando vueltas por agencias, estudios y marcas internacionales, he aprendido que lo más importante no es qué herramienta usas, sino cómo conectas la estrategia con el impacto visual.
       </p>
 
       <div class="yellow-block yellow-block--centered">
@@ -713,7 +712,6 @@
         <span class="tag tag-p">Gestión de proyectos</span>
         <span class="tag tag-r">Paid Media</span>
         <span class="tag tag-b">Figma / Adobe</span>
-        <span class="tag tag-r">Email Design</span>
       </div>
 
       <div class="divider"></div>
@@ -725,21 +723,21 @@
           <p class="tl-year">2024 — Actual</p>
           <p class="tl-role">Visual &amp; Art Director | AI Visual Strategist</p>
           <p class="tl-company">Liderazgo Creativo y Gestión Estratégica</p>
-          <p class="tl-desc">Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos y garantizando la optimización e implementación.</p>
+          <p class="tl-desc">Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos (como vídeos y shootings digitales) que antes parecían imposibles y garantizando la optimización e implementación.</p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2022 — 2024</p>
           <p class="tl-role">Mid Graphic Designer &amp; Art Direction</p>
           <p class="tl-company">Proyectos Internacionales y Mercados Globales</p>
-          <p class="tl-desc">Diseñé y dirigí identidades visuales para mercados internacionales (Europa y Oriente Medio). Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala, integrando por primera vez la IA para optimizar la producción.</p>
+          <p class="tl-desc">Diseñé y dirigí identidades visuales para mercados internacionales, moviéndome entre Europa y Oriente Medio. Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala. Llegando a proyectar mi trabajo en sitios como Londres, Dubái o Abu Dabi. Como dato extra, fue aquí donde empecé a integrar la IA por primera vez para optimizar la producción y elevar el resultado visual.</p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2020 — 2022</p>
           <p class="tl-role">Junior Graphic Designer</p>
           <p class="tl-company">Gestión Integral y Producción Creativa</p>
-          <p class="tl-desc">Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva sola en el departamento, encargándome de todo con el título del grado recién sacado bajo el brazo, encargándome desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando lo posible los recursos disponibles.</p>
+          <p class="tl-desc">Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva sola en el departamento, con el título del grado recién sacado bajo el brazo y asumiendo desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando siempre los recursos disponibles.</p>
         </div>
       </div>
 
@@ -750,7 +748,7 @@
         <h3>¿Te has quedado con ganas de más?</h3>
         <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
         <div class="cv-cta-row">
-          <a href="mailto:isacorreaur@gmail.com" class="btn-cv">
+          <a href="mailto:isacorreaur@gmail.com?subject=%C2%A1Hola%20Isa!%20P%C3%A1same%20ese%20CV%20(y%20dime%20qu%C3%A9%20caf%C3%A9%20tomas%20%E2%98%95%EF%B8%8F)" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             Pídeme el CV
           </a>
@@ -841,9 +839,8 @@
         ticking = false;
       }
 
-      // Escuchamos la rueda (solo desktop)
+      // Escuchamos la rueda
       window.addEventListener('wheel', (e) => {
-        if (window.matchMedia('(max-width: 640px)').matches) return;
         e.preventDefault();
 
         const maxScroll  = getMaxScroll();
@@ -873,6 +870,35 @@
         currentY = window.scrollY;
       }, { passive: true });
 
+      // Touch (móvil) — resistencia mínima, solo los primeros 2 toques
+      let touchStartY = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touchDelta = touchStartY - e.touches[0].clientY;
+        touchStartY = e.touches[0].clientY;
+
+        const maxScroll = getMaxScroll();
+        const progress  = currentY / maxScroll;
+
+        let delta = touchDelta;
+        // En móvil la resistencia es muy suave: factor mínimo 0.55
+        if (progress < RESISTANCE_ZONE) {
+          const resistRatio = 1 - (progress / RESISTANCE_ZONE);
+          const factor = 0.55 + (1 - 0.55) * (1 - resistRatio);
+          delta = delta * factor;
+        }
+
+        currentY = Math.min(Math.max(currentY + delta, 0), maxScroll);
+
+        if (!ticking) {
+          requestAnimationFrame(applyScroll);
+          ticking = true;
+        }
+      }, { passive: false });
     })();
 
     // Nav bg on scroll + ocultar ilustración al 50% de scroll total
@@ -880,6 +906,7 @@
     const heroIllu = document.querySelector('.hero-illustration');
     window.addEventListener('scroll', () => {
       navEl.style.background = window.scrollY > 40 ? 'var(--red)' : 'transparent';
+      // Altura total scrollable
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress  = window.scrollY / maxScroll;
       if (progress >= 0.5) {
@@ -922,15 +949,13 @@
     // ── TYPEWRITER ────────────────────────────────────────────────
     (function () {
       const el   = document.getElementById('typewriterPrompt');
-      const text = '/imagine prompt: creative_lead_isabel_correa--high_responsibility--international_experience--ai_powered--humor_enabled';
-      const duration = 6000; // 6 segundos
+      const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
+      const duration = 3000; // 3 segundos
       const delay    = 400;  // espera antes de empezar
-      let played = false;
 
-      // Solo se ejecuta una vez, aunque se vuelva al top
+      // Usar IntersectionObserver para arrancar cuando sea visible
       const obs = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting || played) return;
-        played = true;
+        if (!entries[0].isIntersecting) return;
         obs.disconnect();
         setTimeout(() => {
           let i = 0;
@@ -982,8 +1007,9 @@
       window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
       const COUNT      = 110;
-      const ATTRACT_R  = 130;   // radio de atracción
-      const ATTRACT_F  = 0.05;  // fuerza de atracción
+      const ATTRACT_R  = 180;   // radio de atracción más amplio
+      const ATTRACT_F  = 0.08;  // fuerza de atracción
+      const FRICTION   = 0.97;  // fricción suave para que no aceleren infinito
 
       let particles = [];
       function rand(a, b) { return Math.random() * (b - a) + a; }
@@ -995,8 +1021,9 @@
             x:     rand(0, canvas.width),
             y:     rand(0, canvas.height),
             r:     rand(1.5, 3.5),
-            vx:    rand(-0.25, 0.25),  // ligera deriva lateral
-            vy:    rand(-0.55, -0.15), // sube
+            vx:    rand(-0.25, 0.25),  // deriva lateral base
+            vy:    rand(-0.55, -0.15), // velocidad ascendente base
+            ax:    0, ay: 0,           // aceleración extra por atracción
             alpha: rand(0.2, 0.4),
           });
         }
@@ -1009,18 +1036,23 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
-          // Atracción al cursor
+          // Atracción al cursor — acumula en ax/ay por separado
           const dx   = mouse.x - p.x;
           const dy   = mouse.y - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < ATTRACT_R && dist > 1) {
             const force = (ATTRACT_R - dist) / ATTRACT_R;
-            p.vx += (dx / dist) * force * ATTRACT_F;
-            p.vy += (dy / dist) * force * ATTRACT_F;
+            p.ax += (dx / dist) * force * ATTRACT_F;
+            p.ay += (dy / dist) * force * ATTRACT_F;
           }
 
-          p.x += p.vx;
-          p.y += p.vy;
+          // Fricción solo sobre la aceleración extra (no sobre la velocidad base)
+          p.ax *= FRICTION;
+          p.ay *= FRICTION;
+
+          // Mover: velocidad base + desviación por atracción
+          p.x += p.vx + p.ax;
+          p.y += p.vy + p.ay;
 
           // Reborde: sale por arriba → reaparece abajo
           if (p.y < -p.r)                p.y = canvas.height + p.r;
@@ -1032,69 +1064,14 @@
           ctx.fillStyle = colors[Math.floor(p.r * 10) % colors.length];
           ctx.globalAlpha = p.alpha;
           ctx.fill();
+          ctx.globalAlpha = 1;
         });
 
-        ctx.globalAlpha = 1;
         requestAnimationFrame(draw);
       }
 
       draw();
     })();
   </script>
-
-  <script>
-    // ── MOBILE TOUCH BOUNCE ───────────────────────────────────────
-    // Solo en móvil: al inicio y al final, frena suave con un pequeño
-    // "bounce" de ~50px para indicar el límite, luego scroll normal.
-    (function () {
-      if (!window.matchMedia('(max-width: 640px)').matches) return;
-
-      const BOUNCE_PX   = 50;   // desplazamiento visual del bounce
-      const EASE_MS     = 380;  // duración de la animación de freno
-      let bouncing      = false;
-      let touchStartY   = 0;
-      let lastScrollY   = 0;
-
-      function animateBounce(fromY, toY) {
-        bouncing = true;
-        const start     = performance.now();
-        const dist      = toY - fromY;
-
-        function step(now) {
-          const t = Math.min((now - start) / EASE_MS, 1);
-          // ease-out cubic
-          const ease = 1 - Math.pow(1 - t, 3);
-          window.scrollTo(0, fromY + dist * ease);
-          if (t < 1) {
-            requestAnimationFrame(step);
-          } else {
-            window.scrollTo(0, toY);
-            bouncing = false;
-          }
-        }
-        requestAnimationFrame(step);
-      }
-
-      window.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
-        lastScrollY = window.scrollY;
-      }, { passive: true });
-
-      window.addEventListener('touchend', () => {
-        if (bouncing) return;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const sy = window.scrollY;
-
-        if (sy <= 0) {
-          // Estamos arriba del todo: pequeño bounce hacia abajo y vuelve a 0
-          animateBounce(-BOUNCE_PX, 0);
-        } else if (sy >= maxScroll) {
-          // Estamos abajo del todo: pequeño bounce hacia arriba y vuelve al max
-          animateBounce(maxScroll + BOUNCE_PX, maxScroll);
-        }
-      }, { passive: true });
-    })();
-  </script>
-
 </body>
 </html>
