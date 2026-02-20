@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sobre mí — Isa Correa</title>
+  <title>¿Quién hay detrás? — Isa Correa</title>
   <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -157,7 +157,7 @@
 
     .hero-illustration {
       position: fixed;
-      top: 144px;
+      top: 80px;
       left: 50%;
       transform: translateX(-50%);
       width: 500px; /* tamaño fijo en desktop, no se achica con el ancho */
@@ -642,7 +642,7 @@
       }
       .card-peek  { display: none; }
       .card-outer {
-        margin-top: 1rem;
+        margin-top: 55vh;
         padding: 2rem 1.2rem 3rem;
         margin-left: 4%;
         margin-right: 4%;
@@ -690,7 +690,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="sobre.html" class="active">Sobre mí</a></li>
+      <li><a href="sobre.html" class="active">¿Quién hay detrás?</a></li>
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
   </nav>
@@ -712,10 +712,10 @@
   <div class="card-outer">
     <div class="card-inner">
 
-      <h2 class="card-title">Sobre mí</h2>
+      <h2 class="card-title">¿Quién hay detrás?</h2>
 
       <p class="card-intro">
-        No creo en el diseño como algo puramente estético. Para mí, diseñar es solucionar problemas y organizar el caos (especialmente esos briefs que llegan un lunes por la mañana). Después de más de 6 años dando vueltas por agencias, estudios y marcas internacionales, he aprendido que lo más importante no es qué herramienta usas, sino cómo conectas la estrategia con el impacto visual.
+        Spoiler: Detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
       </p>
 
       <div class="yellow-block yellow-block--centered">
@@ -817,7 +817,7 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="#portfolio">Portfolio</a>
-      <a href="sobre.html">Sobre mí</a>
+      <a href="sobre.html">¿Quién hay detrás?</a>
       <a href="contacto.html">Contacto</a>
     </nav>
     <div class="footer-social">
@@ -937,7 +937,7 @@
     (function () {
       const el   = document.getElementById('typewriterPrompt');
       const text = '/imagine prompt:\ncreative_lead_isabel_correa --\nhigh_responsibility --\ninternational_experience --\nai_powered --\nhumor_enabled';
-      const duration = 3000; // 3 segundos
+      const duration = 6000; // 6 segundos
       const delay    = 400;  // espera antes de empezar
 
       // Usar IntersectionObserver para arrancar cuando sea visible
@@ -995,7 +995,7 @@
 
       const COUNT      = 110;
       const ATTRACT_R  = 180;   // radio de atracción más amplio
-      const ATTRACT_F  = 0.04;  // fuerza de atracción
+      const ATTRACT_F  = 0.05;  // fuerza de atracción
       const FRICTION   = 0.97;  // fricción suave para que no aceleren infinito
 
       let particles = [];
