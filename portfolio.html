@@ -146,11 +146,20 @@
 
     /* ── PAGE HEADER ── */
     .page-header { text-align: center; padding: 0 2rem; }
+    @keyframes floatWiggle {
+      0%   { transform: translateY(0px) rotate(-0.4deg); }
+      25%  { transform: translateY(-8px) rotate(0.4deg); }
+      50%  { transform: translateY(-4px) rotate(-0.3deg); }
+      75%  { transform: translateY(-10px) rotate(0.3deg); }
+      100% { transform: translateY(0px) rotate(-0.4deg); }
+    }
+
     .page-header h1 {
       font-family: 'Kiwi Maru', serif;
       font-size: clamp(2.6rem, 6vw, 4.5rem);
       font-weight: 400; color: var(--cream); line-height: 1.15;
-      animation: fadeUp 0.7s ease both;
+      animation: fadeUp 0.7s ease both, floatWiggle 6s ease-in-out 0.7s infinite;
+      display: inline-block; /* needed for transform to work on inline */
     }
     .page-header p {
       font-size: 1.05rem; line-height: 1.75; color: rgba(250,246,238,0.7);
@@ -168,9 +177,6 @@
 
     /* scroll arrow */
     .scroll-arrow {
-      position: absolute;
-      bottom: 2.5rem; left: 50%;
-      transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
       cursor: none; background: none; border: none;
       color: rgba(250,246,238,0.5);
@@ -178,7 +184,7 @@
       letter-spacing: 0.15em; text-transform: uppercase;
       animation: fadeUp 0.7s 0.5s ease both;
       transition: color 0.2s ease;
-      z-index: 10;
+      margin-top: 2.5rem; /* space below the description text */
     }
     .scroll-arrow:hover { color: rgba(250,246,238,0.9); }
     .scroll-arrow svg {
@@ -455,11 +461,6 @@
 
     <!-- SNAP 2: CARDS -->
     <section class="snap-cards">
-      <div class="scroll-hint">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        desliza para explorar
-        <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      </div>
 
     <div class="cards-track">
 
@@ -518,6 +519,12 @@
       </a>
 
     </div>
+
+      <div class="scroll-hint">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        desliza para explorar
+        <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </div>
     </section>
 
   </div><!-- /snap-wrap -->
