@@ -43,6 +43,7 @@
       background: transparent; z-index: 200;
       transition: background 0.3s ease;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      animation: fadeUp 0.6s ease 0s both;
     }
     .logo {
       display: flex; align-items: flex-start; gap: 0.55rem;
@@ -69,6 +70,11 @@
       100% { background: var(--red); }
     }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links li { animation: fadeUp 0.6s ease both; }
+    .nav-links li:nth-child(1) { animation-delay: 0.05s; }
+    .nav-links li:nth-child(2) { animation-delay: 0.1s; }
+    .nav-links li:nth-child(3) { animation-delay: 0.15s; }
+    .nav-links li:nth-child(4) { animation-delay: 0.2s; }
     .nav-links a {
       font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 600;
       color: var(--cream); text-decoration: none; letter-spacing: 0.02em;
@@ -141,7 +147,7 @@
       background: var(--yellow);
       cursor: none;
       animation: fadeUp 0.7s ease both;
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      transition: transform 0.35s ease;  /* subtle lift */
     }
     .cat-card:nth-child(1) { animation-delay: 0.08s; }
     .cat-card:nth-child(2) { animation-delay: 0.16s; }
@@ -157,7 +163,9 @@
       object-fit: cover; object-position: center;
       display: block;
       background: var(--yellow);
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
+    .cat-card:hover .cat-img { transform: scale(1.07); }
 
     /* ICON — glass circle with colour tint, bottom-right overlay */
     .cat-icon {
@@ -178,7 +186,8 @@
     .cat-icon svg { width: 22px; height: 22px; fill: var(--cream); transition: fill 0.3s ease; }
 
     /* hover → enlarge with spring */
-    .cat-icon:hover { transform: scale(1.28); }
+    .cat-icon:hover  { transform: scale(1.28); }
+    .cat-icon:active { transform: scale(1.28); } /* mobile tap = same grow effect */
     /* click → squish, JS removes .pop after 150ms */
     .cat-icon.pop   { transform: scale(0.9); transition: transform 0.15s ease; }
 
@@ -217,7 +226,7 @@
       z-index: 4; pointer-events: none;
     }
 
-    .cat-card:hover { transform: translateY(-7px); box-shadow: 0 28px 55px rgba(0,0,0,0.25); }
+    .cat-card:hover { transform: translateY(-4px); }
 
     /* ── FOOTER ── */
     footer {

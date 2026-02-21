@@ -33,8 +33,6 @@
       position: fixed; inset: 0; z-index: 1;
       pointer-events: none;
       width: 100%; height: 100%;
-      opacity: 0.05;
-      mix-blend-mode: multiply;
     }
 
     @keyframes slideUpFade {
@@ -674,17 +672,28 @@
   <script>
     (function() {
       const canvas = document.getElementById('grain-canvas');
-      const ctx    = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d');
       function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       resize();
       window.addEventListener('resize', resize);
       let frame = 0;
-      function generateGrain() {
+      function tick() {
         frame++;
         if (frame % 3 === 0) {
           const w = canvas.width, h = canvas.height;
-          const imageData = ctx.createImageData(w, h);
-          const data = imageData.data;
-          for (let i = 0; i < data.length; i += 4) {
-            const val = Math.random() * 255 | 0;
-            data[i] = data[i+
+          const img = ctx.createImageData(w, h);
+          const d = img.data;
+          for (let i = 0; i < d.length; i += 4) {
+            const v = Math.random() * 255 | 0;
+            d[i] = d[i+1] = d[i+2] = v;
+            d[i+3] = Math.random() * 22 | 0;
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+  </script>
+</body>
+</html>
