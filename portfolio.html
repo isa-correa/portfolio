@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Isa Correa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { cursor: none; }
+
+    :root {
+      --cream:  #FAF6EE;
+      --pink:   #F4A7B9;
+      --red:    #C94A3F;
+      --blue:   #92B8CC;
+      --yellow: #F5C842;
+      --green:  #6B8F47;
+      --dark:   #2E2E2E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #6B8F47;
+      font-family: 'Nunito', sans-serif;
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* GRAIN canvas */
+    #grain {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; width: 100%; height: 100%;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      position: sticky; top: 0;
+      background: transparent; z-index: 200;
+      transition: background 0.3s ease;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo {
+      display: flex; align-items: flex-start; gap: 0.55rem;
+      font-family: 'Kiwi Maru', serif; font-size: 1.4rem; font-weight: 500;
+      color: var(--cream); text-decoration: none;
+    }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; gap: 0.15rem; }
+    .logo-sub {
+      font-family: 'Nunito', sans-serif; font-size: 0.72rem;
+      font-weight: 400; letter-spacing: 0.25em; color: rgba(250,246,238,0.7);
+    }
+    .logo-dot {
+      width: 19px; height: 19px; border-radius: 50%;
+      background: var(--red); flex-shrink: 0; margin-top: 0.22em;
+      animation: pulse 2.4s ease-in-out infinite, colorCycle 10s linear infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.2); opacity: 0.8; }
+    }
+    @keyframes colorCycle {
+      0%   { background: var(--red); }
+      50%  { background: var(--pink); }
+      100% { background: var(--red); }
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 600;
+      color: var(--cream); text-decoration: none; letter-spacing: 0.02em;
+      padding: 0.35rem 0.9rem; border-radius: 9999px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--green); background: var(--cream); }
+
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; background: none; border: none; padding: 4px; cursor: none;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--cream); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── PAGE HEADER ── */
+    .page-header { position: relative; z-index: 2; padding: 4rem 3rem 2rem; text-align: center; }
+    .page-header h1 {
+      font-family: 'Kiwi Maru', serif;
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      font-weight: 400; color: var(--cream); line-height: 1.15;
+      animation: fadeUp 0.7s ease both;
+    }
+    .page-header p {
+      font-size: 1.05rem; line-height: 1.75; color: rgba(250,246,238,0.7);
+      max-width: 520px; margin: 1.2rem auto 0;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SCROLL SECTION ── */
+    .scroll-section { position: relative; z-index: 2; padding: 2rem 0 4rem; }
+    .scroll-hint {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      font-family: 'Nunito', sans-serif; font-size: 0.8rem;
+      color: rgba(250,246,238,0.45); letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 1.5rem; animation: fadeUp 0.7s 0.25s ease both;
+    }
+    .scroll-hint svg { width: 16px; height: 16px; fill: rgba(250,246,238,0.45); }
+
+    /* DESKTOP: 3+3 grid, no scroll */
+    .cards-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      padding: 1rem 8% 2rem;
+    }
+    /* hide scroll hint on desktop/tablet */
+    .scroll-hint { display: none; }
+
+    /* ── CARD ── */
+    .cat-card {
+      width: 100%;
+      aspect-ratio: 3 / 4;   /* same portrait ratio on all screens */
+      height: auto;
+      border-radius: 2rem;
+      scroll-snap-align: start;
+      position: relative;
+      text-decoration: none;
+      overflow: hidden;        /* image fills entire card, no frame */
+      background: var(--yellow);
+      cursor: none;
+      animation: fadeUp 0.7s ease both;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .cat-card:nth-child(1) { animation-delay: 0.08s; }
+    .cat-card:nth-child(2) { animation-delay: 0.16s; }
+    .cat-card:nth-child(3) { animation-delay: 0.24s; }
+    .cat-card:nth-child(4) { animation-delay: 0.32s; }
+    .cat-card:nth-child(5) { animation-delay: 0.40s; }
+    .cat-card:nth-child(6) { animation-delay: 0.48s; }
+
+    /* IMAGE — fills the whole card, no padding/frame */
+    .cat-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+      background: var(--yellow);
+    }
+
+    /* ICON — glass circle with colour tint, bottom-right overlay */
+    .cat-icon {
+      position: absolute;
+      bottom: 1.1rem; right: 1.1rem;
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1px solid rgba(250,246,238,0.35);
+      cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      /* glass base */
+      backdrop-filter: blur(12px) saturate(1.4);
+      -webkit-backdrop-filter: blur(12px) saturate(1.4);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease;
+      z-index: 4;
+    }
+    /* cream icon, not white */
+    .cat-icon svg { width: 22px; height: 22px; fill: var(--cream); transition: fill 0.3s ease; }
+
+    /* hover → enlarge with spring */
+    .cat-icon:hover { transform: scale(1.28); }
+    /* click → squish, JS removes .pop after 150ms */
+    .cat-icon.pop   { transform: scale(0.9); transition: transform 0.15s ease; }
+
+    /* icon tints: pink, red, green, yellow, blue, green — no black */
+    .cat-card:nth-child(1) .cat-icon { background: rgba(244,167,185,0.50); } /* pink */
+    .cat-card:nth-child(2) .cat-icon { background: rgba(201,74,63,0.50);   } /* red */
+    .cat-card:nth-child(3) .cat-icon { background: rgba(107,143,71,0.55);  } /* green */
+    .cat-card:nth-child(4) .cat-icon { background: rgba(245,200,66,0.55);  } /* yellow */
+    .cat-card:nth-child(5) .cat-icon { background: rgba(146,184,204,0.55); } /* blue */
+    .cat-card:nth-child(6) .cat-icon { background: rgba(107,143,71,0.55);  } /* green */
+    /* all svgs cream — tints are light enough */
+    .cat-card:nth-child(4) .cat-icon svg { fill: var(--dark); } /* yellow needs dark */
+
+    /* colour cycle — pink, red, green, yellow, blue, green */
+    .cat-icon.cc0 { background: rgba(244,167,185,0.55) !important; }
+    .cat-icon.cc1 { background: rgba(201,74,63,0.55)   !important; }
+    .cat-icon.cc2 { background: rgba(107,143,71,0.60)  !important; }
+    .cat-icon.cc3 { background: rgba(245,200,66,0.60)  !important; }
+    .cat-icon.cc4 { background: rgba(146,184,204,0.60) !important; }
+    .cat-icon.cc5 { background: rgba(107,143,71,0.60)  !important; }
+    .cat-icon.cc3 svg { fill: var(--dark) !important; }
+    .cat-icon.cc0 svg, .cat-icon.cc1 svg, .cat-icon.cc2 svg,
+    .cat-icon.cc4 svg, .cat-icon.cc5 svg { fill: var(--cream) !important; }
+
+    /* TAG — glass, top-left */
+    .cat-tag {
+      position: absolute; top: 1.1rem; left: 1.1rem;
+      font-family: 'Nunito', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      background: rgba(250,246,238,0.18);
+      backdrop-filter: blur(10px) saturate(1.5);
+      -webkit-backdrop-filter: blur(10px) saturate(1.5);
+      color: var(--cream); border-radius: 9999px;
+      padding: 0.38rem 1rem;
+      border: 1px solid rgba(250,246,238,0.3);
+      z-index: 4; pointer-events: none;
+    }
+
+    .cat-card:hover { transform: translateY(-7px); box-shadow: 0 28px 55px rgba(0,0,0,0.25); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 2;
+      padding: 2.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-family: 'Nunito', sans-serif;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-logo {
+      font-family: 'Kiwi Maru', serif; font-size: 1.6rem; font-weight: 500;
+      color: var(--cream); display: flex; align-items: flex-start; gap: 0.2rem;
+    }
+    .footer-dot {
+      width: 17px; height: 17px; border-radius: 50%;
+      background: var(--red); flex-shrink: 0; margin-top: 0.22em;
+      animation: pulse 2.4s ease-in-out infinite, colorCycle 10s linear infinite;
+    }
+    footer nav { display: flex; align-items: center; background: transparent; border: none; padding: 0; position: static; }
+    footer nav a {
+      color: rgba(250,246,238,0.7); text-decoration: none;
+      font-size: 0.9rem; letter-spacing: 0.02em;
+      transition: color 0.2s; padding: 0 0.4rem;
+    }
+    footer nav a + a { border-left: 1px solid rgba(255,255,255,0.15); }
+    footer nav a:hover { color: var(--cream); }
+    .footer-copy { color: rgba(250,246,238,0.4); font-size: 13px; }
+    .footer-social { display: flex; gap: 0.75rem; align-items: center; }
+    .footer-social a {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.25s ease, background 0.25s ease; flex-shrink: 0;
+    }
+    .footer-social a:hover,
+    .footer-social a:active { background: var(--pink); transform: translateY(-3px) scale(1.08); }
+    .footer-social a svg { width: 18px; height: 18px; fill: var(--cream); }
+
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--dark); color: #fff;
+      padding: 0.6rem 1.4rem; border-radius: 2rem;
+      font-size: 0.85rem; font-family: 'Nunito', sans-serif;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease; z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    #cursor {
+      position: fixed; top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 2px solid var(--cream); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+    }
+    #cursor.hover { width: 56px; height: 56px; background: rgba(250,246,238,0.1); }
+
+    /* ── RESPONSIVE ── */
+
+    /* Tablet: still 3+3 grid */
+    @media (max-width: 1024px) {
+      .cards-track {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 1rem 2.5rem 2rem;
+      }
+    }
+
+    /* Mobile: horizontal scroll, 3% left margin */
+    @media (max-width: 768px) {
+      .page-header { padding: 3rem 1.5rem 1.5rem; }
+      .scroll-hint { display: flex; } /* show on mobile only */
+      .cards-track {
+        display: flex;
+        gap: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        padding-left: 3%;
+        padding-right: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 3%;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .cards-track::-webkit-scrollbar { display: none; }
+      .cat-card {
+        flex-shrink: 0;
+        width: 78vw;
+        height: auto;
+        aspect-ratio: 3 / 4;
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        background: #6B8F47; flex-direction: column; align-items: center;
+        gap: 0; list-style: none;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding: 0.5rem 0 1.2rem; z-index: 200;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: inline-block; padding: 0.55rem 1.6rem; font-size: 1.05rem; border-radius: 9999px; }
+      .nav-links li { width: 100%; text-align: center; }
+      .page-header h1 { font-size: 2.2rem; }
+      footer { flex-direction: column; align-items: center; text-align: center; padding: 2rem 1.5rem; }
+      footer nav { flex-wrap: nowrap; justify-content: center; width: 100%; }
+      footer nav a { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      <span class="logo-dot"></span>
+      <span class="logo-text">
+        Isa Correa
+        <span class="logo-sub">visual & art director</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="sobre.html">Sobre mí</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Portfolio ✦</h1>
+    <p>Seis disciplinas, un mismo punto de vista. Elige la que más te llame.</p>
+  </header>
+
+  <section class="scroll-section">
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      desliza para explorar
+      <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </div>
+
+    <div class="cards-track">
+
+      <!-- 1. IA & Generativo -->
+      <a href="portfolio-ia.html" class="cat-card">
+        <img class="cat-img" src="" alt="IA & Generativo"/>
+        <button class="cat-icon" onclick="cycleColor(this,event)">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74L12 2zm-6 14 1.06 3.17L10 20l-2.94.83L6 24l-1.06-3.17L2 20l2.94-.83L6 16zm12 0 1.06 3.17L22 20l-2.94.83L18 24l-1.06-3.17L14 20l2.94-.83L18 16z"/></svg>
+        </button>
+        <span class="cat-tag">IA &amp; Generativo</span>
+      </a>
+
+      <!-- 2. Branding -->
+      <a href="portfolio-branding.html" class="cat-card">
+        <img class="cat-img" src="" alt="Branding"/>
+        <button class="cat-icon" onclick="cycleColor(this,event)">
+          <svg viewBox="0 0 24 24"><path d="m12 1-9 10 9 12 9-12L12 1zm0 3.3L18.6 11H5.4L12 4.3zm0 14.3-6.2-8.3h12.4L12 18.6z"/></svg>
+        </button>
+        <span class="cat-tag">Branding</span>
+      </a>
+
+      <!-- 3. Motion & Vídeo -->
+      <a href="portfolio-motion.html" class="cat-card">
+        <img class="cat-img" src="" alt="Motion & Vídeo"/>
+        <button class="cat-icon" onclick="cycleColor(this,event)">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <span class="cat-tag">Motion &amp; Vídeo</span>
+      </a>
+
+      <!-- 4. Digital & UX -->
+      <a href="portfolio-digital.html" class="cat-card">
+        <img class="cat-img" src="" alt="Digital & UX"/>
+        <button class="cat-icon" onclick="cycleColor(this,event)">
+          <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+        </button>
+        <span class="cat-tag">Digital &amp; UX</span>
+      </a>
+
+      <!-- 5. Fotografía -->
+      <a href="portfolio-fotografia.html" class="cat-card">
+        <img class="cat-img" src="" alt="Fotografía"/>
+        <button class="cat-icon" onclick="cycleColor(this,event)">
+          <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zM9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg>
+        </button>
+        <span class="cat-tag">Fotografía</span>
+      </a>
+
+      <!-- 6. Ilustración -->
+      <a href="portfolio-ilustracion.html" class="cat-card">
+        <img class="cat-img" src="" alt="Ilustración"/>
+        <button class="cat-icon" onclick="cycleColor(this,event)">
+          <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </button>
+        <span class="cat-tag">Ilustración</span>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">
+      <span class="footer-dot"></span>
+      <span class="logo-text">
+        Isa Correa
+        <span class="logo-sub">visual & art director</span>
+      </span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="sobre.html">Sobre mí</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <div class="footer-social">
+      <a href="#" id="copyEmail" title="Copiar correo">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://www.behance.net/isacorrea97" target="_blank" title="Behance">
+        <svg viewBox="0 0 24 24"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
+  </footer>
+
+  <div class="toast" id="toast">✓ Correo copiado</div>
+  <canvas id="grain"></canvas>
+  <div id="cursor"></div>
+
+  <script>
+    // Icon colour cycle + pop animation on click
+    const palette = ['cc0','cc1','cc2','cc3','cc4','cc5'];
+    function cycleColor(btn, e) {
+      e.preventDefault();
+      e.stopPropagation();
+      // pop squeeze → spring back
+      btn.classList.add('pop');
+      setTimeout(() => btn.classList.remove('pop'), 150);
+      // cycle colour
+      const current = palette.find(c => btn.classList.contains(c));
+      const idx = current ? (palette.indexOf(current) + 1) % palette.length : 0;
+      palette.forEach(c => btn.classList.remove(c));
+      btn.classList.add(palette[idx]);
+    }
+
+    // Copy email
+    document.getElementById('copyEmail').addEventListener('click', e => {
+      e.preventDefault();
+      navigator.clipboard.writeText('isacorreaur@gmail.com').then(() => {
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+      });
+    });
+
+    // Nav bg on scroll
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      navEl.style.background = window.scrollY > 10 ? '#6B8F47' : 'transparent';
+    });
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    }));
+
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    let mx = 0, my = 0, cx = 0, cy = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function loop() {
+      cx += (mx - cx) * 0.18; cy += (my - cy) * 0.18;
+      cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+  </script>
+
+  <script>
+    /* Animated grain — canvas with random alpha pixels over green bg */
+    (function() {
+      const canvas = document.getElementById('grain');
+      const ctx = canvas.getContext('2d');
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      let frame = 0;
+      function tick() {
+        frame++;
+        if (frame % 3 === 0) {
+          const w = canvas.width, h = canvas.height;
+          const img = ctx.createImageData(w, h);
+          const d = img.data;
+          for (let i = 0; i < d.length; i += 4) {
+            const v = Math.random() * 255 | 0;
+            d[i] = d[i+1] = d[i+2] = v;
+            d[i+3] = Math.random() * 22 | 0; /* very low alpha — tints green, not covers */
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+  </script>
+</body>
+</html>
