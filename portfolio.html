@@ -10,6 +10,7 @@
     * { cursor: none; }
 
     :root {
+      --nav-h: 64px; /* desktop nav height */
       --cream:  #FAF6EE;
       --pink:   #F4A7B9;
       --red:    #C94A3F;
@@ -34,7 +35,7 @@
 
     /* ── SNAP CONTAINER ── */
     .snap-wrap {
-      height: calc(100vh - 64px);
+      height: 100dvh;   /* full device height — nav is sticky inside */
       overflow-y: scroll;
       overflow-x: hidden;
       scroll-snap-type: y mandatory;
@@ -46,15 +47,14 @@
     .snap-hero {
       scroll-snap-align: start;
       scroll-snap-stop: always;
-      height: 88vh;
-      min-height: 500px;
+      /* subtract sticky nav height so content is truly centred in remaining space */
+      height: calc(100dvh - var(--nav-h));  /* exact remaining space — no peek */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       z-index: 2;
-      /* enter animation */
       transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .snap-hero.out {
@@ -65,10 +65,11 @@
     .snap-cards {
       scroll-snap-align: start;
       scroll-snap-stop: always;
-      min-height: 100vh;
+      height: calc(100dvh - var(--nav-h));
+      display: flex;
+      flex-direction: column;
       position: relative;
       z-index: 2;
-      padding-bottom: 2rem;
       /* enter animation */
       transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -203,12 +204,15 @@
     }
     .scroll-hint svg { width: 16px; height: 16px; fill: rgba(250,246,238,0.45); }
 
-    /* DESKTOP: 3+3 grid, no scroll */
+    /* DESKTOP: 3+3 grid — fills available height */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      padding: 1rem 8% 2rem;
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1rem 8%;
+      /* fill the snap-cards height minus footer and scroll-hint */
+      height: calc(100dvh - var(--nav-h) - 80px - 48px); /* 80px footer approx, 48px hint */
     }
     /* hide scroll hint on desktop/tablet */
     .scroll-hint { display: none; }
@@ -216,8 +220,8 @@
     /* ── CARD ── */
     .cat-card {
       width: 100%;
-      aspect-ratio: 3 / 4;   /* same portrait ratio on all screens */
-      height: auto;
+      height: 100%;     /* fill grid cell on desktop */
+      aspect-ratio: unset;
       border-radius: 2rem;
       scroll-snap-align: start;
       position: relative;
@@ -310,11 +314,13 @@
     /* ── FOOTER ── */
     footer {
       position: relative; z-index: 2;
-      padding: 2.5rem 3rem;
+      margin-top: auto; /* push to bottom of snap-cards flex column */
+      padding: 1.2rem 3rem;
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
+      flex-wrap: wrap; gap: 0.75rem;
       font-family: 'Nunito', sans-serif;
       border-top: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
     }
     .footer-logo {
       font-family: 'Kiwi Maru', serif; font-size: 1.6rem; font-weight: 500;
@@ -398,12 +404,13 @@
         flex-shrink: 0;
         width: 78vw;
         height: auto;
-        aspect-ratio: 3 / 4;
+        aspect-ratio: 3 / 4;  /* portrait ratio on mobile horizontal scroll */
       }
     }
 
     @media (max-width: 640px) {
       nav { padding: 1.2rem 1.5rem; }
+      :root { --nav-h: 56px; }
       .hamburger { display: flex; }
       .nav-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
@@ -424,6 +431,10 @@
 </head>
 <body>
 
+
+
+  <div class="snap-wrap" id="snapWrap">
+
   <nav>
     <a href="index.html" class="logo">
       <span class="logo-dot"></span>
@@ -442,8 +453,6 @@
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
   </nav>
-
-  <div class="snap-wrap" id="snapWrap">
 
     <!-- SNAP 1: HERO -->
     <section class="snap-hero">
@@ -525,9 +534,6 @@
         desliza para explorar
         <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
       </div>
-    </section>
-
-  </div><!-- /snap-wrap -->
 
   <footer>
     <div class="footer-logo">
@@ -556,6 +562,10 @@
     </div>
     <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
   </footer>
+    </section>
+
+  </div><!-- /snap-wrap -->
+
 
   <div class="toast" id="toast">✓ Correo copiado</div>
   <canvas id="grain"></canvas>
@@ -587,9 +597,17 @@
       });
     });
 
-    // Nav bg on snap-wrap scroll
+    // Measure actual nav height and set CSS var — fixes mobile overlap
     const navEl = document.querySelector('nav');
     const snapWrap = document.getElementById('snapWrap');
+
+    function setNavHeight() {
+      const h = navEl.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--nav-h', h + 'px');
+    }
+    setNavHeight();
+    window.addEventListener('resize', setNavHeight);
+
     snapWrap.addEventListener('scroll', () => {
       navEl.style.background = snapWrap.scrollTop > 10 ? '#6B8F47' : 'transparent';
     });
