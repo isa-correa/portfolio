@@ -35,20 +35,23 @@
 
     /* ── SNAP CONTAINER ── */
     .snap-wrap {
-      height: 100dvh;   /* full device height — nav is sticky inside */
+      height: 100dvh;
       overflow-y: scroll;
       overflow-x: hidden;
       scroll-snap-type: y mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
     }
+    /* hard clip each snap section so nothing leaks into adjacent section */
+    .snap-hero,
+    .snap-cards { overflow: hidden; }
 
     /* ── SNAP SECTIONS ── */
     .snap-hero {
       scroll-snap-align: start;
       scroll-snap-stop: always;
-      /* subtract sticky nav height so content is truly centred in remaining space */
-      height: calc(100dvh - var(--nav-h));  /* exact remaining space — no peek */
+      height: calc(100dvh - var(--nav-h));
+      overflow: hidden;  /* hard clip — cards never peek through */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -65,11 +68,13 @@
     .snap-cards {
       scroll-snap-align: start;
       scroll-snap-stop: always;
-      height: calc(100dvh - var(--nav-h));
-      display: flex;
-      flex-direction: column;
       position: relative;
       z-index: 2;
+      /* desktop: flex column so cards-track can fill remaining space */
+      display: flex;
+      flex-direction: column;
+      height: calc(100dvh - var(--nav-h));
+      overflow: hidden;
       /* enter animation */
       transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -80,7 +85,7 @@
 
     /* GRAIN canvas */
     #grain {
-      position: fixed; inset: 0; z-index: 0;
+      position: fixed; inset: 0; z-index: 0; /* below all content */
       pointer-events: none; width: 100%; height: 100%;
     }
 
@@ -89,7 +94,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.4rem 3rem;
       position: sticky; top: 0;
-      background: transparent; z-index: 200;
+      background: transparent; z-index: 300;
       transition: background 0.3s ease;
       border-bottom: 1px solid rgba(255,255,255,0.1);
       animation: fadeUp 0.6s ease 0s both;
@@ -204,24 +209,30 @@
     }
     .scroll-hint svg { width: 16px; height: 16px; fill: rgba(250,246,238,0.45); }
 
-    /* DESKTOP: 3+3 grid — fills available height */
+    /* DESKTOP: 3+3 grid — centred, fixed gap, 3:4 aspect */
     .cards-track {
       display: grid;
+      /* columns: equal width, driven by available space minus padding/gap */
       grid-template-columns: repeat(3, 1fr);
+      /* rows: equal height, driven by available height minus padding/gap */
       grid-template-rows: repeat(2, 1fr);
-      gap: 1rem;
-      padding: 1rem 8%;
-      /* fill the snap-cards height minus footer and scroll-hint */
-      height: calc(100dvh - var(--nav-h) - 80px - 48px); /* 80px footer approx, 48px hint */
+      gap: 1.2rem;
+      padding: 1.2rem 1.5rem;
+      flex: 1;
+      min-height: 0;
+      justify-items: center;
+      align-items: center;
     }
     /* hide scroll hint on desktop/tablet */
     .scroll-hint { display: none; }
 
     /* ── CARD ── */
     .cat-card {
-      width: 100%;
-      height: 100%;     /* fill grid cell on desktop */
-      aspect-ratio: unset;
+      /* height fills grid row; width = height × 3/4 via aspect-ratio */
+      height: 100%;
+      width: auto;
+      aspect-ratio: 3 / 4;
+      max-width: 100%;
       border-radius: 2rem;
       scroll-snap-align: start;
       position: relative;
@@ -376,21 +387,39 @@
 
     /* Tablet: still 3+3 grid */
     @media (max-width: 1024px) {
+      .snap-cards {
+        height: calc(100dvh - var(--nav-h));
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
       .cards-track {
         grid-template-columns: repeat(3, 1fr);
-        padding: 1rem 2.5rem 2rem;
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        flex: 1;
+        min-height: 0;
+        justify-items: center;
+        align-items: center;
       }
     }
 
     /* Mobile: horizontal scroll, 3% left margin */
     @media (max-width: 768px) {
       .page-header { padding: 3rem 1.5rem 1.5rem; }
-      .scroll-hint { display: flex; } /* show on mobile only */
+      .scroll-hint { display: flex; }
+      .snap-cards {
+        height: auto;          /* natural height on mobile */
+        overflow: visible;
+        display: block;
+        padding-top: 100px;
+      }
       .cards-track {
         display: flex;
         gap: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 2rem;
+        padding-top: 0;
+        padding-bottom: 1.5rem;
         padding-left: 3%;
         padding-right: 1rem;
         overflow-x: auto;
@@ -404,7 +433,7 @@
         flex-shrink: 0;
         width: 78vw;
         height: auto;
-        aspect-ratio: 3 / 4;  /* portrait ratio on mobile horizontal scroll */
+        aspect-ratio: 3 / 4;
       }
     }
 
@@ -471,6 +500,12 @@
     <!-- SNAP 2: CARDS -->
     <section class="snap-cards">
 
+      <div class="scroll-hint">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        desliza para explorar
+        <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </div>
+
     <div class="cards-track">
 
       <!-- 1. IA & Generativo -->
@@ -528,12 +563,6 @@
       </a>
 
     </div>
-
-      <div class="scroll-hint">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        desliza para explorar
-        <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      </div>
 
   <footer>
     <div class="footer-logo">
