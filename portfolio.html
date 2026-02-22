@@ -86,7 +86,7 @@
     }
     /* no transition on snap-cards — snap is instant */
     #grain-cards {
-      position: absolute; inset: 0; z-index: 0;
+      position: absolute; inset: 0; z-index: -1;
       pointer-events: none; width: 100%; height: 100%;
     }
 
@@ -166,6 +166,22 @@
       50%  { transform: translateY(-4px) rotate(-0.3deg); }
       75%  { transform: translateY(-10px) rotate(0.3deg); }
       100% { transform: translateY(0px) rotate(-0.4deg); }
+    }
+
+    @keyframes diamondSpin {
+      0%   { transform: rotate(0deg)   scale(1); }
+      50%  { transform: rotate(180deg) scale(1.08); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    .diamond {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 0;
+      animation: diamondSpin 6s linear infinite;
+      transform-origin: 50% 50%;
+      will-change: transform;
+      position: relative;
+      top: -0.05em;
     }
 
     .page-header h1 {
@@ -516,13 +532,13 @@
     <!-- SNAP 1: HERO -->
     <section class="snap-hero">
       <header class="page-header">
-        <h1>Portfolio ✦</h1>
-        <p>Seis disciplinas, un mismo punto de vista. Elige la que más te llame.</p>
+        <h1>Portfolio <span class="diamond">✦</span></h1>
+        <p>Spoiler: aquí dentro hay más de lo que esperas. Diseño, dirección, identidad, movimiento… el resultado de no quedarse quieta.</p>
       </header>
 
       <!-- scroll arrow -->
       <button class="scroll-arrow" id="scrollArrow" aria-label="Ver proyectos">
-        <span>Desliza o pulsa aquí</span>
+        <span>Desliza o pulsa para verlo</span>
         <div class="scroll-arrow-circle">
           <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
