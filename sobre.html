@@ -37,7 +37,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.2rem 3rem;
+      padding: 1.4rem 3rem;
       position: fixed;
       top: 0; left: 0; right: 0;
       background: transparent;
@@ -89,7 +89,7 @@
     /* Nav links */
     .nav-links {
       display: flex;
-      gap: 0.5rem;
+      gap: 2rem;
       list-style: none;
     }
 
@@ -224,6 +224,20 @@
       text-align: center;
       max-width: 640px;
       margin: 0 auto 2.5rem;
+    }
+
+    .cv-inline-link {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 2px solid var(--pink);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .cv-inline-link:hover {
+      color: var(--dark);
+      border-color: var(--red);
     }
 
     /* Yellow two-col block */
@@ -602,6 +616,51 @@
     }
 
     /* ── RESPONSIVE ──────────────────────────── */
+
+    /* TABLET */
+    @media (max-width: 1024px) {
+      nav#mainNav {
+        padding: 1.2rem 1.5rem;
+      }
+
+      .hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0; right: 0;
+        background: var(--red);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        list-style: none;
+        border-bottom: 1px solid rgba(0,0,0,0.07);
+        padding: 0.5rem 0 1.2rem;
+        z-index: 200;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        display: inline-block;
+        padding: 0.55rem 1.6rem;
+        font-size: 1.05rem;
+        border-radius: 9999px;
+        transition: color 0.2s, background 0.2s;
+        width: auto;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        color: var(--red);
+        background: var(--pink);
+      }
+
+      .nav-links li { width: 100%; text-align: center; }
+    }
+
+    /* MÓVIL */
     @media (max-width: 640px) {
       nav#mainNav { padding: 1.1rem 1.5rem; }
       .hamburger  { display: flex; }
@@ -692,7 +751,11 @@
       <h2 class="card-title">¿Quién hay detrás?</h2>
 
       <p class="card-intro">
-        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución.
+        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución. Todoterreno por naturaleza, resolutiva por necesidad.
+        <br><br>
+        Onubense de corazón, con raíces malagueñas también, que tener los pies entre dos provincias te enseña a adaptarte a todo, ¿no?
+        <br><br>
+        <a href="mailto:isacorreaur@gmail.com?subject=¡Hola Isa! Pásame ese CV (y dime qué café tomas ☕️)" class="cv-inline-link">Pídeme el CV</a>
       </p>
 
       <div class="yellow-block yellow-block--centered">
