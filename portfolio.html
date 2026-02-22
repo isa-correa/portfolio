@@ -35,35 +35,35 @@
 
     /* ── SNAP CONTAINER ── */
     .snap-wrap {
-      height: 100dvh;
+      height: calc(100dvh - var(--nav-h)); /* exact space below nav */
       overflow-y: scroll;
       overflow-x: hidden;
       scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
+      overscroll-behavior-y: none;
       -webkit-overflow-scrolling: touch;
     }
-    /* hard clip each snap section so nothing leaks into adjacent section */
+    /* hard clip — nothing leaks between sections */
     .snap-hero,
-    .snap-cards { overflow: hidden; }
+    .snap-cards {
+      overflow: hidden;
+      /* solid bg covers any subpixel gaps between snapped sections */
+      background: #6B8F47;
+    }
 
     /* ── SNAP SECTIONS ── */
     .snap-hero {
       scroll-snap-align: start;
       scroll-snap-stop: always;
-      height: calc(100dvh - var(--nav-h));
-      overflow: hidden;  /* hard clip — cards never peek through */
+      height: 100%; /* fills snap-wrap exactly */
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       z-index: 2;
-      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .snap-hero.out {
-      opacity: 0;
-      transform: scale(0.96) translateY(-20px);
-    }
+    /* no transition on snap-hero — snap is instant */
 
     .snap-cards {
       scroll-snap-align: start;
@@ -75,17 +75,12 @@
       flex-direction: column;
       height: calc(100dvh - var(--nav-h));
       overflow: hidden;
-      /* enter animation */
-      transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .snap-cards.entering {
-      opacity: 0;
-      transform: translateY(40px);
-    }
+    /* no transition on snap-cards — snap is instant */
 
     /* GRAIN canvas */
     #grain {
-      position: fixed; inset: 0; z-index: 0; /* below all content */
+      position: fixed; inset: 0; z-index: -1; /* behind all content */
       pointer-events: none; width: 100%; height: 100%;
     }
 
@@ -209,30 +204,29 @@
     }
     .scroll-hint svg { width: 16px; height: 16px; fill: rgba(250,246,238,0.45); }
 
-    /* DESKTOP: 3+3 grid — centred, fixed gap, 3:4 aspect */
+    /* DESKTOP: 3+3 grid — cards sized by height, centred, 2% gap */
     .cards-track {
       display: grid;
-      /* columns: equal width, driven by available space minus padding/gap */
-      grid-template-columns: repeat(3, 1fr);
-      /* rows: equal height, driven by available height minus padding/gap */
-      grid-template-rows: repeat(2, 1fr);
-      gap: 1.2rem;
-      padding: 1.2rem 1.5rem;
+      /* card width = height × 3/4, height set by JS via --card-h */
+      grid-template-columns: repeat(3, calc(var(--card-h, 200px) * 0.75));
+      grid-template-rows: repeat(2, var(--card-h, 200px));
+      gap: 2%;
       flex: 1;
       min-height: 0;
-      justify-items: center;
-      align-items: center;
+      /* centre the whole grid block */
+      justify-content: center;
+      align-content: center;
+      padding: 0;
     }
     /* hide scroll hint on desktop/tablet */
     .scroll-hint { display: none; }
 
     /* ── CARD ── */
     .cat-card {
-      /* height fills grid row; width = height × 3/4 via aspect-ratio */
+      width: 100%;
       height: 100%;
-      width: auto;
       aspect-ratio: 3 / 4;
-      max-width: 100%;
+      position: relative;
       border-radius: 2rem;
       scroll-snap-align: start;
       position: relative;
@@ -388,20 +382,20 @@
     /* Tablet: still 3+3 grid */
     @media (max-width: 1024px) {
       .snap-cards {
-        height: calc(100dvh - var(--nav-h));
+        height: 100%;
         display: flex;
         flex-direction: column;
         overflow: hidden;
       }
       .cards-track {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: 1rem;
-        padding: 1rem 1.2rem;
+        grid-template-columns: repeat(3, calc(var(--card-h, 180px) * 0.75));
+        grid-template-rows: repeat(2, var(--card-h, 180px));
+        gap: 2%;
         flex: 1;
         min-height: 0;
-        justify-items: center;
-        align-items: center;
+        justify-content: center;
+        align-content: center;
+        padding: 0;
       }
     }
 
@@ -462,7 +456,6 @@
 
 
 
-  <div class="snap-wrap" id="snapWrap">
 
   <nav>
     <a href="index.html" class="logo">
@@ -482,6 +475,7 @@
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
   </nav>
+<div class="snap-wrap" id="snapWrap">
 
     <!-- SNAP 1: HERO -->
     <section class="snap-hero">
@@ -637,6 +631,26 @@
     setNavHeight();
     window.addEventListener('resize', setNavHeight);
 
+    function setCardHeight() {
+      if (window.innerWidth <= 768) return; // mobile handles its own sizing
+      const snapCards = document.querySelector('.snap-cards');
+      const footer = document.querySelector('footer');
+      const track = document.querySelector('.cards-track');
+      if (!snapCards || !footer || !track) return;
+
+      const snapH = snapCards.getBoundingClientRect().height;
+      const footerH = footer.getBoundingClientRect().height;
+      const trackW = track.getBoundingClientRect().width;
+      const available_h = snapH - footerH;
+      const gap_px = trackW * 0.02; // 2% gap
+      const card_h = Math.floor((available_h - gap_px) / 2);
+
+      document.documentElement.style.setProperty('--card-h', card_h + 'px');
+    }
+    // Run after layout is painted
+    requestAnimationFrame(() => { setCardHeight(); });
+    window.addEventListener('resize', setCardHeight);
+
     snapWrap.addEventListener('scroll', () => {
       navEl.style.background = snapWrap.scrollTop > 10 ? '#6B8F47' : 'transparent';
     });
@@ -646,39 +660,31 @@
       document.querySelector('.snap-cards').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // Snap transition effect — hero fades/scales out, cards slide up dramatically
-    const heroSection  = document.querySelector('.snap-hero');
+    // Cards entrance animation on snap
     const cardsSection = document.querySelector('.snap-cards');
     const cards = document.querySelectorAll('.cat-card');
     let cardsAnimated = false;
 
-    // Pre-set cards as invisible
     cards.forEach(card => {
       card.style.opacity = '0';
-      card.style.transform = 'translateY(40px)';
+      card.style.transform = 'translateY(30px)';
     });
 
     const snapObs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.target === heroSection) {
-          // Hero: fade/shrink when scrolled past
-          heroSection.classList.toggle('out', !entry.isIntersecting);
-        }
         if (entry.target === cardsSection && entry.isIntersecting && !cardsAnimated) {
+          setCardHeight(); // recalculate now that section is visible
           cardsAnimated = true;
-          // Staggered card entrance with spring
           cards.forEach((card, i) => {
             setTimeout(() => {
-              card.style.transition = 'opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1)';
+              card.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
               card.style.opacity = '1';
               card.style.transform = 'translateY(0)';
-            }, i * 90);
+            }, i * 60);
           });
         }
       });
-    }, { threshold: 0.15 });
-
-    snapObs.observe(heroSection);
+    }, { threshold: 0.2 });
     snapObs.observe(cardsSection);
 
     // Hamburger
