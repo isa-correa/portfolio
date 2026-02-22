@@ -156,6 +156,53 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+    /* LANG SWITCHER */
+    .lang-switcher {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--dark);
+      text-decoration: none;
+      border: 1.5px solid var(--dark);
+      border-radius: 9999px;
+      padding: 0.28rem 0.75rem;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .lang-switcher:hover {
+      color: var(--cream);
+      background: var(--dark);
+    }
+
+    .lang-switcher:hover .lang-active { color: var(--cream); }
+    .lang-switcher:hover .lang-switcher-sep { color: var(--cream); }
+
+    .lang-switcher-sep { opacity: 0.35; }
+
+    .lang-active {
+      font-weight: 800;
+      opacity: 1;
+    }
+
+    .lang-switcher-es:not(.lang-active),
+    .lang-switcher-en:not(.lang-active) {
+      opacity: 0.35;
+    }
+
+    /* MOBILE: show only active language in nav switcher */
+    @media (max-width: 1024px) {
+      .lang-switcher-sep,
+      .lang-switcher-es:not(.lang-active),
+      .lang-switcher-en:not(.lang-active) {
+        display: none;
+      }
+    }
+
     /* PHOTO BAR */
     .photo-bar {
       position: sticky;
@@ -259,9 +306,76 @@
       line-height: 1.75;
       color: #555;
       max-width: 580px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 2rem;
       animation: fadeUp 0.8s 0.5s ease both;
     }
+
+    /* LANG SWITCH BLOCK */
+    .lang-switch-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin: 0 auto 3rem;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+
+    .lang-switch-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #888;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin: 0;
+      padding: 0;
+    }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      cursor: none;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .lang-toggle-track {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: var(--dark);
+      border-radius: 9999px;
+      transition: background 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .lang-toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      line-height: 1;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    /* ES activo: bandera ES a la izquierda */
+    .lang-toggle.es-active .lang-toggle-thumb { transform: translateX(0); }
+    .lang-toggle.es-active .lang-toggle-es { opacity: 1; font-weight: 800; }
+    .lang-toggle.es-active .lang-toggle-en { opacity: 0.35; }
+    /* EN activo: bandera GB a la derecha */
+    .lang-toggle.en-active .lang-toggle-thumb { transform: translateX(30px); }
+    .lang-toggle.en-active .lang-toggle-en { opacity: 1; font-weight: 800; }
+    .lang-toggle.en-active .lang-toggle-es { opacity: 0.35; }
 
     @keyframes wiggle1 {
       0%   { transform: translate(0px, 0px) rotate(0deg); }
@@ -393,7 +507,11 @@
     }
 
     /* CÍRCULOS DECORATIVOS DESKTOP/TABLET */
-    @media (min-width: 641px) {
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .deco-circle { display: none; }
+    }
+
+    @media (min-width: 1025px) {
       .circles { position: relative; overflow: visible; }
 
       .deco-circle {
@@ -615,6 +733,13 @@
       border-color: var(--red);
     }
 
+    /* Desktop: nav-links en medio, lang-switcher al extremo derecho */
+    @media (min-width: 1025px) {
+      nav { gap: 0; }
+      .nav-links { flex: 1; justify-content: flex-end; margin-right: 1.5rem; }
+      .lang-switcher { margin-left: 0; }
+    }
+
     /* RESPONSIVE */
     @media (max-width: 1024px) {
       nav {
@@ -622,6 +747,22 @@
         position: sticky;
         top: 0;
         animation: fadeUp 0.6s ease 0s both;
+      }
+
+      /* En móvil/tablet: logo | lang-switcher | hamburger */
+      nav { display: flex; align-items: center; }
+
+      .logo { order: 1; }
+
+      .lang-switcher {
+        order: 2;
+        margin-left: auto;
+        margin-right: 0.75rem;
+      }
+
+      .hamburger {
+        order: 3;
+        margin-left: 0;
       }
 
       .hamburger { display: flex; }
@@ -705,6 +846,11 @@
       <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="contacto.html">Contacto</a></li>
     </ul>
+    <a href="EN/index.html" class="lang-switcher" aria-label="Switch to English">
+      <span class="lang-switcher-es lang-active">ES</span>
+      <span class="lang-switcher-sep">/</span>
+      <span class="lang-switcher-en">EN</span>
+    </a>
   </nav>
 
   <!-- PHOTO BAR MÓVIL -->
@@ -724,6 +870,15 @@
       Organizar el caos es lo primero que hago cada mañana para que al final del día todo luzca increíble y funcione. Mi nuevo superpoder es domar la IA para <em>hacer magia:</em> desde pasar de visual a código o ilustrar, hasta marcarme shootings y vídeos que antes dábamos por imposibles.<br/><br/>
       Más de 6 años navegando entre píxeles y campañas internacionales dan para mucho... y aquí sigo, <em>fluyendo</em>.
     </p>
+
+    <div class="lang-switch-block">
+      <p class="lang-switch-label">Would you like to switch the language?</p>
+      <a href="EN/index.html" class="lang-toggle" id="langToggle">
+        <span class="lang-toggle-track">
+          <span class="lang-toggle-thumb">🇪🇸</span>
+        </span>
+      </a>
+    </div>
     <div class="circles" id="circlesBlock">
       <!-- Círculos decorativos móvil izquierda -->
       <div class="deco-circle deco-left deco-l1"></div>
@@ -932,12 +1087,15 @@
       requestAnimationFrame(animate);
     })();
 
-    document.querySelectorAll('a, button').forEach(el => {
+    document.querySelectorAll('a, button, .lang-toggle').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
-  </script>
 
+    // Lang toggle — ES version
+    const langToggle = document.getElementById('langToggle');
+    if (langToggle) langToggle.classList.add('es-active');
+  </script>
 
   <script>
     // Animated grain
