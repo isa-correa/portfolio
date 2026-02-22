@@ -20,15 +20,23 @@
       --dark:   #2E2E2E;
     }
 
-    html { scroll-behavior: smooth; }
 
-    html, body {
+    html {
       height: 100%;
-      overflow: hidden; /* snap container handles scroll */
+      overflow: hidden;
+      /* gradient on html so it shows behind nav (which is outside snap-wrap) */
+      background-color: hsla(85,28%,47%,1);
+      background-image:
+        radial-gradient(circle at 89% 17%, hsla(197,36%,75%,1) 4.7%, transparent 60%),
+        radial-gradient(circle at 17% 77%, hsla(85,28%,46%,1) 4.7%, transparent 88%);
+      background-size: 200% 200%;
+      animation: gradientShift 14s ease-in-out infinite;
     }
 
     body {
-      background: #6B8F47;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
       font-family: 'Nunito', sans-serif;
       color: var(--cream);
     }
@@ -46,8 +54,6 @@
     .snap-hero,
     .snap-cards {
       overflow: hidden;
-      /* solid bg covers any subpixel gaps between snapped sections */
-      background: #6B8F47;
     }
 
     /* ── SNAP SECTIONS ── */
@@ -62,10 +68,7 @@
       justify-content: center;
       position: relative;
       z-index: 2;
-      background-color: hsla(85,28%,47%,1);
-      background-image: radial-gradient(circle at 18% 75%, hsla(197,36%,75%,1) 10%, transparent 88%);
-      background-size: 200% 200%;
-      animation: gradientShift 12s ease-in-out infinite;
+      background: transparent;
     }
     /* no transition on snap-hero — snap is instant */
 
@@ -74,13 +77,18 @@
       scroll-snap-stop: always;
       position: relative;
       z-index: 2;
-      /* desktop: flex column so cards-track can fill remaining space */
+      isolation: isolate;
       display: flex;
       flex-direction: column;
       height: calc(100dvh - var(--nav-h));
       overflow: hidden;
+      background: #6B8F47; /* solid so gradient only shows in hero */
     }
     /* no transition on snap-cards — snap is instant */
+    #grain-cards {
+      position: absolute; inset: 0; z-index: 0;
+      pointer-events: none; width: 100%; height: 100%;
+    }
 
     /* GRAIN canvas */
     #grain {
@@ -93,9 +101,10 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.4rem 3rem;
       position: sticky; top: 0;
-      background: transparent; z-index: 300;
+      background: transparent;
+      z-index: 300;
       transition: background 0.3s ease;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       animation: fadeUp 0.6s ease 0s both;
     }
     .logo {
@@ -176,10 +185,10 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes gradientShift {
-      0%   { background-position: 18% 75%; }
-      33%  { background-position: 80% 20%; }
-      66%  { background-position: 10% 30%; }
-      100% { background-position: 18% 75%; }
+      0%   { background-position: 89% 17%, 17% 77%; }
+      33%  { background-position: 70% 40%, 30% 60%; }
+      66%  { background-position: 20% 80%, 80% 20%; }
+      100% { background-position: 89% 17%, 17% 77%; }
     }
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
@@ -188,7 +197,7 @@
 
     /* scroll arrow */
     .scroll-arrow {
-      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
       cursor: none; background: none; border: none;
       color: rgba(250,246,238,0.5);
       font-family: 'Nunito', sans-serif; font-size: 0.72rem;
@@ -198,10 +207,24 @@
       margin-top: 2.5rem; /* space below the description text */
     }
     .scroll-arrow:hover { color: rgba(250,246,238,0.9); }
+    @keyframes blobMorph {
+      0%   { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+      20%  { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+      40%  { border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
+      60%  { border-radius: 55% 45% 65% 35% / 40% 60% 45% 55%; }
+      80%  { border-radius: 40% 60% 50% 50% / 55% 45% 60% 40%; }
+      100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+    }
+
+    .scroll-arrow-circle {
+      width: 52px; height: 52px;
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      animation: blobMorph 4s ease-in-out infinite, floatWiggle 5s ease-in-out 0.3s infinite;
+    }
     .scroll-arrow svg {
-      width: 28px; height: 28px;
-      fill: none; stroke: currentColor; stroke-width: 2;
-      animation: bounce 1.8s ease-in-out infinite;
+      width: 22px; height: 22px;
+      fill: none; stroke: var(--dark); stroke-width: 2.5;
     }
 
     /* ── SCROLL SECTION ── */
@@ -220,10 +243,9 @@
       /* card width = height × 3/4, height set by JS via --card-h */
       grid-template-columns: repeat(3, calc(var(--card-h, 200px) * 0.75));
       grid-template-rows: repeat(2, var(--card-h, 200px));
-      gap: 2%;
+      gap: 1%;
       flex: 1;
       min-height: 0;
-      /* centre the whole grid block */
       justify-content: center;
       align-content: center;
       padding: 0;
@@ -237,9 +259,9 @@
       height: 100%;
       aspect-ratio: 3 / 4;
       position: relative;
+      z-index: 10; /* always above all grain layers */
       border-radius: 2rem;
       scroll-snap-align: start;
-      position: relative;
       text-decoration: none;
       overflow: hidden;        /* image fills entire card, no frame */
       background: var(--yellow);
@@ -400,7 +422,7 @@
       .cards-track {
         grid-template-columns: repeat(3, calc(var(--card-h, 180px) * 0.75));
         grid-template-rows: repeat(2, var(--card-h, 180px));
-        gap: 2%;
+        gap: 1%;
         flex: 1;
         min-height: 0;
         justify-content: center;
@@ -424,7 +446,8 @@
       .hamburger { display: flex; }
       .nav-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
-        background: #6B8F47; flex-direction: column; align-items: center;
+        background: rgba(107,143,71,0.25); backdrop-filter: blur(24px) saturate(1.5); -webkit-backdrop-filter: blur(24px) saturate(1.5);
+        flex-direction: column; align-items: center;
         gap: 0; list-style: none;
         border-bottom: 1px solid rgba(255,255,255,0.08);
         padding: 0.5rem 0 1.2rem; z-index: 200;
@@ -500,7 +523,9 @@
       <!-- scroll arrow -->
       <button class="scroll-arrow" id="scrollArrow" aria-label="Ver proyectos">
         <span>Desliza o pulsa aquí</span>
-        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        <div class="scroll-arrow-circle">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </button>
     </section>
 
@@ -598,6 +623,7 @@
     </div>
     <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
   </footer>
+    <canvas id="grain-cards"></canvas>
     </section>
 
   </div><!-- /snap-wrap -->
@@ -655,7 +681,7 @@
       const footerH = footer.getBoundingClientRect().height;
       const trackW = track.getBoundingClientRect().width;
       const available_h = snapH - footerH;
-      const gap_px = trackW * 0.02; // 2% gap
+      const gap_px = trackW * 0.01; // 1% gap
       const card_h = Math.floor((available_h - gap_px) / 2);
 
       document.documentElement.style.setProperty('--card-h', card_h + 'px');
@@ -665,7 +691,16 @@
     window.addEventListener('resize', setCardHeight);
 
     snapWrap.addEventListener('scroll', () => {
-      navEl.style.background = snapWrap.scrollTop > 10 ? '#6B8F47' : 'transparent';
+      const hero = document.querySelector('.snap-hero');
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      // if hero is mostly scrolled past, we're on cards section
+      if (heroBottom < snapWrap.getBoundingClientRect().height * 0.3) {
+        navEl.style.background = '#6B8F47';
+        navEl.style.backdropFilter = 'none';
+      } else {
+        navEl.style.background = 'transparent';
+        navEl.style.backdropFilter = 'none';
+      }
     });
 
     // Arrow click → scroll to cards section
@@ -729,6 +764,35 @@
 
   <script>
     /* Animated grain — canvas with random alpha pixels over green bg */
+    // Grain for snap-cards section
+    (function() {
+      const canvas = document.getElementById('grain-cards');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      let frame = 0;
+      (function tick() {
+        frame++;
+        if (frame % 3 === 0) {
+          const w = canvas.width, h = canvas.height;
+          const img = ctx.createImageData(w, h);
+          const d = img.data;
+          for (let i = 0; i < d.length; i += 4) {
+            const v = Math.random() * 255 | 0;
+            d[i] = d[i+1] = d[i+2] = v;
+            d[i+3] = Math.random() * 22 | 0;
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        requestAnimationFrame(tick);
+      })();
+    })();
+
     (function() {
       const canvas = document.getElementById('grain');
       const ctx = canvas.getContext('2d');
