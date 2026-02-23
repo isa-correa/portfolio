@@ -143,10 +143,15 @@
       padding: 0.35rem 0.9rem; border-radius: 9999px;
       transition: color 0.2s, background 0.2s;
     }
-    /* Hero (fondo verde): hover y activo → fondo crema, letra verde */
-    .nav-links a:hover { color: var(--green); background: var(--cream); }
+    /* Hero (fondo verde): color base crema, hover → fondo crema, letra verde */
+    .nav-links a[data-section="green"],
+    .nav-links a:not([data-section]) { color: var(--cream); }
+    .nav-links a[data-section="green"]:hover,
+    .nav-links a:not([data-section]):hover { color: var(--green); background: var(--cream); }
     .nav-links a.active { color: var(--green) !important; background: var(--cream) !important; }
-    /* Segunda card (fondo crema): hover → fondo rojo, letra crema; activo → rojo */
+    /* Segunda card (fondo crema): color base oscuro, hover → fondo rojo, letra crema; activo → rojo */
+    .nav-links a[data-section="cream"] { color: var(--dark); }
+    nav.on-cream .nav-links a[data-section="cream"]:not(.active):hover,
     nav.on-cream .nav-links a:not(.active):hover { background: var(--red) !important; color: var(--cream) !important; }
     nav.on-cream .nav-links a.active { color: var(--cream) !important; background: var(--red) !important; }
 
@@ -295,7 +300,7 @@
       min-height: 0; min-width: 0;
       transition: transform 0.35s ease, opacity 0.35s ease;
     }
-    .proj-item.hidden { opacity: 0; pointer-events: none; display: none; }
+    .proj-item.hidden { opacity: 0; pointer-events: none; }
     .proj-item:hover { transform: translateY(-3px); }
 
     .proj-img {
@@ -709,9 +714,9 @@
         s.style.background = onCards ? 'var(--dark)' : 'var(--cream)';
       });
 
-      // links: no-activos cambian de color (activo mantiene rojo)
+      // links: no-activos cambian de color según sección
       navEl.querySelectorAll('.nav-links a:not(.active)').forEach(a => {
-        a.style.color = onCards ? 'var(--dark)' : 'var(--cream)';
+        a.dataset.section = onCards ? 'cream' : 'green';
       });
     });
 
@@ -737,10 +742,15 @@
           if (show) {
             item.style.display = '';
             item.style.transitionDelay = `${i * 0.04}s`;
-            requestAnimationFrame(() => item.classList.remove('hidden'));
+            // double rAF ensures display change is painted before transition
+            requestAnimationFrame(() => requestAnimationFrame(() => item.classList.remove('hidden')));
           } else {
             item.style.transitionDelay = '0s';
             item.classList.add('hidden');
+            // ensure display:none after transition ends to prevent ghost touch targets
+            item.addEventListener('transitionend', () => {
+              if (item.classList.contains('hidden')) item.style.display = 'none';
+            }, { once: true });
           }
         });
       });
