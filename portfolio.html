@@ -740,17 +740,15 @@
           const cats = item.dataset.cat.split(' ');
           const show = filter === 'all' || cats.includes(filter);
           if (show) {
-            item.style.display = '';
+            item.style.display = 'block';
             item.style.transitionDelay = `${i * 0.04}s`;
-            // double rAF ensures display change is painted before transition
-            requestAnimationFrame(() => requestAnimationFrame(() => item.classList.remove('hidden')));
+            requestAnimationFrame(() => item.classList.remove('hidden'));
           } else {
             item.style.transitionDelay = '0s';
             item.classList.add('hidden');
-            // ensure display:none after transition ends to prevent ghost touch targets
-            item.addEventListener('transitionend', () => {
+            setTimeout(() => {
               if (item.classList.contains('hidden')) item.style.display = 'none';
-            }, { once: true });
+            }, 400);
           }
         });
       });
