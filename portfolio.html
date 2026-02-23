@@ -82,12 +82,12 @@
       flex-direction: column;
       height: calc(100dvh - var(--nav-h));
       overflow: hidden;
-      background: #6B8F47; /* solid so gradient only shows in hero */
+      background: var(--cream); /* estética home — crema */
     }
-    /* no transition on snap-cards — snap is instant */
     #grain-cards {
-      position: absolute; inset: 0; z-index: -1;
+      position: absolute; inset: 0; z-index: 10;
       pointer-events: none; width: 100%; height: 100%;
+      opacity: 0.22; mix-blend-mode: multiply;
     }
 
     /* GRAIN canvas */
@@ -143,7 +143,12 @@
       padding: 0.35rem 0.9rem; border-radius: 9999px;
       transition: color 0.2s, background 0.2s;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--green); background: var(--cream); }
+    /* Hero (fondo verde): hover y activo → fondo crema, letra verde */
+    .nav-links a:hover { color: var(--green); background: var(--cream); }
+    .nav-links a.active { color: var(--green) !important; background: var(--cream) !important; }
+    /* Segunda card (fondo crema): hover → fondo rojo, letra crema; activo → rojo */
+    nav.on-cream .nav-links a:not(.active):hover { background: var(--red) !important; color: var(--cream) !important; }
+    nav.on-cream .nav-links a.active { color: var(--cream) !important; background: var(--red) !important; }
 
     .hamburger {
       display: none; flex-direction: column; justify-content: center;
@@ -243,141 +248,107 @@
       fill: none; stroke: var(--dark); stroke-width: 2.5;
     }
 
-    /* ── SCROLL SECTION ── */
-    /* .snap-cards handles padding */
-    .scroll-hint {
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      font-family: 'Nunito', sans-serif; font-size: 0.8rem;
-      color: rgba(250,246,238,0.45); letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 1.5rem; animation: fadeUp 0.7s 0.25s ease both;
-    }
-    .scroll-hint svg { width: 16px; height: 16px; fill: rgba(250,246,238,0.45); }
-
-    /* DESKTOP: 3+3 grid — cards sized by height, centred, 2% gap */
-    .cards-track {
-      display: grid;
-      /* card width = height × 3/4, height set by JS via --card-h */
-      grid-template-columns: repeat(3, calc(var(--card-h, 200px) * 0.75));
-      grid-template-rows: repeat(2, var(--card-h, 200px));
-      gap: 1%;
-      flex: 1;
-      min-height: 0;
-      justify-content: center;
-      align-content: center;
-      padding: 0;
-    }
-    /* hide scroll hint on desktop/tablet */
+    /* ── SCROLL HINT — eliminado ── */
     .scroll-hint { display: none; }
 
-    /* ── CARD ── */
-    .cat-card {
-      width: 100%;
-      height: 100%;
-      aspect-ratio: 3 / 4;
-      position: relative;
-      z-index: 10; /* always above all grain layers */
-      border-radius: 2rem;
-      scroll-snap-align: start;
-      text-decoration: none;
-      overflow: hidden;        /* image fills entire card, no frame */
-      background: var(--yellow);
-      cursor: none;
-      opacity: 0; /* JS animates in on scroll-snap entry */
-      transition: transform 0.35s ease;
+    /* ── FILTROS ── */
+    .filters-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.5rem; flex-wrap: wrap;
+      padding: 1.2rem 1rem 0.8rem;   /* sin margen lateral en desktop */
+      flex-shrink: 0; z-index: 2; position: relative;
+      animation: fadeUp 0.5s 0.1s ease both;
     }
+    .filter-btn {
+      font-family: 'Nunito', sans-serif; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(46,46,46,0.45);
+      background: transparent;
+      border: 1.5px solid rgba(46,46,46,0.18);
+      border-radius: 9999px; padding: 0.38rem 1.05rem;
+      cursor: none;
+      transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .filter-btn:hover { color: var(--cream); background: var(--dark); border-color: var(--dark); }
+    .filter-btn.active { color: var(--cream); background: var(--red); border-color: var(--red); }
+    .filter-btn.pop { transform: scale(0.93); }
 
+    /* ── GRID: 5 cols × 2 filas, caben exactas en pantalla ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      /* 2 filas que llenan el espacio disponible entre filtros y footer */
+      grid-template-rows: repeat(2, 1fr);
+      gap: 10px;
+      flex: 1; min-height: 0;
+      overflow: hidden;          /* sin scroll: todo cabe */
+      padding: 0.5rem 1.2rem 0.5rem;
+      position: relative; z-index: 2;
+    }
+    .projects-grid::-webkit-scrollbar { display: none; }
 
+    .proj-item {
+      display: block;
+      position: relative; overflow: hidden;
+      border-radius: 1.2rem; text-decoration: none;
+      background: #e8e3da;
+      min-height: 0; min-width: 0;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+    .proj-item.hidden { opacity: 0; pointer-events: none; display: none; }
+    .proj-item:hover { transform: translateY(-3px); }
 
-
-
-
-
-    /* IMAGE — fills the whole card, no padding/frame */
-    .cat-img {
+    .proj-img {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      display: block;
-      background: var(--yellow);
-      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      object-fit: cover; object-position: center; display: block;
+      background: #ddd8cf;
+      transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    .cat-card:hover .cat-img { transform: scale(1.07); }
+    .proj-item:hover .proj-img { transform: scale(1.05); }
 
-    /* ICON — glass circle with colour tint, bottom-right overlay */
-    .cat-icon {
-      position: absolute;
-      bottom: 1.1rem; right: 1.1rem;
-      width: 52px; height: 52px; border-radius: 50%;
-      border: 1px solid rgba(250,246,238,0.35);
-      cursor: none;
-      display: flex; align-items: center; justify-content: center;
-      /* glass base */
-      backdrop-filter: blur(12px) saturate(1.4);
-      -webkit-backdrop-filter: blur(12px) saturate(1.4);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease;
-      z-index: 4;
+    .proj-overlay {
+      position: absolute; inset: 0; border-radius: 1.2rem;
+      background: linear-gradient(to top, rgba(46,46,46,0.68) 0%, transparent 55%);
+      pointer-events: none;
     }
-    /* cream icon, not white */
-    .cat-icon svg { width: 22px; height: 22px; fill: var(--cream); transition: fill 0.3s ease; }
-
-    /* hover → enlarge with spring */
-    .cat-icon:hover  { transform: scale(1.28); }
-    .cat-icon:active { transform: scale(1.28); } /* mobile tap = same grow effect */
-    /* click → squish, JS removes .pop after 150ms */
-    .cat-icon.pop   { transform: scale(0.9); transition: transform 0.15s ease; }
-
-    /* icon tints: pink, red, green, yellow, blue, green — no black */
-    .cat-card:nth-child(1) .cat-icon { background: rgba(244,167,185,0.50); } /* pink */
-    .cat-card:nth-child(2) .cat-icon { background: rgba(201,74,63,0.50);   } /* red */
-    .cat-card:nth-child(3) .cat-icon { background: rgba(107,143,71,0.55);  } /* green */
-    .cat-card:nth-child(4) .cat-icon { background: rgba(245,200,66,0.55);  } /* yellow */
-    .cat-card:nth-child(5) .cat-icon { background: rgba(146,184,204,0.55); } /* blue */
-    .cat-card:nth-child(6) .cat-icon { background: rgba(107,143,71,0.55);  } /* green */
-    /* all svgs cream — tints are light enough */
-    .cat-card:nth-child(4) .cat-icon svg { fill: var(--dark); } /* yellow needs dark */
-
-    /* colour cycle — pink, red, green, yellow, blue, green */
-    .cat-icon.cc0 { background: rgba(244,167,185,0.55) !important; }
-    .cat-icon.cc1 { background: rgba(201,74,63,0.55)   !important; }
-    .cat-icon.cc2 { background: rgba(107,143,71,0.60)  !important; }
-    .cat-icon.cc3 { background: rgba(245,200,66,0.60)  !important; }
-    .cat-icon.cc4 { background: rgba(146,184,204,0.60) !important; }
-    .cat-icon.cc5 { background: rgba(107,143,71,0.60)  !important; }
-    .cat-icon.cc3 svg { fill: var(--dark) !important; }
-    .cat-icon.cc0 svg, .cat-icon.cc1 svg, .cat-icon.cc2 svg,
-    .cat-icon.cc4 svg, .cat-icon.cc5 svg { fill: var(--cream) !important; }
-
-    /* TAG — glass, top-left */
+    .proj-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1rem 1.2rem 1.1rem; z-index: 2;
+    }
+    .proj-tags-row { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.45rem; }
     .cat-tag {
-      position: absolute; top: 1.1rem; left: 1.1rem;
-      font-family: 'Nunito', sans-serif; font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.16em; text-transform: uppercase;
+      font-family: 'Nunito', sans-serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
       background: rgba(250,246,238,0.18);
       backdrop-filter: blur(10px) saturate(1.5);
       -webkit-backdrop-filter: blur(10px) saturate(1.5);
       color: var(--cream); border-radius: 9999px;
-      padding: 0.38rem 1rem;
+      padding: 0.28rem 0.8rem;
       border: 1px solid rgba(250,246,238,0.3);
-      z-index: 4; pointer-events: none;
+      display: inline-block; pointer-events: none;
     }
+    .proj-info h3 {
+      font-family: 'Kiwi Maru', serif; font-size: 0.95rem;
+      font-weight: 400; color: var(--cream); line-height: 1.25;
+    }
+    .proj-info p { font-size: 0.72rem; color: rgba(250,246,238,0.6); margin-top: 0.18rem; line-height: 1.4; }
 
-    .cat-card:hover { transform: translateY(-4px); }
-
-    /* ── FOOTER ── */
+    /* ── FOOTER — estética home (crema, texto oscuro) ── */
     footer {
       position: relative; z-index: 2;
-      margin-top: auto; /* push to bottom of snap-cards flex column */
+      margin-top: auto;
       padding: 1.2rem 3rem;
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 0.75rem;
       font-family: 'Nunito', sans-serif;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(46,46,46,0.08);
       flex-shrink: 0;
+      background: var(--cream);
     }
     .footer-logo {
-      font-family: 'Kiwi Maru', serif; font-size: 1.6rem; font-weight: 500;
-      color: var(--cream); display: flex; align-items: flex-start; gap: 0.2rem;
+      font-family: 'Kiwi Maru', serif; font-size: 1.4rem; font-weight: 500;
+      color: var(--dark); display: flex; align-items: flex-start; gap: 0.45rem;
     }
     .footer-dot {
       width: 17px; height: 17px; border-radius: 50%;
@@ -386,28 +357,28 @@
     }
     footer nav { display: flex; align-items: center; background: transparent; border: none; padding: 0; position: static; }
     footer nav a {
-      color: rgba(250,246,238,0.7); text-decoration: none;
+      color: rgba(46,46,46,0.5); text-decoration: none;
       font-size: 0.9rem; letter-spacing: 0.02em;
-      transition: color 0.2s; padding: 0 0.4rem;
+      transition: color 0.2s; padding: 0 0.5rem;
+      border-radius: 9999px;
     }
-    footer nav a + a { border-left: 1px solid rgba(255,255,255,0.15); }
-    footer nav a:hover { color: var(--cream); }
-    .footer-copy { color: rgba(250,246,238,0.4); font-size: 13px; }
+    footer nav a + a { border-left: 1px solid rgba(46,46,46,0.1); }
+    footer nav a:hover { color: var(--red); background: none; }
+    .footer-copy { color: rgba(46,46,46,0.35); font-size: 13px; }
     .footer-social { display: flex; gap: 0.75rem; align-items: center; }
     .footer-social a {
       width: 38px; height: 38px; border-radius: 50%;
-      background: var(--blue);
+      background: var(--dark);
       display: flex; align-items: center; justify-content: center;
       transition: transform 0.25s ease, background 0.25s ease; flex-shrink: 0;
     }
-    .footer-social a:hover,
-    .footer-social a:active { background: var(--pink); transform: translateY(-3px) scale(1.08); }
+    .footer-social a:hover { background: var(--red); transform: translateY(-3px) scale(1.08); }
     .footer-social a svg { width: 18px; height: 18px; fill: var(--cream); }
 
     .toast {
       position: fixed; bottom: 2rem; left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: var(--dark); color: #fff;
+      background: var(--dark); color: var(--cream);
       padding: 0.6rem 1.4rem; border-radius: 2rem;
       font-size: 0.85rem; font-family: 'Nunito', sans-serif;
       opacity: 0; pointer-events: none;
@@ -415,92 +386,63 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* cursor — circunferencia con borde */
     #cursor {
       position: fixed; top: 0; left: 0;
-      width: 36px; height: 36px;
-      border: 2px solid var(--cream); border-radius: 50%;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: transparent;
+      border: 2px solid var(--dark);
       pointer-events: none; z-index: 9999;
       transform: translate(-50%,-50%);
-      transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+      mix-blend-mode: multiply;
+      transition: width 0.2s ease, height 0.2s ease;
     }
-    #cursor.hover { width: 56px; height: 56px; background: rgba(250,246,238,0.1); }
+    #cursor.hover { width: 40px; height: 40px; }
+
 
     /* ── RESPONSIVE ── */
-
-    /* Tablet: still 3+3 grid */
+    /* Tablet: 3 cols × filas que llenan pantalla */
     @media (max-width: 1024px) {
-      .snap-cards {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+      .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr); /* muestra 6 cards sin scroll */
+        padding-left: 1.2rem; padding-right: 1.2rem;
         overflow: hidden;
       }
-      .cards-track {
-        grid-template-columns: repeat(3, calc(var(--card-h, 180px) * 0.75));
-        grid-template-rows: repeat(2, var(--card-h, 180px));
-        gap: 1%;
-        flex: 1;
-        min-height: 0;
-        justify-content: center;
-        align-content: center;
-        padding: 0;
-      }
+      .filters-row { padding-left: 5%; padding-right: 5%; }
     }
-
-    /* Mobile: horizontal scroll, 3% left margin */
+    /* Mobile: 2 cols, scroll libre */
     @media (max-width: 768px) {
       .page-header { padding: 3rem 1.5rem 1.5rem; }
-      .scroll-hint { display: flex; }
-      .snap-cards {
-        height: auto;
-        overflow: visible;
-        display: block;
-        padding-top: 50px;
-      }
+      .snap-cards { height: auto; overflow: visible; display: block; padding-top: 50px; }
       nav { padding: 1.2rem 1.5rem; }
       :root { --nav-h: 56px; }
       .hamburger { display: flex; }
       .nav-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
-        background: rgba(107,143,71,0.25); backdrop-filter: blur(24px) saturate(1.5); -webkit-backdrop-filter: blur(24px) saturate(1.5);
+        background: rgba(250,246,238,0.95); backdrop-filter: blur(24px);
         flex-direction: column; align-items: center;
         gap: 0; list-style: none;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
+        border-bottom: 1px solid rgba(46,46,46,0.08);
         padding: 0.5rem 0 1.2rem; z-index: 200;
       }
       .nav-links.open { display: flex; }
-      .nav-links a { display: inline-block; padding: 0.55rem 1.6rem; font-size: 1.05rem; border-radius: 9999px; }
+      .nav-links a { display: inline-block; padding: 0.55rem 1.6rem; font-size: 1.05rem; border-radius: 9999px; color: var(--dark); }
       .nav-links li { width: 100%; text-align: center; }
-      .cards-track {
-        display: flex;
-        gap: 1rem;
-        padding-top: 0;
-        padding-bottom: 1.5rem;
-        padding-left: 3%;
-        padding-right: 1rem;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scroll-padding-left: 3%;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: none; /* scroll libre en móvil */
+        overflow-y: auto; overflow-x: hidden;
+        padding: 0.5rem 4% 1rem; gap: 8px;
       }
-      .cards-track::-webkit-scrollbar { display: none; }
-      .cat-card {
-        flex-shrink: 0;
-        width: 78vw;
-        height: auto;
-        aspect-ratio: 3 / 4;
-      }
+      .proj-item { aspect-ratio: 3 / 4; } /* restaurar ratio en móvil con scroll */
+      .filters-row { padding: 0.8rem 5% 0.6rem; gap: 0.35rem; }
+      .filter-btn { font-size: 0.65rem; padding: 0.3rem 0.75rem; }
+      footer { padding: 1.2rem 1.5rem; flex-direction: column; align-items: center; text-align: center; }
+      footer nav { flex-wrap: wrap; justify-content: center; }
     }
-
     @media (max-width: 640px) {
-      nav { padding: 1.2rem 1.5rem; }
-      :root { --nav-h: 56px; }
-      .nav-links li { width: 100%; text-align: center; }
       .page-header h1 { font-size: 2.2rem; }
-      footer { flex-direction: column; align-items: center; text-align: center; padding: 2rem 1.5rem; }
-      footer nav { flex-wrap: nowrap; justify-content: center; width: 100%; }
-      footer nav a { flex: 1; }
     }
   </style>
 </head>
@@ -545,72 +487,150 @@
       </button>
     </section>
 
-    <!-- SNAP 2: CARDS -->
+    <!-- SNAP 2: PROYECTOS CON FILTROS -->
     <section class="snap-cards">
+      <canvas id="grain-cards"></canvas>
 
-      <div class="scroll-hint">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        desliza para explorar
-        <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <div class="filters-row">
+        <button class="filter-btn active" data-filter="all">Todo</button>
+        <button class="filter-btn" data-filter="ia">IA</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+        <button class="filter-btn" data-filter="motion">Motion & Vídeo</button>
+        <button class="filter-btn" data-filter="uxui">UX UI</button>
+        <button class="filter-btn" data-filter="foto">Fotografía</button>
+        <button class="filter-btn" data-filter="ilustracion">Ilustración</button>
       </div>
 
-    <div class="cards-track">
+      <!-- data-cat: categorías separadas por espacio, ej: data-cat="ia branding" -->
+      <div class="projects-grid" id="projectsGrid">
 
-      <!-- 1. IA & Generativo -->
-      <a href="portfolio-ia.html" class="cat-card">
-        <img class="cat-img" src="" alt="IA & Generativo"/>
-        <button class="cat-icon" onclick="cycleColor(this,event)">
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74L12 2zm-6 14 1.06 3.17L10 20l-2.94.83L6 24l-1.06-3.17L2 20l2.94-.83L6 16zm12 0 1.06 3.17L22 20l-2.94.83L18 24l-1.06-3.17L14 20l2.94-.83L18 16z"/></svg>
-        </button>
-        <span class="cat-tag">IA &amp; Generativo</span>
-      </a>
+        <a href="proyecto-01.html" class="proj-item" data-cat="ia branding">
+          <img class="proj-img" src="" alt="Campaña generativa"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">IA</span>
+              <span class="cat-tag">Branding</span>
+            </div>
+            <h3>Campaña generativa</h3>
+            
+          </div>
+        </a>
 
-      <!-- 2. Branding -->
-      <a href="portfolio-branding.html" class="cat-card">
-        <img class="cat-img" src="" alt="Branding"/>
-        <button class="cat-icon" onclick="cycleColor(this,event)">
-          <svg viewBox="0 0 24 24"><path d="m12 1-9 10 9 12 9-12L12 1zm0 3.3L18.6 11H5.4L12 4.3zm0 14.3-6.2-8.3h12.4L12 18.6z"/></svg>
-        </button>
-        <span class="cat-tag">Branding</span>
-      </a>
+        <a href="proyecto-02.html" class="proj-item" data-cat="branding">
+          <img class="proj-img" src="" alt="Identidad de marca"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Branding</span>
+            </div>
+            <h3>Identidad de marca</h3>
+            
+          </div>
+        </a>
 
-      <!-- 3. Motion & Vídeo -->
-      <a href="portfolio-motion.html" class="cat-card">
-        <img class="cat-img" src="" alt="Motion & Vídeo"/>
-        <button class="cat-icon" onclick="cycleColor(this,event)">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-        <span class="cat-tag">Motion &amp; Vídeo</span>
-      </a>
+        <a href="proyecto-03.html" class="proj-item" data-cat="uxui ia">
+          <img class="proj-img" src="" alt="App con IA"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">UX UI</span>
+              <span class="cat-tag">IA</span>
+            </div>
+            <h3>App con IA</h3>
+            
+          </div>
+        </a>
 
-      <!-- 4. Digital & UX -->
-      <a href="portfolio-digital.html" class="cat-card">
-        <img class="cat-img" src="" alt="Digital & UX"/>
-        <button class="cat-icon" onclick="cycleColor(this,event)">
-          <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
-        </button>
-        <span class="cat-tag">Digital &amp; UX</span>
-      </a>
+        <a href="proyecto-04.html" class="proj-item" data-cat="motion">
+          <img class="proj-img" src="" alt="Motion para campaña"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Motion & Vídeo</span>
+            </div>
+            <h3>Motion para campaña</h3>
+            
+          </div>
+        </a>
 
-      <!-- 5. Fotografía -->
-      <a href="portfolio-fotografia.html" class="cat-card">
-        <img class="cat-img" src="" alt="Fotografía"/>
-        <button class="cat-icon" onclick="cycleColor(this,event)">
-          <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zM9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg>
-        </button>
-        <span class="cat-tag">Fotografía</span>
-      </a>
+        <a href="proyecto-05.html" class="proj-item" data-cat="foto">
+          <img class="proj-img" src="" alt="Shooting editorial"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Fotografía</span>
+            </div>
+            <h3>Shooting editorial</h3>
+            
+          </div>
+        </a>
 
-      <!-- 6. Ilustración -->
-      <a href="portfolio-ilustracion.html" class="cat-card">
-        <img class="cat-img" src="" alt="Ilustración"/>
-        <button class="cat-icon" onclick="cycleColor(this,event)">
-          <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-        </button>
-        <span class="cat-tag">Ilustración</span>
-      </a>
+        <a href="proyecto-06.html" class="proj-item" data-cat="ilustracion">
+          <img class="proj-img" src="" alt="Fotomontaje a mano"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Ilustración</span>
+            </div>
+            <h3>Fotomontaje a mano</h3>
+            
+          </div>
+        </a>
 
-    </div>
+        <a href="proyecto-07.html" class="proj-item" data-cat="branding uxui">
+          <img class="proj-img" src="" alt="Rediseño de marca"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Branding</span>
+              <span class="cat-tag">UX UI</span>
+            </div>
+            <h3>Rediseño de marca</h3>
+            
+          </div>
+        </a>
+
+        <a href="proyecto-08.html" class="proj-item" data-cat="motion ia">
+          <img class="proj-img" src="" alt="Vídeo generativo"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Motion & Vídeo</span>
+              <span class="cat-tag">IA</span>
+            </div>
+            <h3>Vídeo generativo</h3>
+            
+          </div>
+        </a>
+
+        <a href="proyecto-09.html" class="proj-item" data-cat="foto branding">
+          <img class="proj-img" src="" alt="Campaña editorial"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Fotografía</span>
+              <span class="cat-tag">Branding</span>
+            </div>
+            <h3>Campaña editorial</h3>
+            
+          </div>
+        </a>
+
+        <a href="proyecto-10.html" class="proj-item" data-cat="ilustracion ia">
+          <img class="proj-img" src="" alt="Serie ilustrada"/>
+          <div class="proj-overlay"></div>
+          <div class="proj-info">
+            <div class="proj-tags-row">
+              <span class="cat-tag">Ilustración</span>
+              <span class="cat-tag">IA</span>
+            </div>
+            <h3>Serie ilustrada</h3>
+            
+          </div>
+        </a>
+
+      </div>
 
   <footer>
     <div class="footer-logo">
@@ -638,8 +658,8 @@
       </a>
     </div>
     <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
-  </footer>
     <canvas id="grain-cards"></canvas>
+  </footer>
     </section>
 
   </div><!-- /snap-wrap -->
@@ -650,21 +670,6 @@
   <div id="cursor"></div>
 
   <script>
-    // Icon colour cycle + pop animation on click
-    const palette = ['cc0','cc1','cc2','cc3','cc4','cc5'];
-    function cycleColor(btn, e) {
-      e.preventDefault();
-      e.stopPropagation();
-      // pop squeeze → spring back
-      btn.classList.add('pop');
-      setTimeout(() => btn.classList.remove('pop'), 150);
-      // cycle colour
-      const current = palette.find(c => btn.classList.contains(c));
-      const idx = current ? (palette.indexOf(current) + 1) % palette.length : 0;
-      palette.forEach(c => btn.classList.remove(c));
-      btn.classList.add(palette[idx]);
-    }
-
     // Copy email
     document.getElementById('copyEmail').addEventListener('click', e => {
       e.preventDefault();
@@ -675,81 +680,91 @@
       });
     });
 
-    // Measure actual nav height and set CSS var — fixes mobile overlap
-    const navEl = document.querySelector('nav');
+    // Nav height
+    const navEl    = document.querySelector('nav');
     const snapWrap = document.getElementById('snapWrap');
-
     function setNavHeight() {
-      const h = navEl.getBoundingClientRect().height;
-      document.documentElement.style.setProperty('--nav-h', h + 'px');
+      document.documentElement.style.setProperty('--nav-h', navEl.getBoundingClientRect().height + 'px');
     }
     setNavHeight();
     window.addEventListener('resize', setNavHeight);
 
-    function setCardHeight() {
-      if (window.innerWidth <= 768) return; // ≤768px = mobile layout
-      const snapCards = document.querySelector('.snap-cards');
-      const footer = document.querySelector('footer');
-      const track = document.querySelector('.cards-track');
-      if (!snapCards || !footer || !track) return;
-
-      const snapH = snapCards.getBoundingClientRect().height;
-      const footerH = footer.getBoundingClientRect().height;
-      const trackW = track.getBoundingClientRect().width;
-      const available_h = snapH - footerH;
-      const gap_px = trackW * 0.01; // 1% gap
-      const card_h = Math.floor((available_h - gap_px) / 2);
-
-      document.documentElement.style.setProperty('--card-h', card_h + 'px');
-    }
-    // Run after layout is painted
-    requestAnimationFrame(() => { setCardHeight(); });
-    window.addEventListener('resize', setCardHeight);
-
+    // Nav bg: crema cuando está en snap-cards, transparente en hero (verde)
     snapWrap.addEventListener('scroll', () => {
-      const hero = document.querySelector('.snap-hero');
-      const heroBottom = hero.getBoundingClientRect().bottom;
-      // if hero is mostly scrolled past, we're on cards section
-      if (heroBottom < snapWrap.getBoundingClientRect().height * 0.3) {
-        navEl.style.background = '#6B8F47';
-        navEl.style.backdropFilter = 'none';
-      } else {
-        navEl.style.background = 'transparent';
-        navEl.style.backdropFilter = 'none';
-      }
+      const heroBottom = document.querySelector('.snap-hero').getBoundingClientRect().bottom;
+      const onCards = heroBottom < snapWrap.getBoundingClientRect().height * 0.3;
+
+      navEl.style.background = onCards ? 'var(--cream)' : 'transparent';
+      navEl.style.borderBottomColor = onCards ? 'rgba(46,46,46,0.08)' : 'rgba(255,255,255,0.08)';
+      navEl.classList.toggle('on-cream', onCards);
+
+      // logo color
+      const logo = navEl.querySelector('.logo');
+      if (logo) logo.style.color = onCards ? 'var(--dark)' : 'var(--cream)';
+      const logoSub = navEl.querySelector('.logo-sub');
+      if (logoSub) logoSub.style.color = onCards ? 'rgba(46,46,46,0.55)' : 'rgba(250,246,238,0.7)';
+
+      // hamburger
+      navEl.querySelectorAll('.hamburger span').forEach(s => {
+        s.style.background = onCards ? 'var(--dark)' : 'var(--cream)';
+      });
+
+      // links: no-activos cambian de color (activo mantiene rojo)
+      navEl.querySelectorAll('.nav-links a:not(.active)').forEach(a => {
+        a.style.color = onCards ? 'var(--dark)' : 'var(--cream)';
+      });
     });
 
-    // Arrow click → scroll to cards section
+    // Arrow → scroll to projects
     document.getElementById('scrollArrow').addEventListener('click', () => {
       document.querySelector('.snap-cards').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // Cards entrance animation on snap
-    const cardsSection = document.querySelector('.snap-cards');
-    const cards = document.querySelectorAll('.cat-card');
-    let cardsAnimated = false;
+    // ── FILTROS ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projItems  = document.querySelectorAll('.proj-item');
 
-    cards.forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(30px)';
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.add('pop');
+        setTimeout(() => btn.classList.remove('pop'), 150);
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        projItems.forEach((item, i) => {
+          const cats = item.dataset.cat.split(' ');
+          const show = filter === 'all' || cats.includes(filter);
+          if (show) {
+            item.style.display = '';
+            item.style.transitionDelay = `${i * 0.04}s`;
+            requestAnimationFrame(() => item.classList.remove('hidden'));
+          } else {
+            item.style.transitionDelay = '0s';
+            item.classList.add('hidden');
+          }
+        });
+      });
     });
 
-    const snapObs = new IntersectionObserver((entries) => {
+    // Entrada animada al hacer snap
+    const cardsSection = document.querySelector('.snap-cards');
+    let cardsAnimated  = false;
+    projItems.forEach(item => { item.style.opacity = '0'; item.style.transform = 'translateY(16px)'; });
+
+    new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.target === cardsSection && entry.isIntersecting && !cardsAnimated) {
-          setCardHeight(); // recalculate now that section is visible
+        if (entry.isIntersecting && !cardsAnimated) {
           cardsAnimated = true;
-          cards.forEach((card, i) => {
+          projItems.forEach((item, i) => {
             setTimeout(() => {
-              card.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }, i * 60);
+              item.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1)';
+              item.style.opacity = '1';
+              item.style.transform = 'translateY(0)';
+            }, i * 65);
           });
         }
       });
-    }, { threshold: 0.2 });
-    snapObs.observe(cardsSection);
+    }, { threshold: 0.12 }).observe(cardsSection);
 
     // Hamburger
     const hamburger = document.getElementById('hamburger');
