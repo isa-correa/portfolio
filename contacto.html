@@ -49,7 +49,6 @@
     nav {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 1.4rem 3rem;
       position: sticky; top: 0;
       background: transparent;
@@ -58,6 +57,11 @@
       border-bottom: 1px solid rgba(0,0,0,0.06);
       animation: slideUpFade 0.6s ease 0s both;
     }
+
+    .logo { order: 1; }
+    .nav-links { order: 2; display: flex; gap: 2rem; list-style: none; margin-left: auto; }
+    .lang-switcher { order: 4; }
+    .hamburger { order: 3; }
 
     .logo {
       display: flex; align-items: flex-start; gap: 0.55rem;
@@ -118,8 +122,6 @@
       transform-origin: center center;
     }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-
     .nav-links a {
       font-family: 'Nunito', sans-serif;
       font-size: 0.9rem; font-weight: 600;
@@ -135,7 +137,7 @@
 
     /* HAMBURGER */
     .hamburger {
-      display: none; flex-direction: column; justify-content: center;
+      display: none !important; flex-direction: column; justify-content: center;
       gap: 5px; background: none; border: none; padding: 4px; cursor: none;
     }
     .hamburger span {
@@ -455,12 +457,15 @@
     }
 
     @media (max-width: 1024px) {
-      nav { padding: 1.2rem 1.5rem; animation: slideUpFade 0.6s ease 0s both; }
+      nav { padding: 1.2rem 1.5rem; }
 
-      .hamburger { display: flex; }
+      .hamburger { display: flex !important; order: 3; margin-left: auto; }
+      .lang-switcher { order: 4; margin-left: 0.5rem; }
+      .nav-links { order: 2; margin-left: 0; }
 
       .nav-links {
-        display: none; position: absolute;
+        display: none !important; 
+        position: absolute;
         top: 100%; left: 0; right: 0;
         background: var(--blue);
         flex-direction: column; align-items: center;
@@ -468,7 +473,7 @@
         border-bottom: 1px solid rgba(0,0,0,0.07);
         padding: 0.5rem 0 1.2rem; z-index: 200;
       }
-      .nav-links.open { display: flex; }
+      .nav-links.open { display: flex !important; }
       .nav-links a {
         display: inline-block; padding: 0.55rem 1.6rem;
         font-size: 1.05rem; border-radius: 9999px; width: auto;
@@ -568,7 +573,7 @@
           <p><span data-es>¿Tienes un proyecto en mente? ¿Quieres colaborar o simplemente decir hola? Me encantaría escucharte. Escríbeme y te respondo en menos de 24 h.</span><span data-en style="display:none">Got a project in mind? Want to collaborate or just say hello? I'd love to hear from you. Write to me and I'll get back to you within 24 hours.</span></p>
 
           <div class="cta-buttons">
-            <a href="/cdn-cgi/l/email-protection#90f9e3f1f3ffe2e2f5f1e5e2d0f7fdf1f9fcbef3fffdafe3e5f2faf5f3e4ad5231d8fffcf1b5a2a0d9e3f1b1b5a2a0ddf5b5a2a0f7e5e3e4f1e2533df1b5a2a0f3fffee4f1f3e4f1e2b5a2a0f3fffee4f9f7ffb5a2a0720c38" class="btn-green">
+            <a href="mailto:isacorreaur@gmail.com" id="escribemeBtn" class="btn-green">
               <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
               <span data-es>¡Escríbeme!</span><span data-en style="display:none">Drop me a line!</span>
             </a>
@@ -748,6 +753,15 @@
 
       const burger = document.getElementById('hamburger');
       if (burger) burger.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
+
+      // Update email button subject based on language
+      const escribemeBtn = document.getElementById('escribemeBtn');
+      if (escribemeBtn) {
+        const subject = lang === 'es' 
+          ? '¡Hola Isa! Me gustaría contactar contigo ✨'
+          : 'Hello Isa! I\'d like to contact you ✨';
+        escribemeBtn.href = 'mailto:isacorreaur@gmail.com?subject=' + encodeURIComponent(subject);
+      }
 
       // Page title
       const titles = { es: document.documentElement.dataset.titleEs, en: document.documentElement.dataset.titleEn };

@@ -98,7 +98,7 @@
 
     /* ── NAV ── */
     nav {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: center;
       padding: 1.4rem 3rem;
       position: sticky; top: 0;
       background: transparent;
@@ -107,6 +107,11 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       animation: fadeUp 0.6s ease 0s both;
     }
+
+    .logo { order: 1; }
+    .nav-links { order: 2; display: flex; gap: 2rem; list-style: none; margin-left: auto; }
+    .lang-switcher { order: 4; }
+    .hamburger { order: 3; }
     .logo {
       display: flex; align-items: flex-start; gap: 0.55rem;
       font-family: 'Kiwi Maru', serif; font-size: 1.4rem; font-weight: 500;
@@ -393,16 +398,22 @@
 
     /* cursor — circunferencia con borde */
     #cursor {
-      position: fixed; top: 0; left: 0;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: transparent;
-      border: 2px solid var(--dark);
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 2px solid var(--cream);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
       mix-blend-mode: multiply;
-      transition: width 0.2s ease, height 0.2s ease;
     }
-    #cursor.hover { width: 40px; height: 40px; }
+    #cursor.hover {
+      width: 56px; height: 56px;
+      background: rgba(250,246,238,0.08);
+      border-color: var(--red);
+    }
 
 
     /* ── RESPONSIVE ── */
@@ -422,16 +433,22 @@
       .snap-cards { height: auto; overflow: visible; display: block; padding-top: 50px; }
       nav { padding: 1.2rem 1.5rem; }
       :root { --nav-h: 56px; }
-      .hamburger { display: flex; }
+      
+      .hamburger { display: flex !important; order: 3; margin-left: auto; }
+      .lang-switcher { order: 4; margin-left: 0.5rem; }
+      .nav-links { order: 2; margin-left: 0; }
+      
       .nav-links {
-        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        display: none !important; 
+        position: absolute; 
+        top: 100%; left: 0; right: 0;
         background: rgba(250,246,238,0.95); backdrop-filter: blur(24px);
         flex-direction: column; align-items: center;
         gap: 0; list-style: none;
         border-bottom: 1px solid rgba(46,46,46,0.08);
         padding: 0.5rem 0 1.2rem; z-index: 200;
       }
-      .nav-links.open { display: flex; }
+      .nav-links.open { display: flex !important; }
       .nav-links a { display: inline-block; padding: 0.55rem 1.6rem; font-size: 1.05rem; border-radius: 9999px; color: var(--dark); }
       .nav-links li { width: 100%; text-align: center; }
       .projects-grid {
@@ -461,7 +478,8 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-decoration: none;
-      border: 1.5px solid currentColor;
+      border: 1.5px solid var(--dark);
+      color: var(--dark);
       border-radius: 9999px;
       padding: 0.28rem 0.75rem;
       transition: color 0.2s, background 0.2s, border-color 0.2s;
@@ -843,7 +861,7 @@
       cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a, button').forEach(el => {
+    document.querySelectorAll('a, button, .lang-toggle').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });

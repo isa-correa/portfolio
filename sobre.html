@@ -36,7 +36,6 @@
     nav#mainNav {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 1.4rem 3rem;
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -44,6 +43,11 @@
       z-index: 500;
       transition: background 0.3s ease;
     }
+
+    .logo { order: 1; }
+    .nav-links { order: 2; display: flex; gap: 2rem; list-style: none; margin-left: auto; }
+    .lang-switcher { order: 4; }
+    .hamburger { order: 3; }
 
     .logo {
       display: flex;
@@ -623,10 +627,12 @@
         padding: 1.2rem 1.5rem;
       }
 
-      .hamburger { display: flex; }
+      .hamburger { display: flex !important; order: 3; margin-left: auto; }
+      .lang-switcher { order: 4; margin-left: 0.5rem; }
+      .nav-links { order: 2; margin-left: 0; }
 
       .nav-links {
-        display: none;
+        display: none !important;
         position: absolute;
         top: 100%;
         left: 0; right: 0;
@@ -640,7 +646,7 @@
         z-index: 200;
       }
 
-      .nav-links.open { display: flex; }
+      .nav-links.open { display: flex !important; }
 
       .nav-links a {
         display: inline-block;
@@ -718,7 +724,8 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-decoration: none;
-      border: 1.5px solid currentColor;
+      border: 1.5px solid var(--dark);
+      color: var(--dark);
       border-radius: 9999px;
       padding: 0.28rem 0.75rem;
       transition: color 0.2s, background 0.2s, border-color 0.2s;
@@ -858,7 +865,7 @@
         <h3><span data-es>¿Te has quedado con ganas de más?</span><span data-en style="display:none">Want to know more?</span></h3>
         <p><span data-es>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</span><span data-en style="display:none">You won't find company names here (unless authorized), but if you want to snoop, see more projects, or find out what coffee I drink, ask for my full CV. I'd be happy to send it over.</span></p>
         <div class="cv-cta-row">
-          <a href="/cdn-cgi/l/email-protection#b4ddc7d5d7dbc6c6d1d5c1c6f4d3d9d5ddd89ad7dbd98bc7c1d6ded1d7c0897615fcdbd8d594fdc7d59594e47715c7d5d9d194d1c7d194f7e2949ccd94d0ddd9d194c5c1771d94d7d5d2771d94c0dbd9d5c794562c215b0c3b9d" class="btn-cv">
+          <a href="mailto:isacorreaur@gmail.com" id="pidemeCV" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             <span data-es>Pídeme el CV</span><span data-en style="display:none">Request my CV</span>
           </a>
@@ -1108,6 +1115,15 @@
 
       const burger = document.getElementById('hamburger');
       if (burger) burger.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
+
+      // Update CV button subject based on language
+      const pidemeCV = document.getElementById('pidemeCV');
+      if (pidemeCV) {
+        const subject = lang === 'es'
+          ? '¡Hola Isa! Pásame ese CV (y dime qué café tomas ☕️)'
+          : 'Hello Isa! Pass me that CV (and tell me what coffee you drink ☕️)';
+        pidemeCV.href = 'mailto:isacorreaur@gmail.com?subject=' + encodeURIComponent(subject);
+      }
 
       // Page title
       const titles = { es: document.documentElement.dataset.titleEs, en: document.documentElement.dataset.titleEn };
