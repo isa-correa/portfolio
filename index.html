@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="htmlRoot">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -45,6 +45,19 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+
+    /* Lang switcher as button */
+    button.lang-switcher {
+      cursor: none;
+      background: none;
+      border: 1.5px solid var(--dark);
+    }
+    button.lang-toggle {
+      cursor: none;
+      background: none;
+      border: none;
+      padding: 0;
+    }
     /* NAV */
     nav {
       display: flex;
@@ -843,14 +856,22 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="portfolio.html">Portfolio</a></li>
-      <li><a href="sobre.html">Sobre mí</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
+      <li>
+        <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
+          <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
+        </a>
+      </li>
+      <li>
+        <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
+          <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
+        </a>
+      </li>
     </ul>
-    <a href="EN/index_EN.html" class="lang-switcher" aria-label="Switch to English">
-      <span class="lang-switcher-es lang-active">ES</span>
+    <button onclick="toggleLang()" class="lang-switcher" aria-label="Switch language" id="navLangBtn">
+      <span class="lang-switcher-es lang-active" id="navEs">ES</span>
       <span class="lang-switcher-sep">/</span>
-      <span class="lang-switcher-en">EN</span>
-    </a>
+      <span class="lang-switcher-en" id="navEn">EN</span>
+    </button>
   </nav>
 
   <!-- PHOTO BAR MÓVIL -->
@@ -865,19 +886,21 @@
 
   <section class="hero">
     <img src="isabel-correa.PNG" alt="Isa Correa" class="hero-avatar"/>
-    <h1>Hola, soy Isa Correa</h1>
+    <h1><span data-es>Hola, soy Isa Correa</span><span data-en style="display:none">Hi, I'm Isa Correa</span></h1>
     <p>
-      Organizar el caos es lo primero que hago cada mañana para que al final del día todo luzca increíble y funcione. Mi nuevo superpoder es domar la IA para <em>hacer magia:</em> desde pasar de visual a código o ilustrar, hasta marcarme shootings y vídeos que antes dábamos por imposibles.<br/><br/>
-      Más de 6 años navegando entre píxeles y campañas internacionales dan para mucho... y aquí sigo, <em>fluyendo</em>.
+      <span data-es>Organizar el caos es lo primero que hago cada mañana para que al final del día todo luzca increíble y funcione. Mi nuevo superpoder es domar la IA para <em>hacer magia:</em> desde pasar de visual a código o ilustrar, hasta marcarme shootings y vídeos que antes dábamos por imposibles.<br/><br/>
+      Más de 6 años navegando entre píxeles y campañas internacionales dan para mucho... y aquí sigo, <em>fluyendo</em>.</span>
+      <span data-en style="display:none">Organizing chaos is the first thing I do every morning so that by the end of the day, everything looks incredible and actually works. My new superpower is taming AI to <em>make magic happen:</em> from turning visuals into code or illustrating, to pulling off shoots and videos we used to think were impossible.<br/><br/>
+      Over 6 years navigating through pixels and international campaigns go a long way... and here I am, still <em>flowing</em>.</span>
     </p>
 
     <div class="lang-switch-block">
-      <p class="lang-switch-label">Switch language</p>
-      <a href="EN/index_EN.html" class="lang-toggle" id="langToggle">
+      <p class="lang-switch-label" id="switchLabel">Switch language</p>
+      <button onclick="toggleLang()" class="lang-toggle" id="langToggle">
         <span class="lang-toggle-track">
-          <span class="lang-toggle-thumb">🇪🇸</span>
+          <span class="lang-toggle-thumb" id="langThumb">🇪🇸</span>
         </span>
-      </a>
+      </button>
     </div>
     <div class="circles" id="circlesBlock">
       <!-- Círculos decorativos móvil izquierda -->
@@ -891,8 +914,12 @@
       <div class="deco-circle deco-right deco-r3"></div>
       <div class="deco-circle deco-right deco-r4"></div>
       <a href="portfolio.html" class="circle-link circle-green wiggle-1">Portfolio</a>
-      <a href="sobre.html"  class="circle-link circle-red wiggle-2">Sobre mí</a>
-      <a href="contacto.html"  class="circle-link circle-blue wiggle-3">Contacto</a>
+      <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="circle-link circle-red wiggle-2 nav-link-lang">
+        <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
+      </a>
+      <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="circle-link circle-blue wiggle-3 nav-link-lang">
+        <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
+      </a>
     </div>
   </section>
 
@@ -926,8 +953,12 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="sobre.html">Sobre mí</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
+        <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
+      </a>
+      <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
+        <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
+      </a>
     </nav>
     <div class="footer-social">
       <a href="#" class="icon-mail" id="copyEmail" title="Copiar correo">
@@ -940,10 +971,10 @@
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
       </a>
     </div>
-    <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
+    <p class="footer-copy">© 2026 Isa Correa. <span data-es>Todos los derechos reservados.</span><span data-en style="display:none">All rights reserved.</span></p>
   </footer>
 
-  <div class="toast" id="toast">✓ Correo copiado</div>
+  <div class="toast" id="toast"><span data-es>✓ Correo copiado</span><span data-en style="display:none">✓ Email copied</span></div>
 
   <canvas id="grain-canvas"></canvas>
   <div id="cursor"></div>
@@ -1092,9 +1123,66 @@
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
 
-    // Lang toggle — ES version
-    const langToggle = document.getElementById('langToggle');
-    if (langToggle) langToggle.classList.add('es-active');
+    // ── BILINGUAL LANGUAGE TOGGLE ──────────────────────────────────────────
+    let currentLang = localStorage.getItem('isa-lang') || 'es';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('isa-lang', lang);
+      document.getElementById('htmlRoot').lang = lang;
+
+      // Show/hide bilingual spans
+      document.querySelectorAll('[data-es]').forEach(el => {
+        el.style.display = lang === 'es' ? '' : 'none';
+      });
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.style.display = lang === 'en' ? '' : 'none';
+      });
+
+      // Toggle thumb flag
+      const thumb = document.getElementById('langThumb');
+      if (thumb) thumb.textContent = lang === 'es' ? '🇪🇸' : '🇬🇧';
+
+      // Toggle track position (using classes)
+      const toggle = document.getElementById('langToggle');
+      if (toggle) {
+        toggle.classList.toggle('es-active', lang === 'es');
+        toggle.classList.toggle('en-active', lang === 'en');
+      }
+
+      // Nav switcher active state
+      const navEs = document.getElementById('navEs');
+      const navEn = document.getElementById('navEn');
+      if (navEs && navEn) {
+        navEs.classList.toggle('lang-active', lang === 'es');
+        navEn.classList.toggle('lang-active', lang === 'en');
+      }
+
+      // Switch label text
+      const label = document.getElementById('switchLabel');
+      if (label) label.textContent = lang === 'es' ? 'Switch language' : '¿Cambiar a español?';
+
+      // Update nav links hrefs
+      document.querySelectorAll('.nav-link-lang').forEach(a => {
+        const href = lang === 'es' ? a.dataset.esHref : a.dataset.enHref;
+        if (href) a.href = href;
+      });
+
+      // Update copyEmail tooltip
+      const copyBtn = document.getElementById('copyEmail');
+      if (copyBtn) copyBtn.title = lang === 'es' ? 'Copiar correo' : 'Copy email';
+
+      // Update hamburger aria-label
+      const burger = document.getElementById('hamburger');
+      if (burger) burger.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
+    }
+
+    function toggleLang() {
+      applyLang(currentLang === 'es' ? 'en' : 'es');
+    }
+
+    // Init on load
+    applyLang(currentLang);
   </script>
 
   <script>

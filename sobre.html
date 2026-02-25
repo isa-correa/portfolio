@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="htmlRoot" data-title-es="Sobre mí — Isa Correa" data-title-en="About me — Isa Correa">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -706,6 +706,37 @@
         padding: 0 0.25rem;
       }
     }
+
+    /* ── LANG SWITCHER ── */
+    button.lang-switcher {
+      cursor: none;
+      background: none;
+    }
+    .lang-switcher {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      border: 1.5px solid currentColor;
+      border-radius: 9999px;
+      padding: 0.28rem 0.75rem;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .lang-switcher-sep { opacity: 0.35; }
+    .lang-active { font-weight: 800; opacity: 1; }
+    .lang-switcher-es:not(.lang-active),
+    .lang-switcher-en:not(.lang-active) { opacity: 0.35; }
+    @media (max-width: 1024px) {
+      .lang-switcher-sep,
+      .lang-switcher-es:not(.lang-active),
+      .lang-switcher-en:not(.lang-active) { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -726,9 +757,22 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="portfolio.html">Portfolio</a></li>
-      <li><a href="sobre.html" class="active">Sobre mí</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
+      <li>
+        <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang active">
+          <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
+        </a>
+      </li>
+      <li>
+        <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
+          <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
+        </a>
+      </li>
     </ul>
+    <button onclick="toggleLang()" class="lang-switcher" aria-label="Switch language" id="navLangBtn">
+      <span class="lang-switcher-es lang-active" id="navEs">ES</span>
+      <span class="lang-switcher-sep">/</span>
+      <span class="lang-switcher-en" id="navEn">EN</span>
+    </button>
   </nav>
 
   <!-- ③ HERO: ilustración a pantalla completa + peek de la tarjeta -->
@@ -748,30 +792,33 @@
   <div class="card-outer">
     <div class="card-inner">
 
-      <h2 class="card-title">¿Quién hay detrás?</h2>
+      <h2 class="card-title"><span data-es>¿Quién hay detrás?</span><span data-en style="display:none">Who's behind it all?</span></h2>
 
       <p class="card-intro">
-        Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución. Todoterreno por naturaleza, resolutiva por necesidad.
+        <span data-es>Spoiler: detrás hay una diseñadora con demasiadas pestañas abiertas, una obsesión seria por la tipografía y la teoría de que todo problema creativo tiene solución. Todoterreno por naturaleza, resolutiva por necesidad.
         <br><br>
-        Onubense de corazón, con raíces malagueñas también, que tener los pies entre dos provincias te enseña a adaptarte a todo, ¿no?
+        Onubense de corazón, con raíces malagueñas también, que tener los pies entre dos provincias te enseña a adaptarte a todo, ¿no?</span>
+        <span data-en style="display:none">Spoiler: behind it all is a designer with too many tabs open, a serious obsession with typography, and the firm belief that every creative problem has a solution. A generalist by nature, a problem-solver by necessity.
+        <br><br>
+        Born in Huelva, with roots in Málaga too — having a foot in two provinces teaches you to adapt to anything, right?</span>
       </p>
 
       <div class="yellow-block yellow-block--centered">
         <p class="prompt" id="typewriterPrompt"></p>
       </div>
 
-      <p class="skills-label">Lo que hago bien</p>
+      <p class="skills-label"><span data-es>Lo que hago bien</span><span data-en style="display:none">What I do well</span></p>
       <div class="tags-row">
-        <span class="tag tag-r">Dirección de Arte</span>
-        <span class="tag tag-y">IA Generativa</span>
+        <span class="tag tag-r"><span data-es>Dirección de Arte</span><span data-en style="display:none">Art Direction</span></span>
+        <span class="tag tag-y"><span data-es>IA Generativa</span><span data-en style="display:none">Generative AI</span></span>
         <span class="tag tag-p">Branding</span>
         <span class="tag tag-b">UX/UI</span>
-        <span class="tag tag-g">Motion &amp; Vídeo</span>
-        <span class="tag tag-r">Liderazgo Creativo</span>
-        <span class="tag tag-y">Estrategia IA</span>
-        <span class="tag tag-g">Campañas 360°</span>
-        <span class="tag tag-b">Fotografía</span>
-        <span class="tag tag-p">Gestión de proyectos</span>
+        <span class="tag tag-g"><span data-es>Motion &amp; Vídeo</span><span data-en style="display:none">Motion &amp; Video</span></span>
+        <span class="tag tag-r"><span data-es>Liderazgo Creativo</span><span data-en style="display:none">Creative Leadership</span></span>
+        <span class="tag tag-y"><span data-es>Estrategia IA</span><span data-en style="display:none">AI Strategy</span></span>
+        <span class="tag tag-g"><span data-es>Campañas 360°</span><span data-en style="display:none">360° Campaigns</span></span>
+        <span class="tag tag-b"><span data-es>Fotografía</span><span data-en style="display:none">Photography</span></span>
+        <span class="tag tag-p"><span data-es>Gestión de proyectos</span><span data-en style="display:none">Project Management</span></span>
         <span class="tag tag-r">Paid Media</span>
         <span class="tag tag-b">Figma / Adobe</span>
         <span class="tag tag-r">Email Design</span>
@@ -779,28 +826,28 @@
 
       <div class="divider"></div>
 
-      <h3 class="section-title">Trayectoria</h3>
+      <h3 class="section-title"><span data-es>Trayectoria</span><span data-en style="display:none">Career</span></h3>
       <div class="timeline">
         <div class="tl-item">
           <div class="tl-dot"></div>
-          <p class="tl-year">2024 — Actual</p>
+          <p class="tl-year">2024 — <span data-es>Actual</span><span data-en style="display:none">Present</span></p>
           <p class="tl-role">Visual &amp; Art Director | AI Visual Strategist</p>
-          <p class="tl-company">Liderazgo Creativo y Gestión Estratégica</p>
-          <p class="tl-desc">Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos y garantizando la optimización e implementación.</p>
+          <p class="tl-company"><span data-es>Liderazgo Creativo y Gestión Estratégica</span><span data-en style="display:none">Creative Leadership &amp; Strategic Management</span></p>
+          <p class="tl-desc"><span data-es>Proyectos visuales en entornos bilingües donde mi prioridad es organizar el caos creativo. Participo en la coordinación de equipos multidisciplinares de estrategia y tecnología, aplicando IA generativa para producir activos complejos y garantizando la optimización e implementación.</span><span data-en style="display:none">Visual projects in bilingual environments where my priority is organizing creative chaos. I coordinate multidisciplinary strategy and technology teams, applying generative AI to produce complex assets and ensuring optimization and implementation.</span></p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2022 — 2024</p>
           <p class="tl-role">Mid Graphic Designer &amp; Art Direction</p>
-          <p class="tl-company">Proyectos Internacionales y Mercados Globales</p>
-          <p class="tl-desc">Diseñé y dirigí identidades visuales para mercados internacionales, moviéndome entre Europa y Oriente Medio. Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala —llegando a proyectar mi trabajo en sitios como Londres, Dubái o Abu Dabi—. Además, fue aquí donde empecé a integrar la IA por primera vez para optimizar la producción y elevar el resultado visual.</p>
+          <p class="tl-company"><span data-es>Proyectos Internacionales y Mercados Globales</span><span data-en style="display:none">International Projects &amp; Global Markets</span></p>
+          <p class="tl-desc"><span data-es>Diseñé y dirigí identidades visuales para mercados internacionales, moviéndome entre Europa y Oriente Medio. Me encargué de la dirección artística de campañas globales y de la adaptación de marca a soportes físicos y digitales de gran escala —llegando a proyectar mi trabajo en sitios como Londres, Dubái o Abu Dabi—. Además, fue aquí donde empecé a integrar la IA por primera vez para optimizar la producción y elevar el resultado visual.</span><span data-en style="display:none">I designed and directed visual identities for international markets, moving between Europe and the Middle East. I led the art direction of global campaigns and adapted brand assets to large-scale physical and digital formats — with work displayed in places like London, Dubai, and Abu Dhabi. This is also where I first started integrating AI to optimize production and elevate visual output.</span></p>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
           <p class="tl-year">2020 — 2022</p>
           <p class="tl-role">Junior Graphic Designer</p>
-          <p class="tl-company">Gestión Integral y Producción Creativa</p>
-          <p class="tl-desc">Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva sola en el departamento, con el título del grado recién sacado bajo el brazo y asumiendo desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando siempre los recursos disponibles.</p>
+          <p class="tl-company"><span data-es>Gestión Integral y Producción Creativa</span><span data-en style="display:none">Full-Service Management &amp; Creative Production</span></p>
+          <p class="tl-desc"><span data-es>Mis inicios fueron el entrenamiento perfecto para aprender a gestionar de forma integral todas las necesidades de una marca. Aprendí a ser resolutiva sola en el departamento, con el título del grado recién sacado bajo el brazo y asumiendo desde el diseño de identidad y packaging hasta la fotografía y producción final, maximizando siempre los recursos disponibles.</span><span data-en style="display:none">My early years were the perfect training ground for managing a brand's full creative needs. I learned to work independently in a one-person department, fresh out of university, covering everything from identity and packaging design to photography and final production — always maximizing available resources.</span></p>
         </div>
       </div>
 
@@ -808,12 +855,12 @@
 
       <!-- CV CTA -->
       <div class="cv-section">
-        <h3>¿Te has quedado con ganas de más?</h3>
-        <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
+        <h3><span data-es>¿Te has quedado con ganas de más?</span><span data-en style="display:none">Want to know more?</span></h3>
+        <p><span data-es>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</span><span data-en style="display:none">You won't find company names here (unless authorized), but if you want to snoop, see more projects, or find out what coffee I drink, ask for my full CV. I'd be happy to send it over.</span></p>
         <div class="cv-cta-row">
-          <a href="mailto:isacorreaur@gmail.com?subject=¡Hola Isa! Pásame ese CV (y dime qué café tomas ☕️)" class="btn-cv">
+          <a href="/cdn-cgi/l/email-protection#b4ddc7d5d7dbc6c6d1d5c1c6f4d3d9d5ddd89ad7dbd98bc7c1d6ded1d7c0897615fcdbd8d594fdc7d59594e47715c7d5d9d194d1c7d194f7e2949ccd94d0ddd9d194c5c1771d94d7d5d2771d94c0dbd9d5c794562c215b0c3b9d" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
-            Pídeme el CV
+            <span data-es>Pídeme el CV</span><span data-en style="display:none">Request my CV</span>
           </a>
           <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" class="btn-cv-ghost">
             <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -824,19 +871,19 @@
 
       <div class="divider"></div>
 
-      <h3 class="section-title">Fuera del trabajo</h3>
+      <h3 class="section-title"><span data-es>Fuera del trabajo</span><span data-en style="display:none">Outside of work</span></h3>
       <div class="fun-grid">
-        <div class="fun-item">🐶 Dog lover</div>
-        <div class="fun-item">🌷 Fanática de los tulipanes</div>
-        <div class="fun-item">🍜 Obsesionada con la comida asiática</div>
-        <div class="fun-item">✈️ Siempre con la maleta lista</div>
-        <div class="fun-item">📷 Vivo con una cámara en mano</div>
-        <div class="fun-item">🤖 Early adopter de cada IA nueva</div>
+        <div class="fun-item"><span data-es>🐶 Dog lover</span><span data-en style="display:none">🐶 Dog lover</span></div>
+        <div class="fun-item"><span data-es>🌷 Fanática de los tulipanes</span><span data-en style="display:none">🌷 Tulip fanatic</span></div>
+        <div class="fun-item"><span data-es>🍜 Obsesionada con la comida asiática</span><span data-en style="display:none">🍜 Obsessed with Asian food</span></div>
+        <div class="fun-item"><span data-es>✈️ Siempre con la maleta lista</span><span data-en style="display:none">✈️ Always packed and ready</span></div>
+        <div class="fun-item"><span data-es>📷 Vivo con una cámara en mano</span><span data-en style="display:none">📷 Always with a camera in hand</span></div>
+        <div class="fun-item"><span data-es>🤖 Early adopter de cada IA nueva</span><span data-en style="display:none">🤖 Early adopter of every new AI</span></div>
       </div>
 
       <div class="cta-row">
-        <a href="contacto.html" class="btn-cta">
-          Hablemos
+        <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="btn-cta nav-link-lang">
+          <span data-es>Hablemos</span><span data-en style="display:none">Let's talk</span>
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -856,8 +903,12 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="sobre.html">Sobre mí</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
+        <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
+      </a>
+      <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
+        <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
+      </a>
     </nav>
     <div class="footer-social">
       <a href="#" id="copyEmail" title="Copiar correo">
@@ -870,13 +921,13 @@
         <svg viewBox="0 0 24 24"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
       </a>
     </div>
-    <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
+    <p class="footer-copy">© 2026 Isa Correa. <span data-es>Todos los derechos reservados.</span><span data-en style="display:none">All rights reserved.</span></p>
   </footer>
 
-  <div class="toast" id="toast">✓ Correo copiado</div>
+  <div class="toast" id="toast"><span data-es>✓ Correo copiado</span><span data-en style="display:none">✓ Email copied</span></div>
   <div id="cursor"></div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ③ Efecto scroll: la ilustración se queda fija (sticky)
     // mientras el contenido de la tarjeta sube y la tapa.
     // Lo hacemos con position: sticky en la ilustración dentro del hero.
@@ -1024,6 +1075,51 @@
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
+
+    // ── BILINGUAL LANGUAGE TOGGLE ─────────────────────────────────────────
+    let currentLang = localStorage.getItem('isa-lang') || 'es';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('isa-lang', lang);
+      document.getElementById('htmlRoot').lang = lang;
+
+      document.querySelectorAll('[data-es]').forEach(el => {
+        el.style.display = lang === 'es' ? '' : 'none';
+      });
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.style.display = lang === 'en' ? '' : 'none';
+      });
+
+      const navEs = document.getElementById('navEs');
+      const navEn = document.getElementById('navEn');
+      if (navEs && navEn) {
+        navEs.classList.toggle('lang-active', lang === 'es');
+        navEn.classList.toggle('lang-active', lang === 'en');
+      }
+
+      document.querySelectorAll('.nav-link-lang').forEach(a => {
+        const href = lang === 'es' ? a.dataset.esHref : a.dataset.enHref;
+        if (href) a.href = href;
+      });
+
+      const copyBtn = document.getElementById('copyEmail');
+      if (copyBtn) copyBtn.title = lang === 'es' ? 'Copiar correo' : 'Copy email';
+
+      const burger = document.getElementById('hamburger');
+      if (burger) burger.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
+
+      // Page title
+      const titles = { es: document.documentElement.dataset.titleEs, en: document.documentElement.dataset.titleEn };
+      if (titles[lang]) document.title = titles[lang];
+    }
+
+    function toggleLang() {
+      applyLang(currentLang === 'es' ? 'en' : 'es');
+    }
+
+    applyLang(currentLang);
+
   </script>
 
   <script>
@@ -1141,10 +1237,4 @@
         lastScrollY = window.scrollY;
       }, { passive: true });
 
-      window.addEventListener('touchend', () => {
-        if (bouncing) return;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const sy = window.scrollY;
-
-        if (sy <= 0) {
-   
+      wi
