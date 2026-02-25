@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" id="htmlRoot" data-title-es="Portfolio — Isa Correa" data-title-en="Portfolio — Isa Correa">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -98,7 +98,7 @@
 
     /* ── NAV ── */
     nav {
-      display: flex; align-items: center;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 1.4rem 3rem;
       position: sticky; top: 0;
       background: transparent;
@@ -107,11 +107,6 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       animation: fadeUp 0.6s ease 0s both;
     }
-
-    .logo { order: 1; }
-    .nav-links { order: 2; display: flex; gap: 2rem; list-style: none; margin-left: auto; }
-    .lang-switcher { order: 4; }
-    .hamburger { order: 3; }
     .logo {
       display: flex; align-items: flex-start; gap: 0.55rem;
       font-family: 'Kiwi Maru', serif; font-size: 1.4rem; font-weight: 500;
@@ -398,22 +393,16 @@
 
     /* cursor — circunferencia con borde */
     #cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 36px; height: 36px;
-      border: 2px solid var(--cream);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      position: fixed; top: 0; left: 0;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: transparent;
+      border: 2px solid var(--dark);
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
       mix-blend-mode: multiply;
+      transition: width 0.2s ease, height 0.2s ease;
     }
-    #cursor.hover {
-      width: 56px; height: 56px;
-      background: rgba(250,246,238,0.08);
-      border-color: var(--red);
-    }
+    #cursor.hover { width: 40px; height: 40px; }
 
 
     /* ── RESPONSIVE ── */
@@ -433,22 +422,16 @@
       .snap-cards { height: auto; overflow: visible; display: block; padding-top: 50px; }
       nav { padding: 1.2rem 1.5rem; }
       :root { --nav-h: 56px; }
-      
-      .hamburger { display: flex !important; order: 3; margin-left: auto; }
-      .lang-switcher { order: 4; margin-left: 0.5rem; }
-      .nav-links { order: 2; margin-left: 0; }
-      
+      .hamburger { display: flex; }
       .nav-links {
-        display: none !important; 
-        position: absolute; 
-        top: 100%; left: 0; right: 0;
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
         background: rgba(250,246,238,0.95); backdrop-filter: blur(24px);
         flex-direction: column; align-items: center;
         gap: 0; list-style: none;
         border-bottom: 1px solid rgba(46,46,46,0.08);
         padding: 0.5rem 0 1.2rem; z-index: 200;
       }
-      .nav-links.open { display: flex !important; }
+      .nav-links.open { display: flex; }
       .nav-links a { display: inline-block; padding: 0.55rem 1.6rem; font-size: 1.05rem; border-radius: 9999px; color: var(--dark); }
       .nav-links li { width: 100%; text-align: center; }
       .projects-grid {
@@ -466,38 +449,6 @@
     @media (max-width: 640px) {
       .page-header h1 { font-size: 2.2rem; }
     }
-
-    /* ── LANG SWITCHER ── */
-    button.lang-switcher {
-      cursor: none;
-      background: none;
-    }
-    .lang-switcher {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-decoration: none;
-      border: 1.5px solid var(--dark);
-      color: var(--dark);
-      border-radius: 9999px;
-      padding: 0.28rem 0.75rem;
-      transition: color 0.2s, background 0.2s, border-color 0.2s;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-    .lang-switcher-sep { opacity: 0.35; }
-    .lang-active { font-weight: 800; opacity: 1; }
-    .lang-switcher-es:not(.lang-active),
-    .lang-switcher-en:not(.lang-active) { opacity: 0.35; }
-    @media (max-width: 1024px) {
-      .lang-switcher-sep,
-      .lang-switcher-es:not(.lang-active),
-      .lang-switcher-en:not(.lang-active) { display: none; }
-    }
-
   </style>
 </head>
 <body>
@@ -519,22 +470,9 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="portfolio.html" class="active">Portfolio</a></li>
-      <li>
-        <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
-          <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
-        </a>
-      </li>
-      <li>
-        <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
-          <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
-        </a>
-      </li>
+      <li><a href="sobre.html">Sobre mí</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
     </ul>
-    <button onclick="toggleLang()" class="lang-switcher" aria-label="Switch language" id="navLangBtn">
-      <span class="lang-switcher-es lang-active" id="navEs">ES</span>
-      <span class="lang-switcher-sep">/</span>
-      <span class="lang-switcher-en" id="navEn">EN</span>
-    </button>
   </nav>
 <div class="snap-wrap" id="snapWrap">
 
@@ -542,12 +480,12 @@
     <section class="snap-hero">
       <header class="page-header">
         <h1>Portfolio <span class="diamond">✦</span></h1>
-        <p><span data-es>Spoiler: aquí dentro hay más de lo que esperas. Diseño, dirección, identidad, movimiento… el resultado de no quedarse quieta.</span><span data-en style="display:none">Spoiler: there's more here than you'd expect. Design, direction, identity, motion… the result of never standing still.</span></p>
+        <p>Spoiler: aquí dentro hay más de lo que esperas. Diseño, dirección, identidad, movimiento… el resultado de no quedarse quieta.</p>
       </header>
 
       <!-- scroll arrow -->
       <button class="scroll-arrow" id="scrollArrow" aria-label="Ver proyectos">
-        <span><span data-es>Desliza o pulsa para verlo</span><span data-en style="display:none">Scroll or tap to see it</span></span>
+        <span>Desliza o pulsa para verlo</span>
         <div class="scroll-arrow-circle">
           <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
@@ -559,13 +497,13 @@
       <canvas id="grain-cards"></canvas>
 
       <div class="filters-row">
-        <button class="filter-btn active" data-filter="all"><span data-es>Todo</span><span data-en style="display:none">All</span></button>
+        <button class="filter-btn active" data-filter="all">Todo</button>
         <button class="filter-btn" data-filter="ia">IA</button>
         <button class="filter-btn" data-filter="branding">Branding</button>
-        <button class="filter-btn" data-filter="motion"><span data-es>Motion & Vídeo</span><span data-en style="display:none">Motion & Video</span></button>
+        <button class="filter-btn" data-filter="motion">Motion & Vídeo</button>
         <button class="filter-btn" data-filter="uxui">UX UI</button>
         <button class="filter-btn" data-filter="foto">Fotografía</button>
-        <button class="filter-btn" data-filter="ilustracion"><span data-es>Ilustración</span><span data-en style="display:none">Illustration</span></button>
+        <button class="filter-btn" data-filter="ilustracion">Ilustración</button>
       </div>
 
       <!-- data-cat: categorías separadas por espacio, ej: data-cat="ia branding" -->
@@ -579,7 +517,7 @@
               <span class="cat-tag">IA</span>
               <span class="cat-tag">Branding</span>
             </div>
-            <h3><span data-es>Campaña generativa</span><span data-en style="display:none">Generative Campaign</span></h3>
+            <h3>Campaña generativa</h3>
             
           </div>
         </a>
@@ -591,7 +529,7 @@
             <div class="proj-tags-row">
               <span class="cat-tag">Branding</span>
             </div>
-            <h3><span data-es>Identidad de marca</span><span data-en style="display:none">Brand Identity</span></h3>
+            <h3>Identidad de marca</h3>
             
           </div>
         </a>
@@ -604,7 +542,7 @@
               <span class="cat-tag">UX UI</span>
               <span class="cat-tag">IA</span>
             </div>
-            <h3><span data-es>App con IA</span><span data-en style="display:none">App with AI</span></h3>
+            <h3>App con IA</h3>
             
           </div>
         </a>
@@ -616,7 +554,7 @@
             <div class="proj-tags-row">
               <span class="cat-tag">Motion & Vídeo</span>
             </div>
-            <h3><span data-es>Motion para campaña</span><span data-en style="display:none">Campaign Motion</span></h3>
+            <h3>Motion para campaña</h3>
             
           </div>
         </a>
@@ -626,9 +564,9 @@
           <div class="proj-overlay"></div>
           <div class="proj-info">
             <div class="proj-tags-row">
-              <span class="cat-tag"><span data-es>Fotografía</span><span data-en style="display:none">Photography</span></span>
+              <span class="cat-tag">Fotografía</span>
             </div>
-            <h3><span data-es>Shooting editorial</span><span data-en style="display:none">Editorial Shoot</span></h3>
+            <h3>Shooting editorial</h3>
             
           </div>
         </a>
@@ -638,9 +576,9 @@
           <div class="proj-overlay"></div>
           <div class="proj-info">
             <div class="proj-tags-row">
-              <span class="cat-tag"><span data-es>Ilustración</span><span data-en style="display:none">Illustration</span></span>
+              <span class="cat-tag">Ilustración</span>
             </div>
-            <h3><span data-es>Fotomontaje a mano</span><span data-en style="display:none">Hand Photomontage</span></h3>
+            <h3>Fotomontaje a mano</h3>
             
           </div>
         </a>
@@ -653,7 +591,7 @@
               <span class="cat-tag">Branding</span>
               <span class="cat-tag">UX UI</span>
             </div>
-            <h3><span data-es>Rediseño de marca</span><span data-en style="display:none">Brand Redesign</span></h3>
+            <h3>Rediseño de marca</h3>
             
           </div>
         </a>
@@ -666,7 +604,7 @@
               <span class="cat-tag">Motion & Vídeo</span>
               <span class="cat-tag">IA</span>
             </div>
-            <h3><span data-es>Vídeo generativo</span><span data-en style="display:none">Generative Video</span></h3>
+            <h3>Vídeo generativo</h3>
             
           </div>
         </a>
@@ -676,10 +614,10 @@
           <div class="proj-overlay"></div>
           <div class="proj-info">
             <div class="proj-tags-row">
-              <span class="cat-tag"><span data-es>Fotografía</span><span data-en style="display:none">Photography</span></span>
+              <span class="cat-tag">Fotografía</span>
               <span class="cat-tag">Branding</span>
             </div>
-            <h3><span data-es>Campaña editorial</span><span data-en style="display:none">Editorial Campaign</span></h3>
+            <h3>Campaña editorial</h3>
             
           </div>
         </a>
@@ -689,10 +627,10 @@
           <div class="proj-overlay"></div>
           <div class="proj-info">
             <div class="proj-tags-row">
-              <span class="cat-tag"><span data-es>Ilustración</span><span data-en style="display:none">Illustration</span></span>
+              <span class="cat-tag">Ilustración</span>
               <span class="cat-tag">IA</span>
             </div>
-            <h3><span data-es>Serie ilustrada</span><span data-en style="display:none">Illustrated Series</span></h3>
+            <h3>Serie ilustrada</h3>
             
           </div>
         </a>
@@ -710,12 +648,8 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
-        <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
-      </a>
-      <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
-        <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
-      </a>
+      <a href="sobre.html">Sobre mí</a>
+      <a href="contacto.html">Contacto</a>
     </nav>
     <div class="footer-social">
       <a href="#" id="copyEmail" title="Copiar correo">
@@ -728,7 +662,7 @@
         <svg viewBox="0 0 24 24"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
       </a>
     </div>
-    <p class="footer-copy">© 2026 Isa Correa. <span data-es>Todos los derechos reservados.</span><span data-en style="display:none">All rights reserved.</span></p>
+    <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
     <canvas id="grain-cards"></canvas>
   </footer>
     </section>
@@ -736,7 +670,7 @@
   </div><!-- /snap-wrap -->
 
 
-  <div class="toast" id="toast"><span data-es>✓ Correo copiado</span><span data-en style="display:none">✓ Email copied</span></div>
+  <div class="toast" id="toast">✓ Correo copiado</div>
   <canvas id="grain"></canvas>
   <div id="cursor"></div>
 
@@ -861,55 +795,10 @@
       cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a, button, .lang-toggle').forEach(el => {
+    document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
-
-    // ── BILINGUAL LANGUAGE TOGGLE ─────────────────────────────────────────
-    let currentLang = localStorage.getItem('isa-lang') || 'es';
-
-    function applyLang(lang) {
-      currentLang = lang;
-      localStorage.setItem('isa-lang', lang);
-      document.getElementById('htmlRoot').lang = lang;
-
-      document.querySelectorAll('[data-es]').forEach(el => {
-        el.style.display = lang === 'es' ? '' : 'none';
-      });
-      document.querySelectorAll('[data-en]').forEach(el => {
-        el.style.display = lang === 'en' ? '' : 'none';
-      });
-
-      const navEs = document.getElementById('navEs');
-      const navEn = document.getElementById('navEn');
-      if (navEs && navEn) {
-        navEs.classList.toggle('lang-active', lang === 'es');
-        navEn.classList.toggle('lang-active', lang === 'en');
-      }
-
-      document.querySelectorAll('.nav-link-lang').forEach(a => {
-        const href = lang === 'es' ? a.dataset.esHref : a.dataset.enHref;
-        if (href) a.href = href;
-      });
-
-      const copyBtn = document.getElementById('copyEmail');
-      if (copyBtn) copyBtn.title = lang === 'es' ? 'Copiar correo' : 'Copy email';
-
-      const burger = document.getElementById('hamburger');
-      if (burger) burger.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
-
-      // Page title
-      const titles = { es: document.documentElement.dataset.titleEs, en: document.documentElement.dataset.titleEn };
-      if (titles[lang]) document.title = titles[lang];
-    }
-
-    function toggleLang() {
-      applyLang(currentLang === 'es' ? 'en' : 'es');
-    }
-
-    applyLang(currentLang);
-
   </script>
 
   <script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" id="htmlRoot" data-title-es="Contacto — Isa Correa" data-title-en="Contact — Isa Correa">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -49,6 +49,7 @@
     nav {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 1.4rem 3rem;
       position: sticky; top: 0;
       background: transparent;
@@ -57,11 +58,6 @@
       border-bottom: 1px solid rgba(0,0,0,0.06);
       animation: slideUpFade 0.6s ease 0s both;
     }
-
-    .logo { order: 1; }
-    .nav-links { order: 2; display: flex; gap: 2rem; list-style: none; margin-left: auto; }
-    .lang-switcher { order: 4; }
-    .hamburger { order: 3; }
 
     .logo {
       display: flex; align-items: flex-start; gap: 0.55rem;
@@ -122,6 +118,8 @@
       transform-origin: center center;
     }
 
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
     .nav-links a {
       font-family: 'Nunito', sans-serif;
       font-size: 0.9rem; font-weight: 600;
@@ -137,7 +135,7 @@
 
     /* HAMBURGER */
     .hamburger {
-      display: none !important; flex-direction: column; justify-content: center;
+      display: none; flex-direction: column; justify-content: center;
       gap: 5px; background: none; border: none; padding: 4px; cursor: none;
     }
     .hamburger span {
@@ -457,15 +455,12 @@
     }
 
     @media (max-width: 1024px) {
-      nav { padding: 1.2rem 1.5rem; }
+      nav { padding: 1.2rem 1.5rem; animation: slideUpFade 0.6s ease 0s both; }
 
-      .hamburger { display: flex !important; order: 3; margin-left: auto; }
-      .lang-switcher { order: 4; margin-left: 0.5rem; }
-      .nav-links { order: 2; margin-left: 0; }
+      .hamburger { display: flex; }
 
       .nav-links {
-        display: none !important; 
-        position: absolute;
+        display: none; position: absolute;
         top: 100%; left: 0; right: 0;
         background: var(--blue);
         flex-direction: column; align-items: center;
@@ -473,7 +468,7 @@
         border-bottom: 1px solid rgba(0,0,0,0.07);
         padding: 0.5rem 0 1.2rem; z-index: 200;
       }
-      .nav-links.open { display: flex !important; }
+      .nav-links.open { display: flex; }
       .nav-links a {
         display: inline-block; padding: 0.55rem 1.6rem;
         font-size: 1.05rem; border-radius: 9999px; width: auto;
@@ -493,37 +488,6 @@
       footer nav { flex-wrap: nowrap; justify-content: center; width: 100%; }
       footer nav a { flex: 1; }
     }
-
-    /* ── LANG SWITCHER ── */
-    button.lang-switcher {
-      cursor: none;
-      background: none;
-    }
-    .lang-switcher {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-decoration: none;
-      border: 1.5px solid currentColor;
-      border-radius: 9999px;
-      padding: 0.28rem 0.75rem;
-      transition: color 0.2s, background 0.2s, border-color 0.2s;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-    .lang-switcher-sep { opacity: 0.35; }
-    .lang-active { font-weight: 800; opacity: 1; }
-    .lang-switcher-es:not(.lang-active),
-    .lang-switcher-en:not(.lang-active) { opacity: 0.35; }
-    @media (max-width: 1024px) {
-      .lang-switcher-sep,
-      .lang-switcher-es:not(.lang-active),
-      .lang-switcher-en:not(.lang-active) { display: none; }
-    }
-
   </style>
 </head>
 <body>
@@ -542,22 +506,9 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="portfolio.html">Portfolio</a></li>
-      <li>
-        <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
-          <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
-        </a>
-      </li>
-      <li>
-        <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang active">
-          <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
-        </a>
-      </li>
+      <li><a href="sobre.html">Sobre mí</a></li>
+      <li><a href="contacto.html" class="active">Contacto</a></li>
     </ul>
-    <button onclick="toggleLang()" class="lang-switcher" aria-label="Switch language" id="navLangBtn">
-      <span class="lang-switcher-es lang-active" id="navEs">ES</span>
-      <span class="lang-switcher-sep">/</span>
-      <span class="lang-switcher-en" id="navEn">EN</span>
-    </button>
   </nav>
 
   <main>
@@ -567,26 +518,26 @@
       <div class="card-left">
 
         <!-- FIX 5 & 6: diamond aligned to text baseline, h1 over text block -->
-        <h1><span data-es>Hablemos</span><span data-en style="display:none">Let's talk</span> <span class="diamond">✦</span></h1>
+        <h1>Hablemos <span class="diamond">✦</span></h1>
 
         <div class="card-body">
-          <p><span data-es>¿Tienes un proyecto en mente? ¿Quieres colaborar o simplemente decir hola? Me encantaría escucharte. Escríbeme y te respondo en menos de 24 h.</span><span data-en style="display:none">Got a project in mind? Want to collaborate or just say hello? I'd love to hear from you. Write to me and I'll get back to you within 24 hours.</span></p>
+          <p>¿Tienes un proyecto en mente? ¿Quieres colaborar o simplemente decir hola? Me encantaría escucharte. Escríbeme y te respondo en menos de 24 h.</p>
 
           <div class="cta-buttons">
-            <a href="mailto:isacorreaur@gmail.com" id="escribemeBtn" class="btn-green">
+            <a href="mailto:isacorreaur@gmail.com?subject=¡Hola%20Isa!%20Me%20gustaría%20contactar%20contigo%20✨" class="btn-green">
               <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-              <span data-es>¡Escríbeme!</span><span data-en style="display:none">Drop me a line!</span>
+              ¡Escríbeme!
             </a>
             <a href="tel:+34680391173" class="btn-green">
               <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-              <span data-es>¿Hablamos?</span><span data-en style="display:none">Let's chat?</span>
+              ¿Hablamos?
             </a>
           </div>
         </div>
 
         <!-- Lottie walk — flush at bottom -->
         <div class="lottie-walk-wrap">
-          <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+          <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
           <dotlottie-wc
             class="lottie-walker"
             src="https://lottie.host/6a80aaa2-1867-4b28-870e-59df5aeac201/IjwgDKi9Gy.lottie"
@@ -600,9 +551,9 @@
       <div class="card-right">
 
         <!-- FIX 6: forced two-line break -->
-        <h2><span data-es>¿Quieres cotillear<br>un poco más?</span><span data-en style="display:none">Want to snoop<br>around a bit more?</span></h2>
+        <h2>¿Quieres cotillear<br>un poco más?</h2>
 
-        <p><span data-es>Si no tienes una urgencia pero te apetece ver en qué estoy metida o cómo pienso, te dejo estos accesos directos:</span><span data-en style="display:none">No rush? Just want to see what I'm working on or how I think? Here are some quick links:</span></p>
+        <p>Si no tienes una urgencia pero te apetece ver en qué estoy metida o cómo pienso, te dejo estos accesos directos:</p>
 
         <!-- FIX 2: no deco orbiting circles; FIX 3: new icons; FIX 4: flex-wrap prevents overflow -->
         <div class="nav-circles">
@@ -612,7 +563,7 @@
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
             </svg>
-            <span data-es>Conectar</span><span data-en style="display:none">Connect</span>
+            Conectar
           </a>
 
           <!-- Proyectos: brush / paintbrush icon -->
@@ -620,15 +571,15 @@
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37-1.34-1.34a1 1 0 0 0-1.41 0L9 12.25 11.75 15l8.96-8.96a1 1 0 0 0 0-1.41z"/>
             </svg>
-            <span data-es>Proyectos</span><span data-en style="display:none">Projects</span>
+            Proyectos
           </a>
 
           <!-- Conóceme: sparkles / stars icon -->
-          <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-circle circle-w3 nav-link-lang">
+          <a href="sobre.html" class="nav-circle circle-w3">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74L12 2zm-6 14l1.06 3.17L10 20l-2.94.83L6 24l-1.06-3.17L2 20l2.94-.83L6 16zm12 0 1.06 3.17L22 20l-2.94.83L18 24l-1.06-3.17L14 20l2.94-.83L18 16z"/>
             </svg>
-            <span data-es>Conóceme</span><span data-en style="display:none">About me</span>
+            Conóceme
           </a>
 
         </div>
@@ -648,12 +599,8 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="sobre.html" data-es-href="sobre.html" data-en-href="about.html" class="nav-link-lang">
-        <span data-es>Sobre mí</span><span data-en style="display:none">About me</span>
-      </a>
-      <a href="contacto.html" data-es-href="contacto.html" data-en-href="contact.html" class="nav-link-lang">
-        <span data-es>Contacto</span><span data-en style="display:none">Contact</span>
-      </a>
+      <a href="sobre.html">Sobre mí</a>
+      <a href="contacto.html">Contacto</a>
     </nav>
     <div class="footer-social">
       <a href="#" id="copyEmail" title="Copiar correo">
@@ -666,10 +613,10 @@
         <svg viewBox="0 0 24 24"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
       </a>
     </div>
-    <p class="footer-copy">© 2026 Isa Correa. <span data-es>Todos los derechos reservados.</span><span data-en style="display:none">All rights reserved.</span></p>
+    <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
   </footer>
 
-  <div class="toast" id="toast"><span data-es>✓ Correo copiado</span><span data-en style="display:none">✓ Email copied</span></div>
+  <div class="toast" id="toast">✓ Correo copiado</div>
   <canvas id="grain-canvas"></canvas>
   <div id="cursor"></div>
 
@@ -720,60 +667,6 @@
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
-
-    // ── BILINGUAL LANGUAGE TOGGLE ─────────────────────────────────────────
-    let currentLang = localStorage.getItem('isa-lang') || 'es';
-
-    function applyLang(lang) {
-      currentLang = lang;
-      localStorage.setItem('isa-lang', lang);
-      document.getElementById('htmlRoot').lang = lang;
-
-      document.querySelectorAll('[data-es]').forEach(el => {
-        el.style.display = lang === 'es' ? '' : 'none';
-      });
-      document.querySelectorAll('[data-en]').forEach(el => {
-        el.style.display = lang === 'en' ? '' : 'none';
-      });
-
-      const navEs = document.getElementById('navEs');
-      const navEn = document.getElementById('navEn');
-      if (navEs && navEn) {
-        navEs.classList.toggle('lang-active', lang === 'es');
-        navEn.classList.toggle('lang-active', lang === 'en');
-      }
-
-      document.querySelectorAll('.nav-link-lang').forEach(a => {
-        const href = lang === 'es' ? a.dataset.esHref : a.dataset.enHref;
-        if (href) a.href = href;
-      });
-
-      const copyBtn = document.getElementById('copyEmail');
-      if (copyBtn) copyBtn.title = lang === 'es' ? 'Copiar correo' : 'Copy email';
-
-      const burger = document.getElementById('hamburger');
-      if (burger) burger.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
-
-      // Update email button subject based on language
-      const escribemeBtn = document.getElementById('escribemeBtn');
-      if (escribemeBtn) {
-        const subject = lang === 'es' 
-          ? '¡Hola Isa! Me gustaría contactar contigo ✨'
-          : 'Hello Isa! I\'d like to contact you ✨';
-        escribemeBtn.href = 'mailto:isacorreaur@gmail.com?subject=' + encodeURIComponent(subject);
-      }
-
-      // Page title
-      const titles = { es: document.documentElement.dataset.titleEs, en: document.documentElement.dataset.titleEn };
-      if (titles[lang]) document.title = titles[lang];
-    }
-
-    function toggleLang() {
-      applyLang(currentLang === 'es' ? 'en' : 'es');
-    }
-
-    applyLang(currentLang);
-
   </script>
 
   <script>
@@ -792,4 +685,15 @@
           const d = img.data;
           for (let i = 0; i < d.length; i += 4) {
             const v = Math.random() * 255 | 0;
-            d[i] = d[i+
+            d[i] = d[i+1] = d[i+2] = v;
+            d[i+3] = Math.random() * 22 | 0;
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+  </script>
+</body>
+</html>
