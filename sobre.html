@@ -93,12 +93,6 @@
       list-style: none;
     }
 
-    .nav-links li {
-      display: flex;
-      align-items: center;
-      min-height: 44px;
-    }
-
     .nav-links a {
       font-family: 'Nunito', sans-serif;
       font-size: 0.88rem;
@@ -109,8 +103,6 @@
       padding: 0.35rem 1rem;
       border-radius: 999px;
       transition: color 0.2s, background 0.2s;
-      display: flex;
-      align-items: center;
     }
 
     .nav-links a.active {
@@ -121,21 +113,6 @@
 
     .nav-links a:not(.active):hover {
       color: var(--pink);
-    }
-
-    /* DESKTOP: nav-links aligned to right */
-    @media (min-width: 1025px) {
-      nav#mainNav {
-        gap: 0;
-      }
-      .nav-links {
-        flex: 1;
-        justify-content: flex-end;
-        margin-right: 3rem;
-      }
-      .lang-switcher {
-        margin-left: 0;
-      }
     }
 
     /* Hamburger */
@@ -161,73 +138,6 @@
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* LANG SWITCHER */
-    .lang-switcher {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      color: var(--cream);
-      text-decoration: none;
-      border: 1.5px solid var(--cream);
-      border-radius: 9999px;
-      padding: 0.28rem 0.75rem;
-      transition: color 0.2s, background 0.2s, border-color 0.2s;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      cursor: pointer;
-      background: transparent;
-    }
-
-    .lang-switcher:hover {
-      color: var(--dark);
-      background: var(--cream);
-    }
-
-    .lang-switcher:hover .lang-active { color: var(--dark); }
-    .lang-switcher:hover .lang-switcher-sep { color: var(--dark); }
-
-    .lang-switcher-sep { opacity: 0.35; }
-
-    .lang-active {
-      font-weight: 800;
-      opacity: 1;
-    }
-
-    .lang-switcher-es:not(.lang-active),
-    .lang-switcher-en:not(.lang-active) {
-      opacity: 0.35;
-    }
-
-    @media (max-width: 1024px) {
-      .lang-switcher-sep,
-      .lang-switcher-es:not(.lang-active),
-      .lang-switcher-en:not(.lang-active) {
-        display: none;
-      }
-    }
-
-    /* Language-specific hiding */
-    [data-lang="en"]:not(.lang-en),
-    [data-lang="es"]:not(.lang-es) {
-      display: none;
-    }
-
-    .lang-es [data-lang="es"],
-    .lang-en [data-lang="en"] {
-      display: inherit;
-    }
-
-    .lang-es [data-lang="en"] {
-      display: none;
-    }
-
-    .lang-en [data-lang="es"] {
-      display: none;
-    }
 
     /* ── HERO SCROLL EFFECT ───────────────────
        - Ilustración: fixed, top = nav(~64px) + 80px margen = 144px
@@ -290,7 +200,7 @@
       margin-left: 15%;
       margin-right: 15%;
       margin-bottom: 3rem;
-      padding: 2rem 3.5rem 5rem;
+      padding: 3.5rem 3.5rem 5rem;
     }
 
     .card-inner {
@@ -304,7 +214,7 @@
       font-weight: 400;
       color: var(--red);
       text-align: center;
-      margin-bottom: 1.2rem;
+      margin-bottom: 2rem;
     }
 
     .card-intro {
@@ -313,7 +223,7 @@
       color: #444;
       text-align: center;
       max-width: 640px;
-      margin: 0 auto 1.5rem;
+      margin: 0 auto 2.5rem;
     }
 
     .cv-inline-link {
@@ -345,7 +255,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem 5%;
+      padding: 2.5rem 5%;
     }
 
     .yellow-block p {
@@ -711,25 +621,9 @@
     @media (max-width: 1024px) {
       nav#mainNav {
         padding: 1.2rem 1.5rem;
-        display: flex;
-        align-items: center;
       }
 
-      .logo {
-        order: 1;
-      }
-
-      .lang-switcher {
-        order: 2;
-        margin-left: auto;
-        margin-right: 0.75rem;
-      }
-
-      .hamburger {
-        order: 3;
-        display: flex;
-        margin-left: 0;
-      }
+      .hamburger { display: flex; }
 
       .nav-links {
         display: none;
@@ -814,7 +708,7 @@
     }
   </style>
 </head>
-<body class="lang-es">
+<body>
 
   <!-- NAV fixed -->
   <canvas id="particles-canvas"></canvas>
@@ -830,16 +724,11 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" data-lang="es">Inicio</a><a href="index_EN.html" data-lang="en">Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="portfolio.html">Portfolio</a></li>
-      <li><a href="sobre.html" class="active" data-lang="es">Sobre mí</a><a href="sobre_EN.html" class="active" data-lang="en">About me</a></li>
-      <li><a href="contacto.html" data-lang="es">Contacto</a><a href="contacto_EN.html" data-lang="en">Contact</a></li>
+      <li><a href="sobre.html" class="active">Sobre mí</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
     </ul>
-    <a href="#" class="lang-switcher" id="langSwitcher" aria-label="Switch language">
-      <span class="lang-switcher-es lang-active">ES</span>
-      <span class="lang-switcher-sep">/</span>
-      <span class="lang-switcher-en">EN</span>
-    </a>
   </nav>
 
   <!-- ③ HERO: ilustración a pantalla completa + peek de la tarjeta -->
@@ -922,7 +811,7 @@
         <h3>¿Te has quedado con ganas de más?</h3>
         <p>Por aquí no verás detalles de las empresas en las que trabajé (salvo autorizadas), pero si quieres cotillear los nombres, ver más proyectos o saber qué café tomo, pídeme mi CV completo. Estaré encantada de enviártelo.</p>
         <div class="cv-cta-row">
-          <a href="mailto:isacorreaur@gmail.com?subject=¡Hola%20Isa!%20Pásame%20ese%20CV%20(y%20dime%20qué%20café%20tomas%20☕️)" class="btn-cv">
+          <a href="mailto:isacorreaur@gmail.com?subject=¡Hola Isa! Pásame ese CV (y dime qué café tomas ☕️)" class="btn-cv">
             <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor" stroke="none"/></svg>
             Pídeme el CV
           </a>
@@ -965,16 +854,13 @@
       </span>
     </div>
     <nav>
-      <a href="index.html" data-lang="es">Inicio</a>
-      <a href="index_EN.html" data-lang="en">Home</a>
+      <a href="index.html">Home</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="sobre.html" data-lang="es">Sobre mí</a>
-      <a href="sobre_EN.html" data-lang="en">About me</a>
-      <a href="contacto.html" data-lang="es">Contacto</a>
-      <a href="contacto_EN.html" data-lang="en">Contact</a>
+      <a href="sobre.html">Sobre mí</a>
+      <a href="contacto.html">Contacto</a>
     </nav>
     <div class="footer-social">
-      <a href="#" id="copyEmail" title="Copiar correo / Copy email">
+      <a href="#" id="copyEmail" title="Copiar correo">
         <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
       </a>
       <a href="https://www.linkedin.com/in/isacorrea97" target="_blank" title="LinkedIn">
@@ -984,15 +870,13 @@
         <svg viewBox="0 0 24 24"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.767-.63.165-1.29.254-1.99.254H1V4.503h5.938zm-.385 5.77c.595 0 1.078-.14 1.44-.42.365-.28.55-.72.55-1.32 0-.32-.058-.59-.17-.8-.116-.21-.27-.38-.47-.51-.198-.13-.43-.22-.69-.27-.26-.05-.535-.08-.82-.08H3.9v3.4h2.653zm.15 6.05c.31 0 .606-.03.886-.09.28-.06.527-.16.74-.31.21-.148.38-.35.508-.596.127-.246.19-.57.19-.96 0-.76-.21-1.3-.636-1.61-.424-.31-.99-.46-1.69-.46H3.9v4.026h2.803zm8.24-2.65c.16.795.5 1.39 1.02 1.78.52.387 1.16.58 1.92.58.58 0 1.085-.13 1.508-.393.424-.26.7-.563.827-.91h2.45c-.39 1.2-1.01 2.06-1.85 2.58-.837.52-1.848.78-3.03.78-.824 0-1.567-.13-2.23-.39-.662-.26-1.226-.63-1.69-1.11-.465-.48-.822-1.05-1.072-1.72-.25-.67-.376-1.41-.376-2.22 0-.785.13-1.514.39-2.186.258-.674.624-1.254 1.1-1.742.474-.488 1.04-.87 1.698-1.148.66-.277 1.393-.416 2.2-.416.896 0 1.68.17 2.356.516.674.344 1.226.81 1.654 1.4.43.587.737 1.258.926 2.01.19.754.254 1.547.19 2.38h-7.29zm5.02-1.93c-.127-.698-.406-1.247-.836-1.647-.43-.4-.997-.6-1.7-.6-.477 0-.877.08-1.2.24-.325.16-.59.36-.796.6-.207.24-.356.5-.45.79-.094.29-.15.574-.162.858h5.144zm-3.38-6.44h4.804v1.268H16.58V5.3z"/></svg>
       </a>
     </div>
-    <p class="footer-copy" data-lang="es">© 2026 Isa Correa. Todos los derechos reservados.</p>
-    <p class="footer-copy" data-lang="en">© 2026 Isa Correa. All rights reserved.</p>
+    <p class="footer-copy">© 2026 Isa Correa. Todos los derechos reservados.</p>
   </footer>
 
-  <div class="toast" id="toast" data-lang="es">✓ Correo copiado</div>
-  <div class="toast" id="toast-en" data-lang="en">✓ Email copied</div>
+  <div class="toast" id="toast">✓ Correo copiado</div>
   <div id="cursor"></div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ③ Efecto scroll: la ilustración se queda fija (sticky)
     // mientras el contenido de la tarjeta sube y la tapa.
     // Lo hacemos con position: sticky en la ilustración dentro del hero.
@@ -1086,46 +970,11 @@
     }, { threshold: 0.2 });
     document.querySelectorAll('.tl-item').forEach(el => tlObs.observe(el));
 
-    // Language switching
-    const langSwitcher = document.getElementById('langSwitcher');
-    const body = document.body;
-    const langEs = document.querySelector('.lang-switcher-es');
-    const langEn = document.querySelector('.lang-switcher-en');
-
-    // Check localStorage for saved language preference
-    const savedLang = localStorage.getItem('language') || 'es';
-    setLanguage(savedLang);
-
-    langSwitcher.addEventListener('click', (e) => {
-      e.preventDefault();
-      const currentLang = body.classList.contains('lang-es') ? 'es' : 'en';
-      const newLang = currentLang === 'es' ? 'en' : 'es';
-      setLanguage(newLang);
-    });
-
-    function setLanguage(lang) {
-      if (lang === 'es') {
-        body.classList.remove('lang-en');
-        body.classList.add('lang-es');
-        langEs.classList.add('lang-active');
-        langEn.classList.remove('lang-active');
-        document.documentElement.lang = 'es';
-      } else {
-        body.classList.remove('lang-es');
-        body.classList.add('lang-en');
-        langEs.classList.remove('lang-active');
-        langEn.classList.add('lang-active');
-        document.documentElement.lang = 'en';
-      }
-      localStorage.setItem('language', lang);
-    }
-
     // Copy email
     document.getElementById('copyEmail').addEventListener('click', e => {
       e.preventDefault();
       navigator.clipboard.writeText('isacorreaur@gmail.com').then(() => {
-        const currentLang = body.classList.contains('lang-es') ? 'toast' : 'toast-en';
-        const t = document.getElementById(currentLang);
+        const t = document.getElementById('toast');
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 2500);
       });
@@ -1292,4 +1141,10 @@
         lastScrollY = window.scrollY;
       }, { passive: true });
 
-      wi
+      window.addEventListener('touchend', () => {
+        if (bouncing) return;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const sy = window.scrollY;
+
+        if (sy <= 0) {
+   
