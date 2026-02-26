@@ -148,12 +148,12 @@
     .nav-links a:not([data-section]) { color: var(--cream); }
     .nav-links a[data-section="green"]:hover,
     .nav-links a:not([data-section]):hover { color: var(--green); background: var(--cream); }
-    .nav-links a.active { color: var(--green) !important; background: var(--cream) !important; }
+    .nav-links a.active { color: var(--green) !important; background: var(--cream) !important; border-radius: 9999px !important; }
     /* Segunda card (fondo crema): color base oscuro, hover → fondo rojo, letra crema; activo → rojo */
     .nav-links a[data-section="cream"] { color: var(--dark); }
     nav.on-cream .nav-links a[data-section="cream"]:not(.active):hover,
     nav.on-cream .nav-links a:not(.active):hover { background: var(--red) !important; color: var(--cream) !important; }
-    nav.on-cream .nav-links a.active { color: var(--cream) !important; background: var(--red) !important; }
+    nav.on-cream .nav-links a.active { color: var(--cream) !important; background: var(--red) !important; border-radius: 9999px !important; }
 
     .hamburger {
       display: none; flex-direction: column; justify-content: center;
@@ -282,10 +282,35 @@
     .carousel-wrapper {
       flex: 1; min-height: 0;
       position: relative; z-index: 2;
-      display: flex; align-items: center;
+      display: flex; flex-direction: column; align-items: stretch;
       padding: 0.5rem 0;
       overflow: hidden;
     }
+    
+    /* Barra de progreso */
+    .progress-bar-container {
+      height: 4px;
+      background: rgba(46, 46, 46, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+      flex-shrink: 0;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 2px;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      width: 0%;
+    }
+    
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-shrink: 0;
+    }
+    
     .carousel-arrow {
       flex-shrink: 0;
       width: 44px; height: 44px; border-radius: 50%;
@@ -293,7 +318,6 @@
       display: flex; align-items: center; justify-content: center;
       transition: background 0.2s, transform 0.2s;
       z-index: 5; position: relative;
-      margin: 0 0.7rem;
     }
     .carousel-arrow:hover { background: var(--red); transform: scale(1.08); }
     .carousel-arrow svg { width: 20px; height: 20px; fill: none; stroke: var(--cream); stroke-width: 2.5; }
@@ -433,7 +457,7 @@
       .carousel-arrow { display: none; }
       .projects-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
         gap: 10px;
         overflow: hidden;
@@ -463,6 +487,28 @@
       .nav-links.open { display: flex; }
       .nav-links a { display: inline-block; padding: 0.55rem 1.6rem; font-size: 1.05rem; border-radius: 9999px; color: var(--dark); }
       .nav-links li { width: 100%; text-align: center; }
+      
+      /* En hero (móvil): menú con fondo verde transparente y efecto cristal */
+      nav:not(.on-cream) .nav-links {
+        background: rgba(107, 143, 71, 0.75) !important; 
+        backdrop-filter: blur(16px) saturate(1.3) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(1.3) !important;
+        border-bottom-color: rgba(107, 143, 71, 0.5) !important;
+      }
+      nav:not(.on-cream) .nav-links a {
+        color: var(--cream) !important;
+        transition: all 0.2s ease !important;
+      }
+      nav:not(.on-cream) .nav-links a:not(.active):hover {
+        background: var(--cream) !important;
+        color: var(--green) !important;
+      }
+      nav:not(.on-cream) .nav-links a.active {
+        background: var(--cream) !important;
+        color: var(--green) !important;
+        border-radius: 9999px !important;
+      }
+      
       .carousel-wrapper { display: block; padding: 0.5rem 4% 1rem; }
       .carousel-arrow { display: none; }
       .projects-grid {
@@ -540,10 +586,14 @@
 
       <!-- data-cat: categorías separadas por espacio, ej: data-cat="ia branding" -->
       <div class="carousel-wrapper" id="carouselWrapper">
-        <button class="carousel-arrow" id="arrowPrev" aria-label="Anterior">
-          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <div class="projects-grid" id="projectsGrid">
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-arrow" id="arrowPrev" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="projects-grid" id="projectsGrid">
 
         <a href="lume-mood.html" class="proj-item" data-cat="ia uxui">
           <img class="proj-img" src="portfolio/principal/lume-mood-cover.jpg" alt="Lume Mood | App Design"/>
@@ -638,9 +688,10 @@
         </a>
 
       </div><!-- /projects-grid -->
-        <button class="carousel-arrow" id="arrowNext" aria-label="Siguiente">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+          <button class="carousel-arrow" id="arrowNext" aria-label="Siguiente">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div><!-- /carousel-controls -->
       </div><!-- /carousel-wrapper -->
 
   <footer>
@@ -700,6 +751,43 @@
     setNavHeight();
     window.addEventListener('resize', setNavHeight);
 
+    // Función para aplicar estilos del menú dropdown en móvil según sección
+    function updateNavLinksStyle(onCards) {
+      const navLinks = navEl.querySelector('.nav-links');
+      if (!navLinks) return;
+      
+      if (!onCards && window.innerWidth <= 768) {
+        // En hero en móvil: fondo verde transparente con cristal
+        navLinks.style.background = 'rgba(107, 143, 71, 0.75)';
+        navLinks.style.backdropFilter = 'blur(16px) saturate(1.3)';
+        navLinks.style.webkitBackdropFilter = 'blur(16px) saturate(1.3)';
+        navLinks.style.borderBottomColor = 'rgba(107, 143, 71, 0.5)';
+        
+        // Links en hero: crema
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.style.color = 'var(--cream)';
+          if (link.classList.contains('active')) {
+            link.style.background = 'var(--cream)';
+            link.style.color = 'var(--green)';
+            link.style.borderRadius = '0.4rem';
+          }
+        });
+      } else {
+        // En cards o en desktop: estilos por defecto
+        navLinks.style.background = '';
+        navLinks.style.backdropFilter = '';
+        navLinks.style.webkitBackdropFilter = '';
+        navLinks.style.borderBottomColor = '';
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.style.color = '';
+          if (link.classList.contains('active')) {
+            link.style.background = '';
+            link.style.borderRadius = '';
+          }
+        });
+      }
+    }
+
     // Nav bg: crema cuando está en snap-cards, transparente en hero (verde)
     snapWrap.addEventListener('scroll', () => {
       const heroBottom = document.querySelector('.snap-hero').getBoundingClientRect().bottom;
@@ -724,6 +812,9 @@
       navEl.querySelectorAll('.nav-links a:not(.active)').forEach(a => {
         a.dataset.section = onCards ? 'cream' : 'green';
       });
+      
+      // Aplicar estilos del menú dropdown
+      updateNavLinksStyle(onCards);
     });
 
     // Arrow → scroll to projects
@@ -786,6 +877,10 @@
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
       navLinks.classList.toggle('open');
+      // Aplicar estilos al abrir/cerrar menú
+      const heroBottom = document.querySelector('.snap-hero').getBoundingClientRect().bottom;
+      const onCards = heroBottom < snapWrap.getBoundingClientRect().height * 0.3;
+      updateNavLinksStyle(onCards);
     });
     navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
       hamburger.classList.remove('open');
@@ -797,6 +892,8 @@
       const grid    = document.getElementById('projectsGrid');
       const btnPrev = document.getElementById('arrowPrev');
       const btnNext = document.getElementById('arrowNext');
+      const progressBar = document.getElementById('progressBar');
+      const wrapper = document.getElementById('carouselWrapper');
       let current = 0;
 
       function isDesktop() { return window.innerWidth > 1024; }
@@ -805,9 +902,22 @@
         return Array.from(grid.querySelectorAll('.proj-item')).filter(el => el.style.display !== 'none');
       }
 
+      function updateProgressBar() {
+        if (!isDesktop()) {
+          progressBar.style.width = '0%';
+          return;
+        }
+        const items = getVisibleItems();
+        const visible = 4;
+        const max = Math.max(0, items.length - visible);
+        const progress = max === 0 ? 100 : (current / max) * 100;
+        progressBar.style.width = progress + '%';
+      }
+
       function updateCarousel() {
         if (!isDesktop()) {
           grid.style.transform = '';
+          updateProgressBar();
           return;
         }
         const items = getVisibleItems();
@@ -828,6 +938,7 @@
 
         btnPrev.disabled = current === 0;
         btnNext.disabled = current >= max;
+        updateProgressBar();
       }
 
       btnPrev.addEventListener('click', () => {
@@ -847,6 +958,36 @@
           setTimeout(() => { current = 0; updateCarousel(); }, 450);
         });
       });
+
+      // ── SCROLL HORIZONTAL CON MOUSE WHEEL ──
+      let wheelTimeout;
+      wrapper.addEventListener('wheel', (e) => {
+        if (!isDesktop()) return;
+        e.preventDefault();
+        
+        // Cancelar cualquier scroll anterior pendiente
+        clearTimeout(wheelTimeout);
+        
+        // Detectar dirección del scroll
+        if (e.deltaX > 0 || e.deltaY > 0) {
+          // Scroll derecha o abajo → siguiente
+          const items = getVisibleItems();
+          const max = Math.max(0, items.length - 4);
+          if (current < max) {
+            current++;
+            updateCarousel();
+          }
+        } else if (e.deltaX < 0 || e.deltaY < 0) {
+          // Scroll izquierda o arriba → anterior
+          if (current > 0) {
+            current--;
+            updateCarousel();
+          }
+        }
+        
+        // Pequeño delay para no sobrecargarse con múltiples eventos
+        wheelTimeout = setTimeout(() => {}, 100);
+      }, { passive: false });
 
       window.addEventListener('resize', () => { current = 0; updateCarousel(); });
       updateCarousel();
