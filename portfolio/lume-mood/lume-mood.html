@@ -1007,14 +1007,6 @@
     </div>
   </div>
 
-  <!-- MORE PROJECTS -->
-  <section class="more-section">
-    <h2 class="section-title">Ver más proyectos</h2>
-    <div class="projects-grid" id="projectsGrid">
-      <!-- Projects will be populated here -->
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">
@@ -1064,15 +1056,6 @@
   </div>
 
   <script>
-    const projects = [
-      { id: 1, title: 'Lume Mood',              cat: 'ia uxui',    img: '../lume-mood/lume-mood-cover.jpg' },
-      { id: 2, title: 'Identidad Visual',        cat: 'branding',   img: '../identidad-visual/cover.jpg' },
-      { id: 3, title: 'Campaña Motion',          cat: 'motion',     img: '../campana-motion/cover.jpg' },
-      { id: 4, title: 'Fotografía de Producto',  cat: 'foto',       img: '../fotografia-producto/cover.jpg' },
-      { id: 5, title: 'Ilustración Editorial',   cat: 'ilustracion',img: '../ilustracion-editorial/cover.jpg' },
-      { id: 6, title: 'Diseño Web',              cat: 'uxui',       img: '../diseno-web/cover.jpg' },
-    ];
-
     const galleryItems = [
       { type: 'img', src: 'lume-mood-cover.jpg' },
       { type: 'video', src: 'video-lume.mp4' },
@@ -1205,21 +1188,6 @@
         else              showModalItem(modalIndex - 1);
       }, 80);
     }, { passive: false });
-
-    // ── PROJECTS GRID ──
-    const projectsGrid = document.getElementById('projectsGrid');
-    projects.forEach(project => {
-      const item = document.createElement('a');
-      item.href = 'lume-mood.html';
-      item.className = 'proj-item';
-      item.dataset.cat = project.cat;
-      item.innerHTML = `
-        <img class="proj-img" src="${project.img}" alt="${project.title}"/>
-        <div class="proj-overlay"></div>
-        <div class="proj-info"><div class="proj-title">${project.title}</div></div>
-      `;
-      projectsGrid.appendChild(item);
-    });
 
     // ── CUSTOM CURSOR ──
     const cursor = document.getElementById('cursor');
