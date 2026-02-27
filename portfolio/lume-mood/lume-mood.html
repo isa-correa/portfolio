@@ -959,7 +959,7 @@
     <!-- LEFT: GALLERY -->
     <div class="gallery-section">
       <div class="main-image">
-        <img id="mainImage" src="lume-mood-cover.jpg" alt="Lume Mood"/>
+        <img id="mainImage" src="portfolio/LUME MOOD/lume-mood-cover.jpg" alt="Lume Mood"/>
         <video id="mainVideo" controls class="hidden"></video>
         <div class="image-counter">
           <span id="currentImage">1</span> / <span id="totalImages">6</span>
@@ -1111,6 +1111,9 @@
       thumb.addEventListener('click', () => showMainItem(index));
       thumbnailsContainer.appendChild(thumb);
     });
+
+    // Initialize gallery with first item
+    showMainItem(0);
 
     // ── MODAL ──
     const imageModal         = document.getElementById('imageModal');
