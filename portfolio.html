@@ -384,6 +384,14 @@
     }
     .proj-info p { font-size: 0.72rem; color: rgba(250,246,238,0.6); margin-top: 0.18rem; line-height: 1.4; }
 
+    /* proj-photo: wrapper que en desktop ocupa todo el proj-item */
+    .proj-photo {
+      position: absolute; inset: 0;
+      overflow: hidden;
+      border-radius: 1.2rem;
+    }
+    .proj-title-below { display: none; }
+
     /* ── FOOTER — estética home (crema, texto oscuro) ── */
     footer {
       position: relative; z-index: 2;
@@ -518,7 +526,43 @@
         overflow-y: auto; overflow-x: hidden;
         padding: 0; gap: 8px;
       }
-      .proj-item { flex: none; aspect-ratio: 3 / 4; }
+      .proj-item {
+        flex: none;
+        aspect-ratio: unset;
+        overflow: visible;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+      .proj-photo {
+        position: relative;
+        inset: unset;
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        border-radius: 1.2rem;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .proj-photo .proj-img {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+      }
+      .proj-photo .proj-overlay { position: absolute; inset: 0; border-radius: 1.2rem; }
+      .proj-photo .proj-info {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        padding: 0.7rem 0.8rem;
+      }
+      .proj-photo .proj-info h3 { display: none; }
+      .proj-title-below {
+        display: block;
+        font-family: 'Kiwi Maru', serif;
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--dark);
+        line-height: 1.3;
+        padding: 0 0.2rem;
+      }
       .filters-row { padding: 0.8rem 5% 0.6rem; gap: 0.35rem; }
       .filter-btn { font-size: 0.65rem; padding: 0.3rem 0.75rem; }
       footer { padding: 1.2rem 1.5rem; flex-direction: column; align-items: center; text-align: center; }
@@ -596,95 +640,119 @@
           <div class="projects-grid" id="projectsGrid">
 
         <a href="portfolio/lume-mood/lume-mood.html" class="proj-item" data-cat="ia uxui">
-          <img class="proj-img" src="portfolio/lume-mood/lume-mood-cover.jpg" alt="Lume Mood | App Design"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">IA</span>
-              <span class="cat-tag">UX UI</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="portfolio/lume-mood/lume-mood-cover.jpg" alt="Lume Mood | App Design"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">IA</span>
+                <span class="cat-tag">UX UI</span>
+              </div>
             <h3>Lume Mood | App Design</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">Lume Mood | App Design</h3>
         </a>
 
-        <a href="proyecto-01.html" class="proj-item" data-cat="ia branding">
-          <img class="proj-img" src="" alt="Campaña generativa"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">IA</span>
-              <span class="cat-tag">Branding</span>
+        <a href="portfolio/lanzarote/lanzarote.html" class="proj-item" data-cat="foto branding">
+          <div class="proj-photo">
+            <img class="proj-img" src="portfolio/lanzarote/cover-lanzarote.jpg" alt="Lanzarote | Lifestyle Photography"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">Fotografía</span>
+                <span class="cat-tag">Branding</span>
+              </div>
+            <h3>Lanzarote | Lifestyle Photography</h3>
             </div>
-            <h3>Campaña generativa</h3>
           </div>
+          <h3 class="proj-title-below">Lanzarote | Lifestyle Photography</h3>
         </a>
 
         <a href="proyecto-02.html" class="proj-item" data-cat="branding">
-          <img class="proj-img" src="" alt="Identidad de marca"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">Branding</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="" alt="Identidad de marca"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">Branding</span>
+              </div>
             <h3>Identidad de marca</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">Identidad de marca</h3>
         </a>
 
         <a href="proyecto-03.html" class="proj-item" data-cat="uxui ia">
-          <img class="proj-img" src="" alt="App con IA"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">UX UI</span>
-              <span class="cat-tag">IA</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="" alt="App con IA"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">UX UI</span>
+                <span class="cat-tag">IA</span>
+              </div>
             <h3>App con IA</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">App con IA</h3>
         </a>
 
         <a href="proyecto-04.html" class="proj-item" data-cat="motion">
-          <img class="proj-img" src="" alt="Motion para campaña"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">Motion & Vídeo</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="" alt="Motion para campaña"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">Motion & Vídeo</span>
+              </div>
             <h3>Motion para campaña</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">Motion para campaña</h3>
         </a>
 
         <a href="proyecto-05.html" class="proj-item" data-cat="foto">
-          <img class="proj-img" src="" alt="Shooting editorial"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">Fotografía</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="" alt="Shooting editorial"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">Fotografía</span>
+              </div>
             <h3>Shooting editorial</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">Shooting editorial</h3>
         </a>
 
         <a href="proyecto-06.html" class="proj-item" data-cat="ilustracion">
-          <img class="proj-img" src="" alt="Fotomontaje a mano"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">Ilustración</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="" alt="Fotomontaje a mano"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">Ilustración</span>
+              </div>
             <h3>Fotomontaje a mano</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">Fotomontaje a mano</h3>
         </a>
 
         <a href="proyecto-07.html" class="proj-item" data-cat="motion ia">
-          <img class="proj-img" src="" alt="Vídeo generativo"/>
-          <div class="proj-overlay"></div>
-          <div class="proj-info">
-            <div class="proj-tags-row">
-              <span class="cat-tag">Motion & Vídeo</span>
-              <span class="cat-tag">IA</span>
-            </div>
+          <div class="proj-photo">
+            <img class="proj-img" src="" alt="Vídeo generativo"/>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <div class="proj-tags-row">
+                <span class="cat-tag">Motion & Vídeo</span>
+                <span class="cat-tag">IA</span>
+              </div>
             <h3>Vídeo generativo</h3>
+            </div>
           </div>
+          <h3 class="proj-title-below">Vídeo generativo</h3>
         </a>
 
       </div><!-- /projects-grid -->
