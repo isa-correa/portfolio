@@ -41,24 +41,16 @@
   /* ── BACKGROUND ─────────────────────────────────── */
   #desktop {
     position: fixed; inset: 0;
-    background: linear-gradient(135deg, #ede6db 0%, #d9d0c5 30%, #ccc3b8 60%, #bfb5aa 100%);
+    background: #111;
     overflow: hidden;
   }
 
-  /* animated gradient blob */
-  #desktop::before {
-    content: '';
-    position: absolute; inset: -50%;
-    background: radial-gradient(ellipse 60% 50% at 30% 40%, rgba(180,210,190,0.35) 0%, transparent 65%),
-                radial-gradient(ellipse 50% 60% at 70% 60%, rgba(210,195,175,0.4) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 40% at 50% 20%, rgba(255,248,240,0.3) 0%, transparent 55%);
-    animation: blobMove 18s ease-in-out infinite alternate;
-  }
-  @keyframes blobMove {
-    0%   { transform: translate(0,0) rotate(0deg) scale(1); }
-    33%  { transform: translate(3%,2%) rotate(2deg) scale(1.02); }
-    66%  { transform: translate(-2%,4%) rotate(-1deg) scale(0.98); }
-    100% { transform: translate(2%,-2%) rotate(1deg) scale(1.01); }
+  #bg-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
   }
 
   /* grain overlay */
@@ -88,15 +80,15 @@
     display: flex; align-items: center;
     padding: 0 16px;
     z-index: 9999;
-    font-size: 13px; font-weight: 500;
+    font-size:15px; font-weight: 500;
     color: #fff;
   }
-  #menubar .apple { font-size: 15px; margin-right: 16px; color: #fff; }
+  #menubar .apple { font-size:17px; margin-right: 16px; color: #fff; }
   #menubar .apple svg { fill: #fff; }
   #menubar .menu-items { display: flex; gap: 16px; }
   #menubar .menu-items span { opacity: 0.75; font-weight: 400; cursor: default; color: #fff; }
   #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: #fff; }
-  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: 12px; color: rgba(255,255,255,0.75); }
+  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: rgba(255,255,255,0.75); }
   #menubar .right svg { fill: rgba(255,255,255,0.75); }
   #clock { font-variant-numeric: tabular-nums; }
 
@@ -128,16 +120,16 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.22), 0 1px 3px rgba(0,0,0,0.15);
     background: var(--glass);
     display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
+    font-size:34px;
     transition: transform 0.15s;
     position: relative;
   }
   .file-icon:hover .thumb { transform: scale(1.06); }
   .file-icon .thumb img { width: 100%; height: 100%; object-fit: cover; }
   .file-icon .fname {
-    font-size: 11.5px; font-weight: 500;
-    color: var(--text);
-    text-shadow: 0 1px 3px rgba(255,255,255,0.9);
+    font-size:13.5px; font-weight: 500;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7), 0 0px 8px rgba(0,0,0,0.5);
     line-height: 1.3;
     padding: 2px 4px;
     border-radius: 3px;
@@ -154,7 +146,7 @@
   .window {
     position: fixed;
     min-width: 420px; min-height: 300px;
-    background: rgba(242,238,232,0.94);
+    background: rgba(242,238,232,0.90);
     backdrop-filter: blur(30px) saturate(1.5);
     -webkit-backdrop-filter: blur(30px) saturate(1.5);
     border: 1px solid rgba(255,255,255,0.85);
@@ -197,7 +189,7 @@
   .win-btn .btn-icon {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 8px; font-weight: 700; color: rgba(0,0,0,0.5);
+    font-size:10px; font-weight: 700; color: rgba(0,0,0,0.5);
     opacity: 0;
   }
   .win-buttons:hover .btn-icon { opacity: 1; }
@@ -205,7 +197,7 @@
     position: absolute;
     left: 0; right: 0;
     text-align: center;
-    font-size: 13px; font-weight: 500;
+    font-size:15px; font-weight: 500;
     color: var(--text-mid);
     pointer-events: none;
   }
@@ -225,7 +217,7 @@
   }
   .sidebar-tab {
     padding: 8px 14px;
-    font-size: 12.5px; font-weight: 500;
+    font-size:14.5px; font-weight: 500;
     color: var(--text-mid);
     cursor: pointer;
     border-radius: 0;
@@ -234,29 +226,29 @@
   }
   .sidebar-tab:hover { background: rgba(0,0,0,0.06); }
   .sidebar-tab.active { background: rgba(0,100,215,0.15); color: #0064d7; }
-  .sidebar-tab .tab-count { font-size: 11px; color: var(--text-light); background: rgba(0,0,0,0.1); border-radius: 10px; padding: 1px 6px; }
+  .sidebar-tab .tab-count { font-size:13px; color: var(--text-light); background: rgba(0,0,0,0.1); border-radius: 10px; padding: 1px 6px; }
   .sidebar-tab.active .tab-count { background: rgba(0,100,215,0.2); color: #0064d7; }
-  .about-content { flex: 1; padding: 20px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: var(--text); }
-  .about-content h3 { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
+  .about-content { flex: 1; padding: 20px; overflow-y: auto; font-size:15px; line-height: 1.6; color: var(--text); }
+  .about-content h3 { font-size:14px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
   .about-content p { margin-bottom: 12px; color: var(--text-mid); }
   .about-content .can-do { margin: 14px 0 0; }
-  .can-do-item { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 12.5px; color: var(--text); }
+  .can-do-item { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size:14.5px; color: var(--text); }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
   .exp-item { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.07); }
   .exp-item:last-child { border-bottom: none; }
-  .exp-company { font-weight: 600; font-size: 13px; }
-  .exp-role { font-size: 12px; color: var(--accent); font-weight: 500; }
-  .exp-date { font-size: 11px; color: var(--text-light); margin: 2px 0 6px; }
-  .exp-desc { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .exp-company { font-weight: 600; font-size:15px; }
+  .exp-role { font-size:14px; color: var(--accent); font-weight: 500; }
+  .exp-date { font-size:13px; color: var(--text-light); margin: 2px 0 6px; }
+  .exp-desc { font-size:14px; color: var(--text-mid); line-height: 1.5; }
   .skill-group { margin-bottom: 14px; }
-  .skill-group-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 6px; }
+  .skill-group-title { font-size:13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 6px; }
   .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .skill-tag { background: rgba(13,153,255,0.10); color: var(--accent); border: 1px solid rgba(13,153,255,0.22); border-radius: 20px; padding: 3px 10px; font-size: 11.5px; font-weight: 500; }
-  .cert-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 12.5px; }
-  .cert-icon { font-size: 18px; flex-shrink: 0; }
+  .skill-tag { background: rgba(13,153,255,0.10); color: var(--accent); border: 1px solid rgba(13,153,255,0.22); border-radius: 20px; padding: 3px 10px; font-size:13.5px; font-weight: 500; }
+  .cert-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size:14.5px; }
+  .cert-icon { font-size:20px; flex-shrink: 0; }
   .cert-name { font-weight: 500; }
-  .cert-org { font-size: 11px; color: var(--text-light); }
+  .cert-org { font-size:13px; color: var(--text-light); }
 
   /* ── PROJECT WINDOWS ─────────────────────────────── */
   .project-window { width: 520px; height: 440px; }
@@ -264,7 +256,7 @@
     width: 100%; height: 160px;
     background: linear-gradient(135deg, #0D99FF, #66C8FF);
     display: flex; align-items: center; justify-content: center;
-    font-size: 48px;
+    font-size:50px;
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
@@ -275,16 +267,16 @@
   }
   .project-cover .cover-emoji { position: relative; z-index: 1; }
   .project-meta { padding: 16px 20px 0; }
-  .project-type { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
-  .project-title { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-  .project-desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; margin-bottom: 16px; }
+  .project-type { font-size:13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+  .project-title { font-size:22px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .project-desc { font-size:15px; color: var(--text-mid); line-height: 1.6; margin-bottom: 16px; }
   .project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
-  .project-tag { background: rgba(0,0,0,0.07); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: var(--text-mid); }
+  .project-tag { background: rgba(0,0,0,0.07); border-radius: 20px; padding: 3px 10px; font-size:13px; color: var(--text-mid); }
   .project-cta {
     display: inline-flex; align-items: center; gap: 6px;
     background: var(--text); color: #fff;
     padding: 8px 16px; border-radius: 20px;
-    font-size: 12.5px; font-weight: 500; cursor: pointer;
+    font-size:14.5px; font-weight: 500; cursor: pointer;
     border: none; text-decoration: none;
     transition: background 0.15s;
   }
@@ -294,7 +286,7 @@
     background: rgba(255,180,0,0.15); color: #a07000;
     border: 1px solid rgba(255,180,0,0.3);
     border-radius: 20px; padding: 3px 10px;
-    font-size: 11.5px; font-weight: 500;
+    font-size:13.5px; font-weight: 500;
   }
 
   /* ── TRASH WINDOW ────────────────────────────────── */
@@ -306,11 +298,11 @@
     margin-bottom: 4px;
   }
   .trash-item:hover { background: rgba(0,0,0,0.05); }
-  .trash-item-icon { font-size: 32px; flex-shrink: 0; }
+  .trash-item-icon { font-size:34px; flex-shrink: 0; }
   .trash-item-info { flex: 1; }
-  .trash-item-name { font-size: 13px; font-weight: 500; }
-  .trash-item-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
-  .trash-item-date { font-size: 11px; color: var(--text-light); }
+  .trash-item-name { font-size:15px; font-weight: 500; }
+  .trash-item-desc { font-size:14px; color: var(--text-light); margin-top: 2px; }
+  .trash-item-date { font-size:13px; color: var(--text-light); }
 
   /* ── ACHIEVEMENTS WIDGET ─────────────────────────── */
   #widget-achievements {
@@ -333,9 +325,9 @@
     padding: 10px 14px 8px;
     border-bottom: 1px solid rgba(0,0,0,0.07);
     display: flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 600; color: var(--text-mid);
+    font-size:14px; font-weight: 600; color: var(--text-mid);
   }
-  .widget-header-icon { font-size: 14px; }
+  .widget-header-icon { font-size:16px; }
   .achievement {
     display: flex; align-items: flex-start; gap: 10px;
     padding: 9px 14px;
@@ -343,10 +335,10 @@
     animation: achieveIn 0.4s ease both;
   }
   .achievement:last-child { border-bottom: none; }
-  .ach-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .ach-icon { font-size:22px; flex-shrink: 0; margin-top: 1px; }
   .ach-text { flex: 1; }
-  .ach-title { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; }
-  .ach-sub { font-size: 11px; color: var(--text-light); margin-top: 2px; line-height: 1.3; }
+  .ach-title { font-size:14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .ach-sub { font-size:13px; color: var(--text-light); margin-top: 2px; line-height: 1.3; }
   @keyframes achieveIn {
     from { opacity: 0; transform: translateX(12px); }
     to   { opacity: 1; transform: translateX(0); }
@@ -364,13 +356,13 @@
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding: 8px 0; gap: 8px;
   }
-  .mail-label { font-size: 12px; color: var(--text-light); width: 50px; flex-shrink: 0; }
-  .mail-value { font-size: 13px; color: var(--text); flex: 1; }
+  .mail-label { font-size:14px; color: var(--text-light); width: 50px; flex-shrink: 0; }
+  .mail-value { font-size:15px; color: var(--text); flex: 1; }
   .mail-body-area {
     margin-top: 12px;
     width: 100%; height: 160px;
     background: transparent; border: none; outline: none;
-    font-family: var(--sans); font-size: 13px;
+    font-family: var(--sans); font-size:15px;
     color: var(--text); line-height: 1.6;
     resize: none;
   }
@@ -378,12 +370,12 @@
     margin-top: 12px;
     background: var(--accent); color: #fff;
     border: none; border-radius: 20px;
-    padding: 8px 20px; font-size: 13px; font-weight: 500;
+    padding: 8px 20px; font-size:15px; font-weight: 500;
     cursor: pointer; transition: background 0.15s;
   }
   .mail-send-btn:hover { background: #0A7ACC; }
   .mail-links { display: flex; gap: 14px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.08); }
-  .mail-link { font-size: 12px; color: var(--accent); text-decoration: none; }
+  .mail-link { font-size:14px; color: var(--accent); text-decoration: none; }
   .mail-link:hover { text-decoration: underline; }
 
   /* ── DOCK ────────────────────────────────────────── */
@@ -392,7 +384,7 @@
     bottom: 8px;
     left: 50%; transform: translateX(-50%);
     height: var(--dock-h);
-    background: rgba(240,235,228,0.72);
+    background: rgba(240,235,228,0.70);
     backdrop-filter: blur(28px) saturate(1.6);
     -webkit-backdrop-filter: blur(28px) saturate(1.6);
     border: 1px solid rgba(255,255,255,0.85);
@@ -419,7 +411,7 @@
     width: 48px; height: 48px;
     border-radius: 11px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 26px;
+    font-size:28px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     overflow: hidden;
     position: relative;
@@ -428,7 +420,7 @@
     position: absolute; bottom: calc(100% + 10px);
     left: 50%; transform: translateX(-50%);
     background: rgba(40,40,40,0.88);
-    color: #fff; font-size: 11px; font-weight: 500;
+    color: #fff; font-size:13px; font-weight: 500;
     padding: 4px 10px; border-radius: 7px;
     white-space: nowrap; pointer-events: none;
     opacity: 0; transition: opacity 0.15s;
@@ -455,7 +447,7 @@
     width: 16px; height: 16px;
     cursor: nwse-resize;
     opacity: 0.3;
-    font-size: 10px;
+    font-size:12px;
     display: flex; align-items: flex-end; justify-content: flex-end;
     padding: 2px;
     color: var(--text);
@@ -464,7 +456,7 @@
   /* ── CONTEXT MENU ────────────────────────────────── */
   #ctx-menu {
     position: fixed; display: none;
-    background: rgba(242,238,232,0.94);
+    background: rgba(242,238,232,0.90);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.8);
@@ -473,7 +465,7 @@
     padding: 4px 0;
     min-width: 180px;
     z-index: 99999;
-    font-size: 13px;
+    font-size:15px;
   }
   #ctx-menu.visible { display: block; }
   .ctx-item { padding: 6px 16px; cursor: default; color: var(--text); }
@@ -506,7 +498,7 @@
   }
   .lume-accordion summary {
     padding: 10px 14px;
-    font-size: 12.5px; font-weight: 600;
+    font-size:14.5px; font-weight: 600;
     cursor: pointer;
     list-style: none;
     display: flex; justify-content: space-between; align-items: center;
@@ -518,7 +510,7 @@
   .acc-arrow { transition: transform 0.2s ease; flex-shrink: 0; }
   .lume-accordion-body {
     padding: 12px 14px;
-    font-size: 12px; color: var(--text-mid); line-height: 1.65;
+    font-size:14px; color: var(--text-mid); line-height: 1.65;
     border-top: 1px solid rgba(0,0,0,0.08);
   }
   .lume-accordion-body p { margin-bottom: 10px; }
@@ -536,7 +528,7 @@
     display: inline-flex; align-items: center; gap: 4px;
     background: #0064d7; color: #fff;
     border: none; border-radius: 999px;
-    padding: 6px 14px; font-size: 12px; font-weight: 500;
+    padding: 6px 14px; font-size:14px; font-weight: 500;
     cursor: pointer; text-decoration: none;
     transition: background 0.15s;
   }
@@ -544,7 +536,7 @@
   .finder-link {
     display: inline-flex; align-items: center; gap: 4px;
     background: none; border: none;
-    color: #0064d7; font-size: 12px; font-weight: 500;
+    color: #0064d7; font-size:14px; font-weight: 500;
     cursor: pointer; text-decoration: none; padding: 6px 0;
     transition: color 0.15s;
   }
@@ -592,7 +584,7 @@
   #lb-next { right: 22px; }
   #lb-counter {
     position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
-    color: rgba(255,255,255,0.45); font-size: 12px; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.45); font-size:14px; letter-spacing: 0.06em;
     pointer-events: none;
   }
 
@@ -655,6 +647,8 @@
 <!-- DESKTOP -->
 <div id="desktop">
 
+  <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" muted playsinline autoplay loop></video>
+
   <!-- MENU BAR -->
   <div id="menubar">
     <span class="apple"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></span>
@@ -698,8 +692,8 @@
     </div>
 
     <div class="file-icon" id="file-piccadilly" data-win="win-piccadilly">
-      <div class="thumb" style="background:linear-gradient(135deg,#c31432,#240b36)">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="11" r="8"/><circle cx="12" cy="11" r="2" fill="white"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="4" y1="11" x2="10" y2="11"/><line x1="14" y1="11" x2="20" y2="11"/><line x1="6.34" y1="5.34" x2="9.76" y2="8.76"/><line x1="14.24" y1="13.24" x2="17.66" y2="16.66"/><line x1="17.66" y1="5.34" x2="14.24" y2="8.76"/><line x1="9.76" y1="13.24" x2="6.34" y2="16.66"/><rect x="10" y="19" width="4" height="3" rx="0.5" fill="white"/></svg>
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/kiosko/kiosko-cover.jpg" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.22),0 1px 3px rgba(0,0,0,0.15);pointer-events:none;-webkit-user-drag:none">
       </div>
       <div class="fname">Piccadilly-Kiosk</div>
     </div>
@@ -794,19 +788,19 @@
           <!-- EXPERIENCE CHECKLIST -->
           <h3 style="margin-bottom:10px">Experience</h3>
           <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px">
-            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text)">
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>Accenture — Visual Designer, Creative Studio Lead (2025–Present)</span>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text)">
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>City Sightseeing Worldwide — Senior Graphic Designer (2024–2025)</span>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text)">
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>Hannun SL — Mid Graphic Designer (2021–2024)</span>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text)">
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>Eye Inversiones Online SL — Junior Graphic Designer (2020–2021)</span>
             </div>
@@ -817,29 +811,29 @@
           <div style="margin-bottom:20px">
 
             <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.07)">
-              <span style="font-size:11px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v3.0 · 2024–Present</span>
-              <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:5px">Visual & Art Director | AI Visual Strategist</div>
-              <p style="font-size:12px;color:var(--text-mid);line-height:1.6;margin:0">Leading creative projects in bilingual environments where my priority is organising the creative chaos. I coordinate multidisciplinary teams across strategy and technology, applying generative AI to produce complex assets while ensuring optimisation and seamless implementation.</p>
+              <span style="font-size:13px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v3.0 · 2024–Present</span>
+              <div style="font-weight:600;font-size:15px;color:var(--text);margin-bottom:5px">Visual & Art Director | AI Visual Strategist</div>
+              <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:0">Leading creative projects in bilingual environments where my priority is organising the creative chaos. I coordinate multidisciplinary teams across strategy and technology, applying generative AI to produce complex assets while ensuring optimisation and seamless implementation.</p>
             </div>
 
             <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.07)">
-              <span style="font-size:11px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v2.0 · 2022–2024</span>
-              <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:5px">Mid Graphic Designer & Art Direction</div>
-              <p style="font-size:12px;color:var(--text-mid);line-height:1.6;margin:0">Designed and directed visual identities for international markets, moving between Europe and the Middle East. I led the art direction of global campaigns and adapted brand systems to large-scale physical and digital formats — projecting my work in places like London, Dubai and Abu Dhabi. This is also where I first started integrating AI to optimise production and elevate the visual output.</p>
+              <span style="font-size:13px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v2.0 · 2022–2024</span>
+              <div style="font-weight:600;font-size:15px;color:var(--text);margin-bottom:5px">Mid Graphic Designer & Art Direction</div>
+              <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:0">Designed and directed visual identities for international markets, moving between Europe and the Middle East. I led the art direction of global campaigns and adapted brand systems to large-scale physical and digital formats — projecting my work in places like London, Dubai and Abu Dhabi. This is also where I first started integrating AI to optimise production and elevate the visual output.</p>
             </div>
 
             <div>
-              <span style="font-size:11px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v1.0 · 2020–2022</span>
-              <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:5px">Junior Graphic Designer</div>
-              <p style="font-size:12px;color:var(--text-mid);line-height:1.6;margin:0">The perfect training ground for learning to manage every aspect of a brand from scratch. I learned to be resourceful as the sole designer in the department, fresh out of university, taking on everything from identity and packaging to photography and final production — always making the most of the resources available.</p>
+              <span style="font-size:13px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v1.0 · 2020–2022</span>
+              <div style="font-weight:600;font-size:15px;color:var(--text);margin-bottom:5px">Junior Graphic Designer</div>
+              <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:0">The perfect training ground for learning to manage every aspect of a brand from scratch. I learned to be resourceful as the sole designer in the department, fresh out of university, taking on everything from identity and packaging to photography and final production — always making the most of the resources available.</p>
             </div>
 
           </div>
 
           <!-- CTA FINAL -->
           <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.07)">
-            <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Want to know more?</p>
-            <p style="font-size:12px;color:var(--text-mid);line-height:1.6;margin:6px 0 14px">You won't find company details here (except where authorised), but if you want to dig into the names, see more projects or find out what coffee I drink — just ask for my full CV. I'll be happy to send it over.</p>
+            <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px">Want to know more?</p>
+            <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:6px 0 14px">You won't find company details here (except where authorised), but if you want to dig into the names, see more projects or find out what coffee I drink — just ask for my full CV. I'll be happy to send it over.</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <a class="finder-btn" href="mailto:isacorreaur@gmail.com?subject=I'd love to see your CV">Send me an email →</a>
               <a class="finder-link" href="https://www.linkedin.com/in/isacorrea97/" target="_blank">LinkedIn →</a>
@@ -1022,7 +1016,7 @@
   </div>
 
   <!-- PROJECT: PICCADILLY -->
-  <div class="window project-window" id="win-piccadilly" style="top:120px;left:280px">
+  <div class="window project-window" id="win-piccadilly" style="top:120px;left:280px;width:555px;height:580px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-piccadilly')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-piccadilly')"><span class="btn-icon">✕</span></button>
@@ -1031,19 +1025,38 @@
       </div>
       <div class="win-title">Piccadilly-Kiosk.live</div>
     </div>
-    <div class="win-body" style="padding:0">
-      <div class="project-cover" style="background:linear-gradient(135deg,#c31432,#240b36,#3a1a5c)">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" class="cover-emoji"><circle cx="12" cy="11" r="8"/><circle cx="12" cy="11" r="2" fill="white"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="4" y1="11" x2="10" y2="11"/><line x1="14" y1="11" x2="20" y2="11"/><line x1="6.34" y1="5.34" x2="9.76" y2="8.76"/><line x1="14.24" y1="13.24" x2="17.66" y2="16.66"/><line x1="17.66" y1="5.34" x2="14.24" y2="8.76"/><line x1="9.76" y1="13.24" x2="6.34" y2="16.66"/></svg>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-cover" style="background:linear-gradient(135deg,#c31432,#240b36,#3a1a5c);height:190px">
+        <img src="proyectos/kiosko/kiosko-cover.jpg" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1">
       </div>
       <div class="project-meta">
-        <div class="project-type">Environmental Design · Key Visual · London 2025</div>
+        <div class="project-type">Environmental Design · Signage · London 2025</div>
         <div class="project-title">Piccadilly Kiosk</div>
-        <div class="project-desc">Designed the official City Sightseeing kiosk installed at Piccadilly Circus, London — one of the most iconic locations in the world. Visual storytelling adapted per market, from creative line to final material.</div>
         <div class="project-tags">
-          <span class="project-tag">City Sightseeing</span><span class="project-tag">London</span>
-          <span class="project-tag">Environmental</span><span class="project-tag">Installed 2025</span>
+          <span class="project-tag">Graphic Design</span>
+          <span class="project-tag">Signage</span>
+          <span class="project-tag">Branding</span>
+          <span class="project-tag">Project Management</span>
+          <span class="project-tag">City Sightseeing</span>
+          <span class="project-tag">London</span>
         </div>
-        <a class="finder-btn" href="https://isa-correa.github.io/portfolio/portfolio.html" target="_blank">View project →</a>
+        <div class="lume-media">
+          <img src="proyectos/kiosko/1.jpg" alt="Piccadilly Kiosk — view 1">
+          <img src="proyectos/kiosko/2.jpg" alt="Piccadilly Kiosk — view 2">
+          <img src="proyectos/kiosko/3.jpg" alt="Piccadilly Kiosk — view 3">
+          <img src="proyectos/kiosko/4.jpg" alt="Piccadilly Kiosk — view 4">
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>City Sightseeing Worldwide is the global reference for hop-on hop-off tourist buses, operating in over 130 cities and serving more than 14 million tourists per year.</p>
+            <p>As the designer for the international department, I provided design services to some of the company's most prominent franchises — London, Dubai and Abu Dhabi, among others. I led the complete design process of the physical kiosk located at the Piccadilly Circus underground entrance, one of the most iconic tourist and commercial landmarks in the world.</p>
+            <p>My role was end-to-end: from visual conceptualisation to coordination with the London franchise operator, managing review rounds, on-demand changes and constant communication between teams. It wasn't just about producing graphic assets — it was about maintaining brand coherence in an extremely high-visibility physical environment, ensuring every design decision served both the global City Sightseeing identity and the specific demands of the space.</p>
+          </div>
+        </details>
       </div>
     </div>
     <div class="win-resize">⌟</div>
@@ -1087,7 +1100,7 @@
       <div class="win-title">Trash — Off the clock</div>
     </div>
     <div class="win-body">
-      <p style="font-size:12px;color:var(--text-light);margin-bottom:14px">Things I tried to keep out of the portfolio. They keep coming back.</p>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:14px">Things I tried to keep out of the portfolio. They keep coming back.</p>
       <div class="trash-item">
         <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
         <div class="trash-item-info">
@@ -1185,8 +1198,8 @@
     <div class="win-body" style="padding:20px 24px 24px;display:flex;gap:16px;align-items:flex-start">
       <img src="icons/figma.jpg" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
       <div>
-        <p style="font-size:13.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">This portfolio wasn't made in Figma.<br>But everything inside it was designed here first.</p>
-        <button onclick="closeWindow('win-figma')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:12.5px;font-weight:500;cursor:pointer">Fair enough</button>
+        <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">This portfolio wasn't made in Figma.<br>But everything inside it was designed here first.</p>
+        <button onclick="closeWindow('win-figma')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Fair enough</button>
       </div>
     </div>
   </div>
@@ -1204,8 +1217,8 @@
     <div class="win-body" style="padding:20px 24px 24px;display:flex;gap:16px;align-items:flex-start">
       <img src="icons/claude.jpg" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
       <div>
-        <p style="font-size:13.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">I don't use AI to skip the work.<br>I use it to do work that didn't exist before.</p>
-        <button onclick="closeWindow('win-claude')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:12.5px;font-weight:500;cursor:pointer">Noted.</button>
+        <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">I don't use AI to skip the work.<br>I use it to do work that didn't exist before.</p>
+        <button onclick="closeWindow('win-claude')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Noted.</button>
       </div>
     </div>
   </div>
@@ -1223,8 +1236,8 @@
     <div class="win-body" style="padding:20px 24px 24px;display:flex;gap:16px;align-items:flex-start">
       <img src="icons/creative.jpg" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
       <div>
-        <p style="font-size:13.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">14 years of muscle memory across Photoshop, Illustrator and After Effects. Some things AI can't replace, like knowing every shortcut.</p>
-        <button onclick="closeWindow('win-adobe')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:12.5px;font-weight:500;cursor:pointer">Respect.</button>
+        <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">14 years of muscle memory across Photoshop, Illustrator and After Effects. Some things AI can't replace, like knowing every shortcut.</p>
+        <button onclick="closeWindow('win-adobe')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Respect.</button>
       </div>
     </div>
   </div>
@@ -1236,7 +1249,7 @@
     <div class="ctx-sep"></div>
     <div class="ctx-item" onclick="openWindow('win-about');hideCtxMenu()">About Isa</div>
     <div class="ctx-sep"></div>
-    <div class="ctx-item" onclick="hideCtxMenu()">Change Wallpaper… <span style="color:var(--text-light);font-size:11px">(soon)</span></div>
+    <div class="ctx-item" onclick="hideCtxMenu()">Change Wallpaper… <span style="color:var(--text-light);font-size:13px">(soon)</span></div>
   </div>
 
   <!-- DOCK -->
@@ -1326,49 +1339,60 @@ updateClock(); setInterval(updateClock, 1000);
 // ── SCATTER FILE ICONS ───────────────────────────
 (function scatterIcons() {
   const icons = document.querySelectorAll('.file-icon');
-  const MENUBAR_H = 36;
-  const DOCK_H = 90;
   const ICON_W = 90;
   const ICON_H = 110;
-  const PADDING = 20;
+  const PADDING = 24;
   const placed = [];
 
-  // Get widget forbidden zone
-  const widgetEl = document.getElementById('widget-achievements');
+  // Read real boundaries from the DOM
+  const menubarEl = document.getElementById('menubar');
+  const dockEl    = document.getElementById('dock');
+  const widgetEl  = document.getElementById('widget-achievements');
+
+  const MENUBAR_BOTTOM = menubarEl
+    ? menubarEl.getBoundingClientRect().bottom
+    : 28;
+
+  const dockRect = dockEl ? dockEl.getBoundingClientRect() : null;
+  const DOCK_TOP = dockRect ? dockRect.top - PADDING : window.innerHeight - 90;
+
+  // Widget forbidden zone
   const wRect = widgetEl ? widgetEl.getBoundingClientRect() : null;
-  const forbidden = wRect ? {
-    x: wRect.left - PADDING,
-    y: wRect.top - PADDING,
-    w: wRect.width + PADDING * 2,
-    h: wRect.height + PADDING * 2
+  const forbidden = wRect && wRect.width > 0 ? {
+    x1: wRect.left   - PADDING,
+    y1: wRect.top    - PADDING,
+    x2: wRect.right  + PADDING,
+    y2: wRect.bottom + PADDING
   } : null;
 
   function inForbidden(x, y) {
     if (!forbidden) return false;
-    return x < forbidden.x + forbidden.w &&
-           x + ICON_W > forbidden.x &&
-           y < forbidden.y + forbidden.h &&
-           y + ICON_H > forbidden.y;
+    return x          < forbidden.x2 &&
+           x + ICON_W > forbidden.x1 &&
+           y          < forbidden.y2 &&
+           y + ICON_H > forbidden.y1;
   }
 
   function overlaps(x, y) {
     return placed.some(p =>
-      x < p.x + ICON_W + PADDING &&
-      x + ICON_W + PADDING > p.x &&
-      y < p.y + ICON_H + PADDING &&
-      y + ICON_H + PADDING > p.y
+      x          < p.x + ICON_W + PADDING &&
+      x + ICON_W > p.x          - PADDING &&
+      y          < p.y + ICON_H + PADDING &&
+      y + ICON_H > p.y          - PADDING
     );
   }
 
   icons.forEach(icon => {
+    const minX = PADDING;
     const maxX = window.innerWidth - ICON_W - PADDING;
-    const maxY = window.innerHeight - DOCK_H - ICON_H - PADDING;
+    const minY = MENUBAR_BOTTOM + PADDING;
+    const maxY = DOCK_TOP - ICON_H;
     let x, y, tries = 0;
     do {
-      x = PADDING + Math.random() * (maxX - PADDING);
-      y = MENUBAR_H + PADDING + Math.random() * (maxY - MENUBAR_H - PADDING);
+      x = minX + Math.random() * (maxX - minX);
+      y = minY + Math.random() * Math.max(0, maxY - minY);
       tries++;
-    } while ((overlaps(x, y) || inForbidden(x, y)) && tries < 200);
+    } while ((overlaps(x, y) || inForbidden(x, y)) && tries < 300);
     placed.push({ x, y });
     icon.style.left = Math.round(x) + 'px';
     icon.style.top  = Math.round(y) + 'px';
@@ -1582,6 +1606,16 @@ document.getElementById('phone-modal').addEventListener('click', e => {
 // Wire up lume media items
 (function() {
   const els = document.querySelectorAll('#win-lume .lume-media img, #win-lume .lume-media video');
+  const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
+  els.forEach((el, i) => {
+    el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
+  });
+})();
+
+
+// Wire up piccadilly media items
+(function() {
+  const els = document.querySelectorAll('#win-piccadilly .lume-media img, #win-piccadilly .lume-media video');
   const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
   els.forEach((el, i) => {
     el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
