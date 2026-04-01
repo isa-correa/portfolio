@@ -424,6 +424,13 @@
     color: var(--text);
   }
 
+  /* ── WALLPAPER PICKER ───────────────────────────── */
+  .wp-thumb { aspect-ratio:16/10; border-radius:8px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:border-color 0.15s,transform 0.15s,box-shadow 0.15s; background:#1a1a1a; position:relative; }
+  .wp-thumb:hover { transform:scale(1.04); box-shadow:0 4px 12px rgba(0,0,0,0.25); }
+  .wp-thumb.active { border-color:#0064d7; box-shadow:0 0 0 2px rgba(0,100,215,0.3); }
+  .wp-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .wp-thumb .wp-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:rgba(255,255,255,0.3); }
+
   /* ── CONTEXT MENU ────────────────────────────────── */
   #ctx-menu {
     position: fixed; display: none;
@@ -1292,6 +1299,23 @@
     </div>
   </div>
 
+  <!-- WALLPAPER PICKER -->
+  <div class="window" id="win-wallpaper" style="width:520px;height:auto;min-height:0;top:120px;left:calc(50% - 260px)">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-wallpaper')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-wallpaper')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-wallpaper')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Wallpaper</div>
+    </div>
+    <div class="win-body" style="padding:20px 24px 24px">
+      <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px">Choose a wallpaper</p>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:16px">Dynamic wallpapers. Click to apply.</p>
+      <div id="wallpaper-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px"></div>
+    </div>
+  </div>
+
   <!-- CONTEXT MENU -->
   <div id="ctx-menu">
     <div class="ctx-item" onclick="hideCtxMenu()">New Folder</div>
@@ -1299,7 +1323,7 @@
     <div class="ctx-sep"></div>
     <div class="ctx-item" onclick="openWindow('win-about');hideCtxMenu()">About Isa</div>
     <div class="ctx-sep"></div>
-    <div class="ctx-item" onclick="hideCtxMenu()">Change Wallpaper… <span style="color:var(--text-light);font-size:13px">(soon)</span></div>
+    <div class="ctx-item" onclick="openWindow('win-wallpaper');hideCtxMenu()">Change Wallpaper…</div>
   </div>
 
   <!-- DOCK -->
@@ -1670,6 +1694,32 @@ document.getElementById('phone-modal').addEventListener('click', e => {
   const notifs = document.querySelectorAll('.notif');
   notifs.forEach((n, i) => {
     setTimeout(() => { n.classList.add('visible'); }, 600 + (i * 250));
+  });
+})();
+
+// ── WALLPAPER PICKER ─────────────────────────────
+(function() {
+  const wallpapers = [
+    { id:'wp-1', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4', thumb:'wallpapers/thumb-1.jpg' },
+    { id:'wp-2', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4', thumb:'wallpapers/thumb-2.jpg' },
+    { id:'wp-3', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260228_065522_522e2295-ba22-457e-8fdb-fbcd68109c73.mp4', thumb:'wallpapers/thumb-3.jpg' },
+    { id:'wp-4', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260308_114720_3dabeb9e-2c39-4907-b747-bc3544e2d5b7.mp4', thumb:'wallpapers/thumb-4.jpg' },
+    { id:'wp-5', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260306_074215_04640ca7-042c-45d6-bb56-58b1e8a42489.mp4', thumb:'wallpapers/thumb-5.jpg' }
+  ];
+  const grid = document.getElementById('wallpaper-grid');
+  const video = document.getElementById('bg-video');
+  wallpapers.forEach((wp, i) => {
+    const div = document.createElement('div');
+    div.className = 'wp-thumb' + (video.src === wp.url ? ' active' : '');
+    div.innerHTML = '<img src="' + wp.thumb + '" alt="Wallpaper ' + (i+1) + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div class=wp-placeholder>▶</div>\'">';
+    div.addEventListener('click', function() {
+      video.src = wp.url;
+      video.load();
+      video.play();
+      grid.querySelectorAll('.wp-thumb').forEach(t => t.classList.remove('active'));
+      div.classList.add('active');
+    });
+    grid.appendChild(div);
   });
 })();
 
