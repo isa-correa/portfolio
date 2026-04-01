@@ -205,11 +205,17 @@
   .win-body::-webkit-scrollbar { width: 6px; }
   .win-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
 
+  .note-highlight-yellow { background: rgba(255,212,0,0.25); border-radius: 3px; padding: 1px 3px; }
+  .note-highlight-blue { background: rgba(0,100,215,0.12); border-radius: 3px; padding: 1px 3px; }
+  .note-highlight-green { background: rgba(40,200,64,0.15); border-radius: 3px; padding: 1px 3px; }
+
   /* ── ABOUT WINDOW (Inspector style) ─────────────── */
-  #win-about { width: 540px; height: 520px; top: 80px; left: 200px; }
+  #win-about { width: 640px; height: 540px; top: 80px; left: 150px; }
+  #win-about .win-resize { opacity: 0.3; transition: opacity 0.15s; }
+  #win-about .win-resize:hover { opacity: 0.6; cursor: nwse-resize; }
   #win-about .win-body { padding: 0; display: flex; }
   .about-sidebar {
-    width: 140px; min-width: 140px;
+    width: 150px; min-width: 150px;
     background: rgba(220,214,206,0.6);
     border-right: 1px solid rgba(0,0,0,0.07);
     padding: 12px 0;
@@ -685,8 +691,8 @@
     </div>
 
     <div class="file-icon" id="file-lanza" data-win="win-lanza">
-      <div class="thumb" style="background:linear-gradient(135deg,#f7971e,#ffd200)">
-        <svg width="32" height="28" viewBox="0 0 24 21" fill="none" stroke="white" stroke-width="1.5"><path d="M23 17a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3L8 2h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="12" r="4"/></svg>
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/lanzarote/cover-lanzarote.jpg" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.22),0 1px 3px rgba(0,0,0,0.15);pointer-events:none;-webkit-user-drag:none">
       </div>
       <div class="fname">Lanzarote-Photoshoot</div>
     </div>
@@ -766,9 +772,9 @@
 
         <!-- ABOUT -->
         <div class="tab-panel active" id="panel-about">
-          <p style="margin-bottom:14px">Graphic Designer and Art Director. I make things look good and work well — sometimes at the same time.</p>
-          <p>Six years building visual identities, campaigns and interactive experiences for brands across Europe and the Middle East.</p>
-          <p style="margin-top:10px">Currently at Accenture, pushing HTML as a weapon against boring PowerPoints and using AI as a real collaborator — not a shortcut.</p>
+          <p style="margin-bottom:14px"><em>Spoiler:</em> behind this portfolio there's a designer with <strong>too many tabs open</strong>, a serious <span class="note-highlight-yellow">typography obsession</span>, and the theory that <strong>every creative problem has a solution</strong>. Resourceful by nature, problem-solver by necessity.</p>
+          <p style="margin-bottom:14px">Born between two provinces in southern Spain — which teaches you to adapt to pretty much anything. Six years later, I've taken that adaptability across <span class="note-highlight-blue">Europe and the Middle East</span>, building visual identities, campaigns and interactive experiences along the way.</p>
+          <p style="margin-top:10px">Organising chaos is the first thing I do every morning so that by the end of the day, <strong>everything looks incredible and actually works</strong>. My newest superpower is taming AI to make real magic: from <span class="note-highlight-green">turning visuals into code</span> to pulling off shoots we used to think were impossible. Not as a shortcut — <em>as a collaborator</em>. And here I am, still flowing.</p>
           <div class="can-do" style="margin-top:18px">
             <h3 style="margin-bottom:10px">I can do...</h3>
             <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Art Direction & Creative Direction</div>
@@ -790,7 +796,7 @@
           <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px">
             <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>Accenture — Visual Designer, Creative Studio Lead (2025–Present)</span>
+              <span>Accenture — Visual Designer, Creative Studio (2025–Present)</span>
             </div>
             <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -989,7 +995,7 @@
   </div>
 
   <!-- PROJECT: LANZAROTE -->
-  <div class="window project-window" id="win-lanza" style="top:90px;left:240px">
+  <div class="window project-window" id="win-lanza" style="top:90px;left:240px;width:555px;height:580px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-lanza')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-lanza')"><span class="btn-icon">✕</span></button>
@@ -998,18 +1004,36 @@
       </div>
       <div class="win-title">Lanzarote-Photoshoot.raw</div>
     </div>
-    <div class="win-body" style="padding:0">
-      <div class="project-cover" style="background:linear-gradient(135deg,#f7971e,#ffd200,#ff6b35)">
-        <svg width="48" height="42" viewBox="0 0 24 21" fill="none" stroke="white" stroke-width="1.5" class="cover-emoji"><path d="M23 17a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3L8 2h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="12" r="4"/></svg>
-      </div>
-      <div class="project-meta">
-        <div class="project-type">Photography · Art Direction</div>
-        <div class="project-title">Lanzarote Photoshoot</div>
-        <div class="project-desc">Art direction and photography session in Lanzarote. Location scouting, styling, shooting and retouching — volcanic landscape as the protagonist.</div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Photography · Art Direction · Editorial</div>
+        <div class="project-title">Lanzarote | Lifestyle Photography</div>
         <div class="project-tags">
-          <span class="project-tag">Photography</span><span class="project-tag">Art Direction</span><span class="project-tag">Retouching</span>
+          <span class="project-tag">Photography</span>
+          <span class="project-tag">Lifestyle</span>
+          <span class="project-tag">Art Direction</span>
+          <span class="project-tag">Editorial</span>
         </div>
-        <span class="wip-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:4px"><path d="M6 2v6l4 4-4 4v6h12v-6l-4-4 4-4V2H6zm10 14.5V20H8v-3.5l4-4 4 4zm-4-5l-4-4V4h8v3.5l-4 4z"/></svg>Coming soon</span>
+        <div class="lume-media">
+          <img src="proyectos/lanzarote/1.jpg" alt="Lanzarote — photo 1">
+          <img src="proyectos/lanzarote/2.jpg" alt="Lanzarote — photo 2">
+          <img src="proyectos/lanzarote/9.jpg" alt="Lanzarote — photo 9">
+          <img src="proyectos/lanzarote/4.jpg" alt="Lanzarote — photo 4">
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>You don't just photograph Lanzarote — you direct it. An island that looks like it was designed by someone obsessed with contrast: volcanic black, whitewashed walls, absolute blue. Before I even picked up the camera, the mood was already clear in my head: raw light, clean framing, people occupying the space without over-posing.</p>
+            <p>This project is the result of a week applying the same process I use in any other job: define a vision, make quick decisions about what to include and what to leave out, and execute with intent. There's no production team, but there is direction. Every image serves a purpose.</p>
+            <p>Keep what matters. Let go of everything else.</p>
+          </div>
+        </details>
+        <div class="lume-ctas">
+          <a class="finder-btn" href="proyectos/lanzarote/lanzarote.html" target="_blank">View Full Gallery →</a>
+        </div>
       </div>
     </div>
     <div class="win-resize">⌟</div>
@@ -1616,6 +1640,46 @@ document.getElementById('phone-modal').addEventListener('click', e => {
 // Wire up piccadilly media items
 (function() {
   const els = document.querySelectorAll('#win-piccadilly .lume-media img, #win-piccadilly .lume-media video');
+  const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
+  els.forEach((el, i) => {
+    el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
+  });
+})();
+
+// ── WIN-ABOUT RESIZE ─────────────────────────────
+(function() {
+  const win = document.getElementById('win-about');
+  const handle = win.querySelector('.win-resize');
+  let isResizing = false;
+  let startX, startY, startW, startH;
+
+  handle.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startW = win.offsetWidth;
+    startH = win.offsetHeight;
+    win.style.zIndex = ++zTop;
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isResizing) return;
+    const newW = startW + (e.clientX - startX);
+    const newH = startH + (e.clientY - startY);
+    if (newW >= 480) win.style.width = newW + 'px';
+    if (newH >= 350) win.style.height = newH + 'px';
+  });
+
+  document.addEventListener('mouseup', function() {
+    isResizing = false;
+  });
+})();
+
+// Wire up lanzarote media items
+(function() {
+  const els = document.querySelectorAll('#win-lanza .lume-media img, #win-lanza .lume-media video');
   const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
   els.forEach((el, i) => {
     el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
