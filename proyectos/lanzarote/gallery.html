@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lanzarote — Photos</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-from: #e8e0d5;
+    --bg-mid: #d4cbc0;
+    --bg-to: #c8bfb4;
+    --accent: #0D99FF;
+    --accent2: #66C8FF;
+    --glass: rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.9);
+    --shadow: rgba(0,0,0,0.18);
+    --text: #1a1a1a;
+    --text-mid: #555;
+    --text-light: #888;
+    --menubar-h: 28px;
+    --dock-h: 72px;
+    --btn-red: #ff5f57;
+    --btn-yellow: #febc2e;
+    --btn-green: #28c840;
+    --serif: 'Georgia', serif;
+    --sans: -apple-system, 'Helvetica Neue', sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: var(--sans);
+    user-select: none;
+    cursor: default;
+    background: #000;
+  }
+
+  body { opacity: 0; }
+  body.loaded { opacity: 1; transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1); }
+
+  /* ── BACKGROUND ─────────────────────────────────── */
+  #desktop {
+    position: fixed; inset: 0;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .window.visible { animation: none; }
+
+  /* grain overlay */
+  #grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 180px;
+    animation: grainAnim 0.8s steps(2) infinite;
+  }
+  @keyframes grainAnim {
+    0%   { background-position: 0 0; }
+    25%  { background-position: -20px 10px; }
+    50%  { background-position: 10px -15px; }
+    75%  { background-position: -10px 5px; }
+    100% { background-position: 5px -5px; }
+  }
+
+  /* ── MENU BAR ────────────────────────────────────── */
+  #menubar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--menubar-h);
+    background: rgba(40,40,42,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    display: flex; align-items: center;
+    padding: 0 16px;
+    z-index: 9999;
+    font-size:15px; font-weight: 500;
+    color: #fff;
+  }
+  #menubar .apple { font-size:17px; margin-right: 16px; color: #fff; }
+  #menubar .apple svg { fill: #fff; }
+  #menubar .menu-items { display: flex; gap: 16px; }
+  #menubar .menu-items span { opacity: 0.75; font-weight: 400; cursor: default; color: #fff; }
+  #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: #fff; }
+  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: rgba(255,255,255,0.75); }
+  #menubar .right svg { fill: rgba(255,255,255,0.75); }
+  #clock { font-variant-numeric: tabular-nums; }
+
+  /* ── WINDOWS ─────────────────────────────────────── */
+  .window {
+    position: fixed;
+    min-width: 420px; min-height: 300px;
+    background: rgba(242,238,232,0.90);
+    backdrop-filter: blur(30px) saturate(1.5);
+    -webkit-backdrop-filter: blur(30px) saturate(1.5);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+    display: none; flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+    animation: windowOpen 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes windowOpen {
+    from { transform: scale(0.88); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .window.visible { display: flex; }
+
+  .win-titlebar {
+    height: 38px; min-height: 38px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(240,235,228,0.5) 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    display: flex; align-items: center;
+    padding: 0 12px;
+    cursor: move;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .win-buttons { display: flex; gap: 8px; align-items: center; }
+  .win-btn {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    border: none; cursor: pointer;
+    transition: filter 0.15s;
+    position: relative;
+  }
+  .win-btn:hover { filter: brightness(0.85); }
+  .win-btn.close { background: var(--btn-red); }
+  .win-btn.minimize { background: var(--btn-yellow); }
+  .win-btn.maximize { background: var(--btn-green); }
+  .win-btn .btn-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size:10px; font-weight: 700; color: rgba(0,0,0,0.5);
+    opacity: 0;
+  }
+  .win-buttons:hover .btn-icon { opacity: 1; }
+  .win-title {
+    position: absolute;
+    left: 0; right: 0;
+    text-align: center;
+    font-size:15px; font-weight: 500;
+    color: var(--text-mid);
+    pointer-events: none;
+  }
+  .win-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .win-body::-webkit-scrollbar { width: 6px; }
+  .win-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+
+  /* ── DOCK ────────────────────────────────────────── */
+  #dock {
+    position: fixed;
+    bottom: 8px;
+    left: 50%; transform: translateX(-50%);
+    height: var(--dock-h);
+    background: rgba(240,235,228,0.70);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
+    display: flex; align-items: flex-end;
+    padding: 8px 18px;
+    gap: 10px;
+    z-index: 9998;
+  }
+  .dock-item {
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .dock-item:hover { transform: translateY(-9px) scale(1.16); }
+  .dock-item:hover + .dock-item { transform: translateY(-4px) scale(1.08); }
+  .dock-item:has(+ .dock-item:hover) { transform: translateY(-4px) scale(1.08); }
+  .dock-icon {
+    width: 48px; height: 48px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size:28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+  }
+  .dock-tooltip {
+    position: absolute; bottom: calc(100% + 10px);
+    left: 50%; transform: translateX(-50%);
+    background: rgba(40,40,40,0.88);
+    color: #fff; font-size:13px; font-weight: 500;
+    padding: 4px 10px; border-radius: 7px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .dock-item:hover .dock-tooltip { opacity: 1; }
+  .dock-separator {
+    width: 1px; height: 40px;
+    background: rgba(0,0,0,0.15);
+    margin: 0 4px;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  /* dock icon styles */
+  .di-figma { background: linear-gradient(135deg, #1abcfe, #0acf83, #ff7262, #a259ff); }
+  .di-claude { background: linear-gradient(135deg, #d4a574, #c8956a); }
+  .di-cc { background: linear-gradient(135deg, #ff0000, #cc0000); }
+  .di-mail { background: linear-gradient(180deg, #5cb8f7 0%, #1e7cf5 100%); }
+  .di-notes { background: linear-gradient(180deg, #ffd60a 0%, #f5c400 100%); }
+  .di-trash { background: transparent; box-shadow: none; }
+
+  /* ── PHOTOS APP ──────────────────────────────────── */
+  .photos-sidebar {
+    width: 180px;
+    min-width: 180px;
+    background: rgba(220,214,206,0.6);
+    border-right: 1px solid rgba(0,0,0,0.07);
+    padding: 0;
+    overflow-y: auto;
+  }
+  .photos-sidebar::-webkit-scrollbar { width: 4px; }
+  .photos-sidebar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 2px; }
+
+  .sidebar-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    padding: 12px 14px 6px;
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-radius: 6px;
+    margin: 0 8px 2px;
+    transition: background 0.12s;
+  }
+  .sidebar-item:hover { background: rgba(0,0,0,0.05); }
+  .sidebar-item.active {
+    background: rgba(0,100,215,0.15);
+    color: #0064d7;
+  }
+  .sidebar-item svg { flex-shrink: 0; }
+  .sidebar-sep {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    margin: 8px 14px;
+  }
+
+  /* ── PHOTO GRID ──────────────────────────────────── */
+  .photos-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+  }
+  .photos-main::-webkit-scrollbar { width: 6px; }
+  .photos-main::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+
+  .photos-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  #photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .photo-item {
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1;
+    opacity: 0;
+    transform: scale(0.94);
+    transition: box-shadow 0.2s;
+  }
+  .photo-item.visible {
+    animation: photoIn 0.35s ease forwards;
+  }
+  .photo-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+  .photo-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+  .photo-item:hover img { transform: scale(1.05); }
+  @keyframes photoIn {
+    from { opacity:0; transform:scale(0.94); }
+    to   { opacity:1; transform:scale(1); }
+  }
+
+  /* ── LIGHTBOX ────────────────────────────────────── */
+  #lightbox {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 999999;
+    display: none; align-items: center; justify-content: center;
+  }
+  #lb-img {
+    max-width: 90vw; max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  @keyframes lbIn {
+    from { opacity:0; transform:scale(0.92); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  #lb-close {
+    position: fixed; top: 20px; right: 22px;
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%; color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  #lb-close:hover { background: rgba(255,255,255,0.22); }
+  .lb-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 46px; height: 46px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%; color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .lb-arrow:hover { background: rgba(255,255,255,0.22); }
+  #lb-prev { left: 22px; }
+  #lb-next { right: 22px; }
+  #lb-counter {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.45); font-size:14px; letter-spacing: 0.06em;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- GRAIN -->
+<div id="grain"></div>
+
+<!-- DESKTOP -->
+<div id="desktop">
+
+  <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" muted playsinline autoplay loop style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none"></video>
+
+  <!-- MENU BAR -->
+  <div id="menubar">
+    <span class="apple"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></span>
+    <div class="menu-items">
+      <span>Photos</span>
+      <span>File</span>
+      <span>Edit</span>
+      <span>Image</span>
+      <span>View</span>
+      <span>Window</span>
+      <span>Help</span>
+    </div>
+    <div class="right">
+      <span><svg width="18" height="12" viewBox="0 0 22 13" fill="none"><rect x="0.5" y="0.5" width="18" height="12" rx="2.5" stroke="currentColor" stroke-opacity="0.6"/><rect x="2" y="2" width="14" height="9" rx="1.5" fill="currentColor" fill-opacity="0.7"/><path d="M19.5 4.5v4c1-.67 1.5-1.2 1.5-2s-.5-1.33-1.5-2z" fill="currentColor" fill-opacity="0.4"/></svg></span>
+      <span><svg width="14" height="12" viewBox="0 0 22 18" fill="currentColor" opacity="0.7"><path d="M11 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM.41 5.35a15 15 0 0 1 21.18 0l-2.12 2.12a12 12 0 0 0-16.94 0L.41 5.35zM4.65 9.59a9 9 0 0 1 12.7 0l-2.12 2.12a6 6 0 0 0-8.48 0L4.65 9.59z"/></svg></span>
+      <span id="clock"></span>
+    </div>
+  </div>
+
+</div><!-- /desktop -->
+
+<!-- PHOTOS WINDOW -->
+<div class="window visible" style="width:calc(100vw - 120px);height:calc(100vh - 120px);top:50px;left:60px;position:fixed;display:flex;flex-direction:column;">
+  <div class="win-titlebar">
+    <div class="win-buttons">
+      <button class="win-btn close" onclick="window.location.href='../../index.html'"><span class="btn-icon">✕</span></button>
+      <button class="win-btn minimize"><span class="btn-icon">−</span></button>
+      <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+    </div>
+    <div class="win-title">Lanzarote — 23 photos</div>
+  </div>
+  <div class="win-body" style="display:flex;padding:0;overflow:hidden;">
+
+    <!-- SIDEBAR -->
+    <div class="photos-sidebar">
+      <div class="sidebar-section-title">Library</div>
+      <div class="sidebar-item active">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="5" cy="5" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="19" cy="5" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="19" cy="19" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+        All Photos
+      </div>
+      <div class="sidebar-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        Favourites
+      </div>
+      <hr class="sidebar-sep">
+      <div class="sidebar-section-title">Albums</div>
+      <div class="sidebar-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>
+        Lanzarote 2025
+      </div>
+    </div>
+
+    <!-- MAIN AREA -->
+    <div class="photos-main">
+      <div class="photos-toolbar">
+        <h2 style="font-size:20px;font-weight:600;color:var(--text);margin:0">Library</h2>
+        <input type="range" id="zoom-slider" min="100" max="400" value="200" step="1" style="width:80px;accent-color:#0064d7;cursor:pointer">
+      </div>
+      <div id="photo-grid">
+        <div class="photo-item" style="animation-delay:0ms" onclick="openLb(0)"><img src="1.webp" alt="Lanzarote 1" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:30ms" onclick="openLb(1)"><img src="2.webp" alt="Lanzarote 2" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:60ms" onclick="openLb(2)"><img src="3.webp" alt="Lanzarote 3" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:90ms" onclick="openLb(3)"><img src="4.webp" alt="Lanzarote 4" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:120ms" onclick="openLb(4)"><img src="5.webp" alt="Lanzarote 5" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:150ms" onclick="openLb(5)"><img src="6.webp" alt="Lanzarote 6" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:180ms" onclick="openLb(6)"><img src="7.webp" alt="Lanzarote 7" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:210ms" onclick="openLb(7)"><img src="8.webp" alt="Lanzarote 8" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:240ms" onclick="openLb(8)"><img src="9.webp" alt="Lanzarote 9" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:270ms" onclick="openLb(9)"><img src="10.webp" alt="Lanzarote 10" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:300ms" onclick="openLb(10)"><img src="11.webp" alt="Lanzarote 11" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:330ms" onclick="openLb(11)"><img src="12.webp" alt="Lanzarote 12" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:360ms" onclick="openLb(12)"><img src="13.webp" alt="Lanzarote 13" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:390ms" onclick="openLb(13)"><img src="14.webp" alt="Lanzarote 14" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:420ms" onclick="openLb(14)"><img src="15.webp" alt="Lanzarote 15" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:450ms" onclick="openLb(15)"><img src="16.webp" alt="Lanzarote 16" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:480ms" onclick="openLb(16)"><img src="17.webp" alt="Lanzarote 17" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:510ms" onclick="openLb(17)"><img src="18.webp" alt="Lanzarote 18" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:540ms" onclick="openLb(18)"><img src="19.webp" alt="Lanzarote 19" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:570ms" onclick="openLb(19)"><img src="20.webp" alt="Lanzarote 20" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:600ms" onclick="openLb(20)"><img src="21.webp" alt="Lanzarote 21" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:630ms" onclick="openLb(21)"><img src="22.webp" alt="Lanzarote 22" loading="lazy" draggable="false"></div>
+        <div class="photo-item" style="animation-delay:660ms" onclick="openLb(22)"><img src="23.webp" alt="Lanzarote 23" loading="lazy" draggable="false"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DOCK -->
+<div id="dock">
+  <div class="dock-item" onclick="window.location.href='../../index.html'">
+    <div class="dock-icon di-figma"><img src="../../icons/figma.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+    <div class="dock-tooltip">Figma</div>
+  </div>
+
+  <div class="dock-item" onclick="window.location.href='../../index.html'">
+    <div class="dock-icon di-claude"><img src="../../icons/claude.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+    <div class="dock-tooltip">Claude</div>
+  </div>
+
+  <div class="dock-item" onclick="window.location.href='../../index.html'">
+    <div class="dock-icon di-cc"><img src="../../icons/creative.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+    <div class="dock-tooltip">Adobe</div>
+  </div>
+
+  <div class="dock-separator"></div>
+
+  <div class="dock-item" onclick="window.location.href='../../index.html'">
+    <div class="dock-icon di-mail"><img src="../../icons/mail.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+    <div class="dock-tooltip">Contact</div>
+  </div>
+
+  <div class="dock-item" onclick="window.location.href='../../index.html'">
+    <div class="dock-icon di-notes"><img src="../../icons/notas.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+    <div class="dock-tooltip">About me</div>
+  </div>
+
+  <div class="dock-item">
+    <div class="dock-icon di-trash"><img src="../../icons/trash.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+    <div class="dock-tooltip">Trash</div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLb()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button id="lb-prev" class="lb-arrow" onclick="lbPrev()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <img id="lb-img" src="" alt="">
+  <button id="lb-next" class="lb-arrow" onclick="lbNext()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div id="lb-counter"></div>
+</div>
+
+<script>
+// ── CLOCK ──────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('clock').textContent =
+    `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${h}:${m}`;
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// ── ZOOM SLIDER ─────────────────────────────────
+document.getElementById('zoom-slider').addEventListener('input', function() {
+  const size = this.value + 'px';
+  document.getElementById('photo-grid').style.gridTemplateColumns = `repeat(auto-fill, minmax(${size}, 1fr))`;
+});
+
+// ── INTERSECTION OBSERVER ───────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.photo-item').forEach(item => observer.observe(item));
+
+// ── LIGHTBOX ─────────────────────────────────────
+let lbIndex = 0;
+const lbImgs = Array.from({length: 23}, (_, i) => `${i+1}.webp`);
+
+function openLb(i) {
+  lbIndex = i;
+  renderLb();
+  document.getElementById('lightbox').style.display = 'flex';
+}
+function renderLb() {
+  const img = document.getElementById('lb-img');
+  img.style.animation = 'none';
+  img.offsetHeight;
+  img.src = lbImgs[lbIndex];
+  img.style.animation = 'lbIn 0.2s ease forwards';
+  document.getElementById('lb-counter').textContent = `${lbIndex+1} / ${lbImgs.length}`;
+}
+function closeLb() { document.getElementById('lightbox').style.display = 'none'; }
+function lbNext() { lbIndex = (lbIndex+1) % lbImgs.length; renderLb(); }
+function lbPrev() { lbIndex = (lbIndex-1+lbImgs.length) % lbImgs.length; renderLb(); }
+
+document.getElementById('lightbox').addEventListener('click', e => { if(e.target.id==='lightbox') closeLb(); });
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').style.display !== 'flex') return;
+  if (e.key==='Escape') closeLb();
+  else if (e.key==='ArrowRight'||e.key==='ArrowDown') { e.preventDefault(); lbNext(); }
+  else if (e.key==='ArrowLeft'||e.key==='ArrowUp') { e.preventDefault(); lbPrev(); }
+});
+
+const bgVideo = document.getElementById('bg-video');
+function revealPage() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.body.classList.add('loaded');
+    });
+  });
+}
+if (bgVideo) {
+  if (bgVideo.readyState >= 3) {
+    revealPage();
+  } else {
+    bgVideo.addEventListener('canplaythrough', revealPage, { once: true });
+    setTimeout(revealPage, 2000);
+  }
+} else {
+  revealPage();
+}
+</script>
+</body>
+</html>
