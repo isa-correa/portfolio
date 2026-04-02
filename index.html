@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isa Correa — Portfolio</title>
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta property="og:title" content="Isa Correa — Portfolio">
+<meta property="og:description" content="Visual Designer & Art Director · AI-driven creative workflow">
+<meta property="og:image" content="https://isa-correa.github.io/portfolio/icons/favicon-512.png">
+<meta property="og:url" content="https://isa-correa.github.io/portfolio/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=SF+Pro+Display:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-from: #e8e0d5;
+    --bg-mid: #d4cbc0;
+    --bg-to: #c8bfb4;
+    --accent: #0D99FF;
+    --accent2: #66C8FF;
+    --glass: rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.9);
+    --shadow: rgba(0,0,0,0.18);
+    --text: #1a1a1a;
+    --text-mid: #555;
+    --text-light: #888;
+    --menubar-h: 28px;
+    --dock-h: 72px;
+    --btn-red: #ff5f57;
+    --btn-yellow: #febc2e;
+    --btn-green: #28c840;
+    --serif: 'Georgia', serif;
+    --sans: -apple-system, 'Helvetica Neue', sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: var(--sans);
+    user-select: none;
+    cursor: default;
+  }
+
+  /* ── BACKGROUND ─────────────────────────────────── */
+  #desktop {
+    position: fixed; inset: 0;
+    background: #111;
+    overflow: hidden;
+  }
+
+  #bg-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* grain overlay */
+  #grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 180px;
+    animation: grainAnim 0.8s steps(2) infinite;
+  }
+  @keyframes grainAnim {
+    0%   { background-position: 0 0; }
+    25%  { background-position: -20px 10px; }
+    50%  { background-position: 10px -15px; }
+    75%  { background-position: -10px 5px; }
+    100% { background-position: 5px -5px; }
+  }
+
+  /* ── MENU BAR ────────────────────────────────────── */
+  #menubar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--menubar-h);
+    background: rgba(40,40,42,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    display: flex; align-items: center;
+    padding: 0 16px;
+    z-index: 9999;
+    font-size:15px; font-weight: 500;
+    color: #fff;
+  }
+  #menubar .apple { font-size:17px; margin-right: 16px; color: #fff; }
+  #menubar .apple svg { fill: #fff; }
+  #menubar .menu-items { display: flex; gap: 16px; }
+  #menubar .menu-items span { opacity: 0.75; font-weight: 400; cursor: default; color: #fff; }
+  #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: #fff; }
+  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: rgba(255,255,255,0.75); }
+  #menubar .right svg { fill: rgba(255,255,255,0.75); }
+  #clock { font-variant-numeric: tabular-nums; }
+
+  /* ── DESKTOP AREA ────────────────────────────────── */
+  #workspace {
+    position: fixed;
+    top: var(--menubar-h); left: 0; right: 0;
+    bottom: calc(var(--dock-h) + 16px);
+    z-index: 10;
+  }
+
+  /* ── FILE ICONS ──────────────────────────────────── */
+  .file-icon {
+    position: absolute;
+    width: 96px;
+    text-align: center;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background 0.1s;
+  }
+  .file-icon:hover { background: rgba(0,100,215,0.22); }
+  .file-icon.selected { background: rgba(0,100,215,0.28); }
+  .file-icon .thumb {
+    width: 72px; height: 72px;
+    margin: 0 auto 6px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.22), 0 1px 3px rgba(0,0,0,0.15);
+    background: var(--glass);
+    display: flex; align-items: center; justify-content: center;
+    font-size:34px;
+    transition: transform 0.15s;
+    position: relative;
+  }
+  .file-icon:hover .thumb { transform: scale(1.06); }
+  .file-icon .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .file-icon .fname {
+    font-size:13.5px; font-weight: 500;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    line-height: 1.3;
+    padding: 2px 4px;
+    border-radius: 3px;
+    word-break: break-word;
+  }
+  .file-icon .thumb img { pointer-events: none; -webkit-user-drag: none; }
+  .file-icon .fname-input { font-size:13.5px; font-weight:500; color:#fff; background:rgba(0,100,215,0.85); border:none; outline:none; text-align:center; padding:2px 4px; border-radius:3px; width:100%; font-family:var(--sans); line-height:1.3; }
+  .file-icon:hover .fname {
+    background: rgba(0,100,215,0.85);
+    color: #fff;
+    text-shadow: none;
+  }
+
+  /* ── WINDOWS ─────────────────────────────────────── */
+  .window {
+    position: fixed;
+    min-width: 420px; min-height: 300px;
+    background: rgba(242,238,232,0.90);
+    backdrop-filter: blur(30px) saturate(1.5);
+    -webkit-backdrop-filter: blur(30px) saturate(1.5);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+    display: none; flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+    animation: windowOpen 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .window.active { z-index: 200; }
+  @keyframes windowOpen {
+    from { transform: scale(0.88); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .window.visible { display: flex; }
+
+  .win-titlebar {
+    height: 38px; min-height: 38px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(240,235,228,0.5) 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    display: flex; align-items: center;
+    padding: 0 12px;
+    cursor: move;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .win-buttons { display: flex; gap: 8px; align-items: center; }
+  .win-btn {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    border: none; cursor: pointer;
+    transition: filter 0.15s;
+    position: relative;
+  }
+  .win-btn:hover { filter: brightness(0.85); }
+  .win-btn.close { background: var(--btn-red); }
+  .win-btn.minimize { background: var(--btn-yellow); }
+  .win-btn.maximize { background: var(--btn-green); }
+  .win-btn .btn-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size:10px; font-weight: 700; color: rgba(0,0,0,0.5);
+    opacity: 0;
+  }
+  .win-buttons:hover .btn-icon { opacity: 1; }
+  .win-title {
+    position: absolute;
+    left: 0; right: 0;
+    text-align: center;
+    font-size:15px; font-weight: 500;
+    color: var(--text-mid);
+    pointer-events: none;
+  }
+  .win-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .win-body::-webkit-scrollbar { width: 6px; }
+  .win-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+
+  .note-highlight-yellow { background: rgba(255,212,0,0.25); border-radius: 3px; padding: 1px 3px; }
+  .note-highlight-blue { background: rgba(0,100,215,0.12); border-radius: 3px; padding: 1px 3px; }
+  .note-highlight-green { background: rgba(40,200,64,0.15); border-radius: 3px; padding: 1px 3px; }
+
+  /* ── ABOUT WINDOW (Inspector style) ─────────────── */
+  #win-about { width: 790px; height: 540px; top: 80px; left: 150px; }
+  #win-about .win-resize { opacity: 0.3; transition: opacity 0.15s; }
+  #win-about .win-resize:hover { opacity: 0.6; cursor: nwse-resize; }
+  #win-about .win-body { padding: 0; display: flex; }
+  .about-sidebar {
+    width: 150px; min-width: 150px;
+    background: rgba(220,214,206,0.6);
+    border-right: 1px solid rgba(0,0,0,0.07);
+    padding: 12px 0;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .sidebar-tab {
+    padding: 8px 14px;
+    font-size:14.5px; font-weight: 500;
+    color: var(--text-mid);
+    cursor: pointer;
+    border-radius: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.1s;
+  }
+  .sidebar-tab:hover { background: rgba(0,0,0,0.06); }
+  .sidebar-tab.active { background: rgba(0,100,215,0.15); color: #0064d7; }
+  .sidebar-tab .tab-count { font-size:13px; color: var(--text-light); background: rgba(0,0,0,0.1); border-radius: 10px; padding: 1px 6px; }
+  .sidebar-tab.active .tab-count { background: rgba(0,100,215,0.2); color: #0064d7; }
+  .about-content { flex: 1; padding: 20px; overflow-y: auto; font-size:15px; line-height: 1.6; color: var(--text); }
+  .about-content h3 { font-size:14px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
+  .about-content p { margin-bottom: 12px; color: var(--text-mid); }
+  .about-content .can-do { margin: 14px 0 0; }
+  .can-do-item { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size:14.5px; color: var(--text); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .exp-item { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-company { font-weight: 600; font-size:15px; }
+  .exp-role { font-size:14px; color: var(--accent); font-weight: 500; }
+  .exp-date { font-size:13px; color: var(--text-light); margin: 2px 0 6px; }
+  .exp-desc { font-size:14px; color: var(--text-mid); line-height: 1.5; }
+  .skill-group { margin-bottom: 14px; }
+  .skill-group-title { font-size:13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 6px; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .skill-tag { background: rgba(13,153,255,0.10); color: var(--accent); border: 1px solid rgba(13,153,255,0.22); border-radius: 20px; padding: 3px 10px; font-size:13.5px; font-weight: 500; }
+  .cert-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size:14.5px; }
+  .cert-icon { font-size:20px; flex-shrink: 0; }
+  .cert-name { font-weight: 500; }
+  .cert-org { font-size:13px; color: var(--text-light); }
+
+  /* ── PROJECT WINDOWS ─────────────────────────────── */
+  .project-window { width: 520px; height: 440px; }
+  .project-cover {
+    width: 100%; height: 160px;
+    background: linear-gradient(135deg, #0D99FF, #66C8FF);
+    display: flex; align-items: center; justify-content: center;
+    font-size:50px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-cover::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(242,238,232,0.3) 100%);
+  }
+  .project-cover .cover-emoji { position: relative; z-index: 1; }
+  .project-meta { padding: 16px 20px 0; }
+  .project-type { font-size:13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+  .project-title { font-size:22px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .project-desc { font-size:15px; color: var(--text-mid); line-height: 1.6; margin-bottom: 16px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
+  .project-tag { background: rgba(0,0,0,0.07); border-radius: 20px; padding: 3px 10px; font-size:13px; color: var(--text-mid); }
+  .project-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--text); color: #fff;
+    padding: 8px 16px; border-radius: 20px;
+    font-size:14.5px; font-weight: 500; cursor: pointer;
+    border: none; text-decoration: none;
+    transition: background 0.15s;
+  }
+  .project-cta:hover { background: var(--accent); }
+  .wip-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,180,0,0.15); color: #a07000;
+    border: 1px solid rgba(255,180,0,0.3);
+    border-radius: 20px; padding: 3px 10px;
+    font-size:13.5px; font-weight: 500;
+  }
+
+  /* ── TRASH WINDOW ────────────────────────────────── */
+  #win-trash { width: 480px; height: 380px; top: 140px; left: 300px; }
+  .trash-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 8px;
+    cursor: default; transition: background 0.1s;
+    margin-bottom: 4px;
+  }
+  .trash-item:hover { background: rgba(0,0,0,0.05); }
+  .trash-item-icon { font-size:34px; flex-shrink: 0; }
+  .trash-item-info { flex: 1; }
+  .trash-item-name { font-size:15px; font-weight: 500; }
+  .trash-item-desc { font-size:14px; color: var(--text-light); margin-top: 2px; }
+  .trash-item-date { font-size:13px; color: var(--text-light); }
+
+  /* ── NOTIFICATIONS ───────────────────────────────── */
+  #notifications { position: absolute; top: 16px; right: 16px; width: 320px; z-index: 50; display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+  .notif { background: rgba(242,238,232,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.8); border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.1); padding: 12px 14px; display: flex; align-items: flex-start; gap: 11px; transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.7s ease, background 0.3s ease; opacity: 0; transform: translateX(50px); }
+  .notif.visible { opacity: 1; transform: translateX(0); }
+  .notif:hover { background: rgba(242,238,232,0.92); }
+  .notif-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notif-icon svg { width: 20px; height: 20px; }
+  .notif-icon-gold { background: rgba(240,165,0,0.15); color: #d4900a; }
+  .notif-icon-blue { background: rgba(0,100,215,0.12); color: #0064d7; }
+  .notif-icon-green { background: rgba(40,200,64,0.12); color: #1a9a3a; }
+  .notif-body { flex: 1; min-width: 0; }
+  .notif-app { font-size: 13px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .notif-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 1px; }
+  .notif-desc { font-size: 14px; color: var(--text-mid); line-height: 1.4; }
+  .notif-time { font-size: 12px; color: var(--text-light); flex-shrink: 0; margin-top: 1px; }
+
+  /* ── MAIL WINDOW ─────────────────────────────────── */
+  #win-mail { width: 540px; height: 420px; top: 100px; left: 350px; }
+  .mail-toolbar { display:flex; align-items:center; gap:12px; padding:8px 16px; background:linear-gradient(180deg,rgba(255,255,255,0.5) 0%,rgba(240,235,228,0.4) 100%); border-bottom:1px solid rgba(0,0,0,0.08); }
+  .mail-toolbar-btn { display:flex; align-items:center; gap:4px; background:none; border:1px solid rgba(0,0,0,0.12); border-radius:6px; padding:4px 10px; font-size:13px; font-weight:500; color:var(--text-mid); cursor:pointer; transition:background 0.15s; }
+  .mail-toolbar-btn:hover { background:rgba(0,0,0,0.05); }
+  .mail-toolbar-btn svg { flex-shrink:0; }
+  .mail-toolbar-spacer { flex:1; }
+  .mail-fields { padding:0 16px; }
+  .mail-field-row { display:flex; align-items:center; border-bottom:1px solid rgba(0,0,0,0.08); padding:7px 0; gap:8px; }
+  .mail-field-label { font-size:14px; color:var(--text-light); width:55px; flex-shrink:0; text-align:right; }
+  .mail-field-value { font-size:15px; color:var(--text); flex:1; outline:none; }
+  .mail-field-value[contenteditable] { cursor:text; }
+  .mail-contact-pill { display:inline-flex; align-items:center; gap:4px; background:rgba(0,100,215,0.1); color:#0064d7; border:1px solid rgba(0,100,215,0.2); border-radius:12px; padding:2px 10px 2px 6px; font-size:14px; font-weight:500; }
+  .mail-contact-pill svg { flex-shrink:0; }
+  .mail-body-compose { padding:12px 16px; flex:1; }
+  .mail-body-compose textarea { width:100%; height:100%; min-height:120px; background:transparent; border:none; outline:none; font-family:var(--sans); font-size:15px; color:var(--text); line-height:1.6; resize:none; }
+  .mail-footer-bar { padding:10px 16px; border-top:1px solid rgba(0,0,0,0.08); display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  .mail-send-blue { display:inline-flex; align-items:center; gap:6px; background:#0064d7; color:#fff; border:none; border-radius:999px; padding:6px 16px; font-size:14px; font-weight:600; cursor:pointer; transition:background 0.15s; }
+  .mail-send-blue:hover { background:#0050b0; }
+  .mail-footer-links { display:flex; align-items:center; gap:4px; margin-left:auto; flex-wrap:nowrap; }
+  .mail-footer-link { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:var(--text-light); text-decoration:none; padding:4px 6px; border-radius:4px; transition:background 0.15s,color 0.15s; white-space:nowrap; }
+  .mail-footer-link:hover { background:rgba(0,0,0,0.06); color:var(--text); }
+  .mail-footer-sep { width:1px; height:14px; background:rgba(0,0,0,0.1); }
+
+  /* ── DOCK ────────────────────────────────────────── */
+  #dock {
+    position: fixed;
+    bottom: 8px;
+    left: 50%; transform: translateX(-50%);
+    height: var(--dock-h);
+    background: rgba(240,235,228,0.70);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
+    display: flex; align-items: flex-end;
+    padding: 8px 18px;
+    gap: 10px;
+    z-index: 9998;
+  }
+  .dock-item {
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .dock-item:hover { transform: translateY(-9px) scale(1.16); }
+  .dock-item:hover + .dock-item { transform: translateY(-4px) scale(1.08); }
+  .dock-item:has(+ .dock-item:hover) { transform: translateY(-4px) scale(1.08); }
+  .dock-icon {
+    width: 48px; height: 48px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size:28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+  }
+  .dock-tooltip {
+    position: absolute; bottom: calc(100% + 10px);
+    left: 50%; transform: translateX(-50%);
+    background: rgba(40,40,40,0.88);
+    color: #fff; font-size:13px; font-weight: 500;
+    padding: 4px 10px; border-radius: 7px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .dock-item:hover .dock-tooltip { opacity: 1; }
+  .dock-separator {
+    width: 1px; height: 40px;
+    background: rgba(0,0,0,0.15);
+    margin: 0 4px;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  /* dock icon styles */
+  .di-figma { background: linear-gradient(135deg, #1abcfe, #0acf83, #ff7262, #a259ff); }
+  .di-claude { background: linear-gradient(135deg, #d4a574, #c8956a); }
+  .di-cc { background: linear-gradient(135deg, #ff0000, #cc0000); }
+  .di-mail { background: linear-gradient(180deg, #5cb8f7 0%, #1e7cf5 100%); }
+  .di-notes { background: linear-gradient(180deg, #ffd60a 0%, #f5c400 100%); }
+  .di-trash { background: transparent; box-shadow: none; }
+
+  /* ── RESIZE HANDLE ───────────────────────────────── */
+  .win-resize {
+    position: absolute; bottom: 0; right: 0;
+    width: 16px; height: 16px;
+    cursor: nwse-resize;
+    opacity: 0.3;
+    font-size:12px;
+    display: flex; align-items: flex-end; justify-content: flex-end;
+    padding: 2px;
+    color: var(--text);
+  }
+
+  /* ── WALLPAPER PICKER ───────────────────────────── */
+  .wp-thumb { aspect-ratio:16/10; border-radius:8px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:border-color 0.15s,transform 0.15s,box-shadow 0.15s; background:#1a1a1a; position:relative; }
+  .wp-thumb:hover { transform:scale(1.04); box-shadow:0 4px 12px rgba(0,0,0,0.25); }
+  .wp-thumb.active { border-color:#0064d7; box-shadow:0 0 0 2px rgba(0,100,215,0.3); }
+  .wp-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .wp-thumb .wp-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:18px; color:rgba(255,255,255,0.3); }
+
+  /* ── CONTEXT MENU ────────────────────────────────── */
+  #ctx-menu {
+    position: fixed; display: none;
+    background: rgba(242,238,232,0.90);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+    padding: 4px 0;
+    min-width: 180px;
+    z-index: 99999;
+    font-size:15px;
+  }
+  #ctx-menu.visible { display: block; }
+  .ctx-item { padding: 6px 16px; cursor: default; color: var(--text); }
+  .ctx-item:hover { background: rgba(0,100,215,0.15); }
+  .ctx-sep { height: 1px; background: rgba(0,0,0,0.1); margin: 3px 0; }
+
+
+  /* ── LUME MOOD EXTRAS ────────────────────────────── */
+  .lume-media {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    margin: 14px 0 16px;
+  }
+  .lume-media img, .lume-media video {
+    width: 100%;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    cursor: zoom-in;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .lume-media img:hover, .lume-media video:hover { opacity: 0.88; transform: scale(1.02); }
+  .lume-accordion {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .lume-accordion summary {
+    padding: 10px 14px;
+    font-size:14.5px; font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0,0,0,0.03);
+    user-select: none;
+  }
+  .lume-accordion summary::-webkit-details-marker { display: none; }
+  .lume-accordion[open] summary .acc-arrow { transform: rotate(180deg); }
+  .acc-arrow { transition: transform 0.2s ease; flex-shrink: 0; }
+  .lume-accordion-body {
+    padding: 12px 14px;
+    font-size:14px; color: var(--text-mid); line-height: 1.65;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+  .lume-accordion-body p { margin-bottom: 10px; }
+  .lume-accordion-body p:last-child { margin-bottom: 0; }
+  .lume-ctas { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 20px; }
+  .project-cta-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid rgba(0,0,0,0.3);
+  }
+  .project-cta-outline:hover { background: var(--text); color: #fff; border-color: var(--text); }
+
+  /* ── FINDER-STYLE BUTTONS ────────────────────────── */
+  .finder-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #0064d7; color: #fff;
+    border: none; border-radius: 999px;
+    padding: 6px 14px; font-size:14px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.15s;
+  }
+  .finder-btn:hover { background: #0050b0; }
+  .finder-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: none; border: none;
+    color: #0064d7; font-size:14px; font-weight: 500;
+    cursor: pointer; text-decoration: none; padding: 6px 0;
+    transition: color 0.15s;
+  }
+  .finder-link:hover { color: #003d80; text-decoration: underline; }
+
+  /* ── CLAUDE TERMINAL ────────────────────────────── */
+  .claude-terminal {
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-mid);
+  }
+  .ct-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  .ct-line.visible {
+    animation: ctLineIn 0.3s ease forwards;
+  }
+  @keyframes ctLineIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .ct-check { color: #0064d7; font-weight: 700; flex-shrink: 0; font-size: 13px; }
+  .ct-text  { color: var(--text); font-weight: 500; }
+  .ct-divider { height: 1px; background: rgba(0,0,0,0.08); margin: 12px 0; }
+  .ct-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-bottom: 8px; margin-top: 4px; }
+  .ct-tools { color: #0064d7; font-size: 12px; letter-spacing: 0.02em; margin-bottom: 3px; }
+  .ct-certs { color: #0064d7; font-size: 11.5px; letter-spacing: 0.02em; opacity: 1; }
+  .ct-typewriter {
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 2.4em;
+    margin-bottom: 12px;
+  }
+  .ct-typewriter .ct-tw-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: var(--text);
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+  }
+  .claude-prompt-btn {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .claude-prompt-btn:hover { background: rgba(0,0,0,0.05); color: var(--text); }
+  .ct-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: var(--text-mid);
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ── LIGHTBOX ────────────────────────────────────── */
+  #lightbox {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.93);
+    z-index: 999999;
+    display: none; align-items: center; justify-content: center;
+  }
+  #lightbox.open { display: flex; }
+  #lb-content { display: flex; align-items: center; justify-content: center; }
+  #lb-content img, #lb-content video {
+    max-width: 88vw; max-height: 88vh;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    animation: lbIn 0.2s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes lbIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  #lb-close {
+    position: fixed; top: 20px; right: 22px;
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%; color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  #lb-close:hover { background: rgba(255,255,255,0.22); }
+  .lb-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 46px; height: 46px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%; color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .lb-arrow:hover { background: rgba(255,255,255,0.22); }
+  #lb-prev { left: 22px; }
+  #lb-next { right: 22px; }
+  #lb-counter {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.45); font-size:14px; letter-spacing: 0.06em;
+    pointer-events: none;
+  }
+
+  /* ── PHONE MODAL ─────────────────────────────────── */
+  #phone-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 999998;
+    display: none; align-items: center; justify-content: center;
+  }
+  #phone-modal.open { display: flex; }
+  .phone-frame {
+    width: 385px;
+    background: #0d0d0d;
+    border-radius: 50px;
+    padding: 18px 14px 26px;
+    box-shadow:
+      0 0 0 1.5px #2a2a2a,
+      0 0 0 3.5px #0d0d0d,
+      0 0 0 5px #1e1e1e,
+      0 40px 100px rgba(0,0,0,0.85),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    position: relative;
+    animation: lbIn 0.22s cubic-bezier(.4,0,.2,1);
+  }
+  .phone-dynamic-island {
+    width: 120px; height: 32px;
+    background: #0d0d0d;
+    border-radius: 20px;
+    margin: 0 auto 12px;
+  }
+  .phone-screen {
+    border-radius: 36px;
+    overflow: hidden;
+    background: #000;
+    height: 724px;
+  }
+  .phone-screen iframe { width: 100%; height: 100%; border: none; display: block; }
+  .phone-btn-r  { position:absolute; right:-4px; top:140px; width:4px; height:72px; background:#1c1c1c; border-radius:0 3px 3px 0; }
+  .phone-btn-l1 { position:absolute; left:-4px;  top:108px; width:4px; height:36px; background:#1c1c1c; border-radius:3px 0 0 3px; }
+  .phone-btn-l2 { position:absolute; left:-4px;  top:155px; width:4px; height:58px; background:#1c1c1c; border-radius:3px 0 0 3px; }
+  .phone-btn-l3 { position:absolute; left:-4px;  top:224px; width:4px; height:58px; background:#1c1c1c; border-radius:3px 0 0 3px; }
+  #phone-close {
+    position: fixed; top: 20px; right: 22px;
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%; color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s; z-index: 999999;
+  }
+  #phone-close:hover { background: rgba(255,255,255,0.22); }
+</style>
+</head>
+<body>
+
+
+<!-- GRAIN -->
+<div id="grain"></div>
+
+<!-- DESKTOP -->
+<div id="desktop">
+
+  <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" muted playsinline autoplay loop></video>
+
+  <!-- MENU BAR -->
+  <div id="menubar">
+    <span class="apple"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></span>
+    <div class="menu-items">
+      <span>Isa Correa</span>
+      <span>File</span>
+      <span>View</span>
+      <span>Window</span>
+      <span>Help</span>
+    </div>
+    <div class="right">
+      <span><svg width="18" height="12" viewBox="0 0 22 13" fill="none"><rect x="0.5" y="0.5" width="18" height="12" rx="2.5" stroke="currentColor" stroke-opacity="0.6"/><rect x="2" y="2" width="14" height="9" rx="1.5" fill="currentColor" fill-opacity="0.7"/><path d="M19.5 4.5v4c1-.67 1.5-1.2 1.5-2s-.5-1.33-1.5-2z" fill="currentColor" fill-opacity="0.4"/></svg></span>
+      <span><svg width="14" height="12" viewBox="0 0 22 18" fill="currentColor" opacity="0.7"><path d="M11 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM.41 5.35a15 15 0 0 1 21.18 0l-2.12 2.12a12 12 0 0 0-16.94 0L.41 5.35zM4.65 9.59a9 9 0 0 1 12.7 0l-2.12 2.12a6 6 0 0 0-8.48 0L4.65 9.59z"/></svg></span>
+      <span id="clock"></span>
+    </div>
+  </div>
+
+  <!-- WORKSPACE -->
+  <div id="workspace">
+
+    <!-- FILE ICONS -->
+    <div class="file-icon" id="file-lume" data-win="win-lume">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/lume-mood/lume-mood-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">Lume-Mood</div>
+    </div>
+
+    <div class="file-icon" id="file-phone" data-win="win-phone">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/phone-pitch/phone-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">The-Phone-Pitch</div>
+    </div>
+
+    <div class="file-icon" id="file-lanza" data-win="win-lanza">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/lanzarote/cover-lanzarote.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">Lanzarote-Photoshoot</div>
+    </div>
+
+    <div class="file-icon" id="file-piccadilly" data-win="win-piccadilly">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/kiosko/kiosko-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">Piccadilly-Kiosk</div>
+    </div>
+
+    <div class="file-icon" id="file-sony" data-win="win-sony">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/sony/monster-hunter-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">Sony-Pictures</div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="notifications" onclick="openWindow('win-about'); switchTab('tab-exp')">
+
+      <div class="notif" id="notif-1">
+        <div class="notif-icon notif-icon-gold">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+        </div>
+        <div class="notif-body">
+          <div class="notif-app">Achievement</div>
+          <div class="notif-title">Installed in London</div>
+          <div class="notif-desc">Designed a kiosk at Piccadilly. Yes, that Piccadilly.</div>
+        </div>
+        <span class="notif-time">now</span>
+      </div>
+
+      <div class="notif" id="notif-2">
+        <div class="notif-icon notif-icon-blue">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="notif-body">
+          <div class="notif-app">Achievement</div>
+          <div class="notif-title">PowerPoint killer</div>
+          <div class="notif-desc">Pitched HTML to a boardroom. They didn't miss the slides.</div>
+        </div>
+        <span class="notif-time">2m ago</span>
+      </div>
+
+      <div class="notif" id="notif-3">
+        <div class="notif-icon notif-icon-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/><path d="M9 18h6"/></svg>
+        </div>
+        <div class="notif-body">
+          <div class="notif-app">Achievement</div>
+          <div class="notif-title">AI before it was cool</div>
+          <div class="notif-desc">6 certifications and counting.</div>
+        </div>
+        <span class="notif-time">5m ago</span>
+      </div>
+
+    </div>
+
+  </div><!-- /workspace -->
+
+  <!-- ── WINDOWS ── -->
+
+  <!-- ABOUT / INSPECTOR -->
+  <div class="window" id="win-about" style="width:790px;height:540px;top:80px;left:150px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-about')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-about')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-about')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Information about: Isa Correa · isacorreaur@gmail.com</div>
+    </div>
+    <div class="win-body">
+      <div class="about-sidebar">
+        <div class="sidebar-tab active" id="tab-about" onclick="switchTab('tab-about')">About me <span class="tab-count">1</span></div>
+        <div class="sidebar-tab" id="tab-exp" onclick="switchTab('tab-exp')">Experience <span class="tab-count">4</span></div>
+        <div class="sidebar-tab" id="tab-skills" onclick="switchTab('tab-skills')">Skills <span class="tab-count">∞</span></div>
+        <div class="sidebar-tab" id="tab-certs" onclick="switchTab('tab-certs')">Certifications <span class="tab-count">6</span></div>
+      </div>
+      <div class="about-content">
+
+        <!-- ABOUT -->
+        <div class="tab-panel active" id="panel-about">
+          <img src="icons/isabel-correa.webp" alt="Isa Correa" style="width:110px;height:110px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 16px;box-shadow:0 2px 10px rgba(0,0,0,0.15)">
+          <p style="margin-bottom:14px"><em>Spoiler:</em> behind this portfolio there's a designer with <strong>too many tabs open</strong>, a serious <span class="note-highlight-yellow">typography obsession</span>, and the theory that <strong>every creative problem has a solution</strong>. Resourceful by nature, problem-solver by necessity.</p>
+          <p style="margin-bottom:14px">Born between two provinces in southern Spain — which teaches you to adapt to pretty much anything. Six years later, I've taken that adaptability across <span class="note-highlight-blue">Europe and the Middle East</span>, building visual identities, campaigns and interactive experiences along the way.</p>
+          <p style="margin-top:10px">Organising chaos is the first thing I do every morning so that by the end of the day, <strong>everything looks incredible and actually works</strong>. My newest superpower is taming AI to make real magic: from <span class="note-highlight-green">turning visuals into code</span> to pulling off shoots we used to think were impossible. Not as a shortcut — <em>as a collaborator</em>. And here I am, still flowing.</p>
+          <div class="can-do" style="margin-top:18px">
+            <h3 style="margin-bottom:10px">I can do...</h3>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Art Direction & Creative Direction</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Key Visual design (brand, album, tour)</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Motion graphics & video production</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>UX/UI & interactive HTML experiences</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Branding, logotypes & packaging</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI-driven workflow optimisation</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Photography & B2B content</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>360 campaigns · paid media · organic · newsletter</div>
+          </div>
+        </div>
+
+        <!-- EXPERIENCE -->
+        <div class="tab-panel" id="panel-exp">
+
+          <!-- EXPERIENCE CHECKLIST -->
+          <h3 style="margin-bottom:10px">Experience</h3>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px">
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Accenture — Visual Designer, Creative Studio (2025–Present)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>City Sightseeing Worldwide — Senior Graphic Designer (2024–2025)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Hannun SL — Mid Graphic Designer (2021–2024)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text)">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Eye Inversiones Online SL — Junior Graphic Designer (2020–2021)</span>
+            </div>
+          </div>
+
+          <!-- TRAJECTORY -->
+          <h3 style="margin-bottom:12px">Trajectory</h3>
+          <div style="margin-bottom:20px">
+
+            <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.07)">
+              <span style="font-size:13px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v3.0 · 2024–Present</span>
+              <div style="font-weight:600;font-size:15px;color:var(--text);margin-bottom:5px">Visual & Art Director | AI Visual Strategist</div>
+              <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:0">Leading creative projects in bilingual environments where my priority is organising the creative chaos. I coordinate multidisciplinary teams across strategy and technology, applying generative AI to produce complex assets while ensuring optimisation and seamless implementation.</p>
+            </div>
+
+            <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.07)">
+              <span style="font-size:13px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v2.0 · 2022–2024</span>
+              <div style="font-weight:600;font-size:15px;color:var(--text);margin-bottom:5px">Mid Graphic Designer & Art Direction</div>
+              <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:0">Designed and directed visual identities for international markets, moving between Europe and the Middle East. I led the art direction of global campaigns and adapted brand systems to large-scale physical and digital formats — projecting my work in places like London, Dubai and Abu Dhabi. This is also where I first started integrating AI to optimise production and elevate the visual output.</p>
+            </div>
+
+            <div>
+              <span style="font-size:13px;background:rgba(0,0,0,0.07);border-radius:20px;padding:3px 10px;color:var(--text-mid);font-weight:600;display:inline-block;margin-bottom:6px">v1.0 · 2020–2022</span>
+              <div style="font-weight:600;font-size:15px;color:var(--text);margin-bottom:5px">Junior Graphic Designer</div>
+              <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:0">The perfect training ground for learning to manage every aspect of a brand from scratch. I learned to be resourceful as the sole designer in the department, fresh out of university, taking on everything from identity and packaging to photography and final production — always making the most of the resources available.</p>
+            </div>
+
+          </div>
+
+          <!-- CTA FINAL -->
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.07)">
+            <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px">Want to know more?</p>
+            <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin:6px 0 14px">You won't find company details here (except where authorised), but if you want to dig into the names, see more projects or find out what coffee I drink — just ask for my full CV. I'll be happy to send it over.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <a class="finder-btn" href="mailto:isacorreaur@gmail.com?subject=I'd love to see your CV">Send me an email →</a>
+              <a class="finder-link" href="https://www.linkedin.com/in/isacorrea97/" target="_blank">LinkedIn →</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SKILLS -->
+        <div class="tab-panel" id="panel-skills">
+          <div class="skill-group">
+            <div class="skill-group-title">Design</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Figma</span><span class="skill-tag">Photoshop</span><span class="skill-tag">Illustrator</span>
+              <span class="skill-tag">After Effects</span><span class="skill-tag">Premiere</span><span class="skill-tag">InDesign</span>
+              <span class="skill-tag">Lightroom</span><span class="skill-tag">Klaviyo</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-title">AI & Production</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Claude</span><span class="skill-tag">Runway</span><span class="skill-tag">MidJourney</span>
+              <span class="skill-tag">Firefly</span><span class="skill-tag">Gemini</span><span class="skill-tag">Copilot</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-title">Disciplines</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Art Direction</span><span class="skill-tag">Motion Design</span><span class="skill-tag">UX/UI</span>
+              <span class="skill-tag">Branding</span><span class="skill-tag">Photography</span><span class="skill-tag">Paid Media</span>
+              <span class="skill-tag">Interactive HTML</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-title">Languages</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Español — Nativo</span><span class="skill-tag">English — B2/C1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CERTIFICATIONS -->
+        <div class="tab-panel" id="panel-certs">
+          <div class="cert-item"><span class="cert-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/><path d="M9 18h6"/></svg></span><div><div class="cert-name">Claude 101</div><div class="cert-org">Anthropic</div></div></div>
+          <div class="cert-item"><span class="cert-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M0 20h24" stroke-linecap="round"/></svg></span><div><div class="cert-name">Claude Code in Action</div><div class="cert-org">Anthropic</div></div></div>
+          <div class="cert-item"><span class="cert-icon"><svg width="18" height="18" viewBox="0 0 24 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="15" rx="2"/><path d="M2 7h20M7 3l2-3M12 3l2-3M17 3l2-3"/></svg></span><div><div class="cert-name">AI for Advertising · AI for VFX · Character Animation · Video Transformation</div><div class="cert-org">Runway Academy</div></div></div>
+          <div class="cert-item"><span class="cert-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span><div><div class="cert-name">Google Gemini Full Course</div><div class="cert-org">Google</div></div></div>
+          <div class="cert-item"><span class="cert-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5v7H3V5.5zM11.5 4.36L21 3v8.5h-9.5V4.36zM3 12.5h7.5V19.5L3 18.44V12.5zM11.5 12.5H21V21l-9.5-1.36V12.5z"/></svg></span><div><div class="cert-name">Microsoft Copilot Full Course</div><div class="cert-org">Microsoft</div></div></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: LUME MOOD -->
+  <div class="window project-window" id="win-lume" style="top:100px;left:120px;width:555px;height:580px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-lume')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-lume')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-lume')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Lume-Mood.app</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <!-- Cover image -->
+      <div class="project-cover" style="background:#0d0d1a;height:190px">
+        <img src="proyectos/lume-mood/lume-mood-cover.webp" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1">
+      </div>
+      <div class="project-meta">
+        <div class="project-type">App Concept · Branding · UX/UI</div>
+        <div class="project-title">Lume Mood</div>
+        <!-- Tags -->
+        <div class="project-tags">
+          <span class="project-tag">AI</span>
+          <span class="project-tag">UX/UI</span>
+          <span class="project-tag">Interactive Prototype</span>
+          <span class="project-tag">Claude</span>
+        </div>
+        <!-- Media gallery -->
+        <div class="lume-media">
+          <img src="proyectos/lume-mood/movil1.webp" alt="Lume Mood — screen 1">
+          <img src="proyectos/lume-mood/movil2.webp" alt="Lume Mood — screen 2">
+          <img src="proyectos/lume-mood/movil4.webp" alt="Lume Mood — screen 4">
+          <video src="proyectos/lume-mood/video-lume.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <!-- Accordion -->
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>Lume Mood is an app designed to help users discover and connect with the perfect emotional state through personalised recommendations. The intuitive interface combines colour psychology, expressive typography and careful micro-interactions to create a visceral and empathetic experience.</p>
+            <p>This project went beyond traditional Figma prototyping. Using Claude as a development tool, I built a fully functional HTML/CSS/JavaScript version that lets anyone test the complete app in real time — transforming the prototype into a tangible experience where every interaction, animation and user flow can be evaluated without simulations.</p>
+            <p>Lume Mood proves that design is not only visual. Every element — from the colour palette to animation timing — is designed to evoke specific sensations. The app works as an emotional mirror, inviting users to explore, identify and cultivate moods that improve their everyday wellbeing.</p>
+          </div>
+        </details>
+        <!-- CTAs -->
+        <div class="lume-ctas">
+          <a class="finder-btn" href="https://isa-correa.github.io/lume-mood/app.html" target="_blank">View Interactive Prototype →</a>
+          <a class="finder-link" href="https://isa-correa.github.io/lume-mood/" target="_blank">View Process in Detail →</a>
+        </div>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: PHONE PITCH -->
+  <div class="window project-window" id="win-phone" style="top:130px;left:180px;width:555px;height:580px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-phone')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-phone')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-phone')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">The-Phone-Pitch.html</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Interactive HTML · Strategy · UX/UI</div>
+        <div class="project-title">The Phone Pitch</div>
+        <div class="project-tags">
+          <span class="project-tag">AI</span>
+          <span class="project-tag">UX/UI</span>
+          <span class="project-tag">Interactive Prototype</span>
+          <span class="project-tag">Claude</span>
+          <span class="project-tag">Strategy</span>
+          <span class="project-tag">Front-end</span>
+        </div>
+        <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;cursor:zoom-in" onclick="openLightbox([{type:'img',src:'proyectos/phone-pitch/phone-cover.webp'}],0)">
+          <img src="proyectos/phone-pitch/phone-cover.webp" alt="The Phone Pitch" style="width:100%;display:block;object-fit:cover" draggable="false">
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>A strategic proposal to redesign the product comparison experience on the digital channel of a leading mobile company. The brief came with a real problem: users abandoning key pages, support tickets through the roof, and a 63% bounce rate. The answer had to be as visually compelling as it was analytically sound.</p>
+            <p>Instead of a slide deck, I built the proposal inside a phone. On desktop it unfolds horizontally — like turning your phone to watch a video — and each section is a standalone app with its own visual identity and interaction: animated numbers on scroll, live charts, a KPI framework with five pillars and projected metrics, and a real-time AI chat integrated via API that lets the client ask questions about the proposal during the presentation itself.</p>
+            <p>Until very recently, a piece like this required a full team: a front-end developer, an interaction designer, someone to glue it all together. Today I can build it alone. Claude acts as my technical partner: it translates design decisions into working code, iterates in seconds, and lets me reach a level of execution that was previously out of my reach as a designer. It's not an assistance tool. It's a real expansion of what I'm capable of.</p>
+          </div>
+        </details>
+        <div class="lume-ctas">
+          <a class="finder-btn" href="proyectos/phone-pitch/movil-limpio.html" target="_blank">View Desktop Version →</a>
+          <a class="finder-link" href="#" onclick="event.preventDefault();openPhoneModal('proyectos/phone-pitch/movil-limpio.html')">View Mobile Version →</a>
+        </div>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: LANZAROTE -->
+  <div class="window project-window" id="win-lanza" style="top:90px;left:240px;width:555px;height:580px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-lanza')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-lanza')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-lanza')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Lanzarote-Photoshoot.raw</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Photography · Art Direction · Editorial</div>
+        <div class="project-title">Lanzarote | Lifestyle Photography</div>
+        <div class="project-tags">
+          <span class="project-tag">Photography</span>
+          <span class="project-tag">Lifestyle</span>
+          <span class="project-tag">Art Direction</span>
+          <span class="project-tag">Editorial</span>
+        </div>
+        <div class="lume-media">
+          <img src="proyectos/lanzarote/1.webp" alt="Lanzarote — photo 1">
+          <img src="proyectos/lanzarote/2.webp" alt="Lanzarote — photo 2">
+          <img src="proyectos/lanzarote/9.webp" alt="Lanzarote — photo 9">
+          <img src="proyectos/lanzarote/4.webp" alt="Lanzarote — photo 4">
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>You don't just photograph Lanzarote — you direct it. An island that looks like it was designed by someone obsessed with contrast: volcanic black, whitewashed walls, absolute blue. Before I even picked up the camera, the mood was already clear in my head: raw light, clean framing, people occupying the space without over-posing.</p>
+            <p>This project is the result of a week applying the same process I use in any other job: define a vision, make quick decisions about what to include and what to leave out, and execute with intent. There's no production team, but there is direction. Every image serves a purpose.</p>
+            <p>Keep what matters. Let go of everything else.</p>
+          </div>
+        </details>
+        <div class="lume-ctas">
+          <a class="finder-btn" href="proyectos/lanzarote/gallery.html">View Full Gallery →</a>
+        </div>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: PICCADILLY -->
+  <div class="window project-window" id="win-piccadilly" style="top:120px;left:280px;width:555px;height:580px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-piccadilly')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-piccadilly')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-piccadilly')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Piccadilly-Kiosk.live</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-cover" style="background:linear-gradient(135deg,#c31432,#240b36,#3a1a5c);height:190px">
+        <img src="proyectos/kiosko/kiosko-cover.webp" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1">
+      </div>
+      <div class="project-meta">
+        <div class="project-type">Environmental Design · Signage · London 2025</div>
+        <div class="project-title">Piccadilly Kiosk</div>
+        <div class="project-tags">
+          <span class="project-tag">Graphic Design</span>
+          <span class="project-tag">Signage</span>
+          <span class="project-tag">Branding</span>
+          <span class="project-tag">Project Management</span>
+          <span class="project-tag">City Sightseeing</span>
+          <span class="project-tag">London</span>
+        </div>
+        <div class="lume-media">
+          <img src="proyectos/kiosko/1.webp" alt="Piccadilly Kiosk — view 1">
+          <img src="proyectos/kiosko/2.webp" alt="Piccadilly Kiosk — view 2">
+          <img src="proyectos/kiosko/3.webp" alt="Piccadilly Kiosk — view 3">
+          <img src="proyectos/kiosko/4.webp" alt="Piccadilly Kiosk — view 4">
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>City Sightseeing Worldwide is the global reference for hop-on hop-off tourist buses, operating in over 130 cities and serving more than 14 million tourists per year.</p>
+            <p>As the designer for the international department, I provided design services to some of the company's most prominent franchises — London, Dubai and Abu Dhabi, among others. I led the complete design process of the physical kiosk located at the Piccadilly Circus underground entrance, one of the most iconic tourist and commercial landmarks in the world.</p>
+            <p>My role was end-to-end: from visual conceptualisation to coordination with the London franchise operator, managing review rounds, on-demand changes and constant communication between teams. It wasn't just about producing graphic assets — it was about maintaining brand coherence in an extremely high-visibility physical environment, ensuring every design decision served both the global City Sightseeing identity and the specific demands of the space.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: SONY -->
+  <div class="window project-window" id="win-sony" style="top:110px;left:320px;width:555px;height:580px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-sony')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-sony')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-sony')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Sony-Pictures.finalist</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Illustration · Flat Design · Competition</div>
+        <div class="project-title">Sony Pictures · Monster Hunter</div>
+        <div class="project-tags">
+          <span class="project-tag">Illustration</span>
+          <span class="project-tag">Flat Design</span>
+          <span class="project-tag">Competition</span>
+          <span class="project-tag">Sony Pictures</span>
+          <span class="project-tag">iPad Pro</span>
+        </div>
+        <div style="margin:14px 20px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="border-radius:8px;overflow:hidden;cursor:zoom-in" onclick="openLightbox([{type:'img',src:'proyectos/sony/monster-hunter-cover.webp'},{type:'img',src:'proyectos/sony/1.webp'}],0)">
+            <img src="proyectos/sony/monster-hunter-cover.webp" alt="Sony Pictures · Monster Hunter" style="width:100%;display:block;object-fit:cover" draggable="false">
+          </div>
+          <div style="border-radius:8px;overflow:hidden;cursor:zoom-in" onclick="openLightbox([{type:'img',src:'proyectos/sony/monster-hunter-cover.webp'},{type:'img',src:'proyectos/sony/1.webp'}],1)">
+            <img src="proyectos/sony/1.webp" alt="Sony Pictures · Monster Hunter 2" style="width:100%;display:block;object-fit:cover" draggable="false">
+          </div>
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>For the release of Monster Hunter, Sony Pictures launched an international competition open to all artists. I entered with a flat design illustration — my go-to visual language — created on iPad Pro, a tool I had just added to my workflow and wanted to push further for digital illustration.</p>
+            <p>I almost didn't submit it. It's a global competition with an incredibly high standard. I sent it anyway.</p>
+            <p>The illustration was selected and shared by Sony Pictures' official accounts, the film's official page, and international Sony profiles across more than eight countries: the UK, Russia, Italy, Belgium, Colombia, Latin America, Central America and Ukraine. I was named a finalist.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- TRASH WINDOW -->
+  <div class="window" id="win-trash" style="width:480px;height:420px;top:140px;left:260px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-trash')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-trash')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-trash')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Trash — Off the clock</div>
+    </div>
+    <div class="win-body">
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:14px">Things I tried to keep out of the portfolio. They keep coming back.</p>
+      <div class="trash-item">
+        <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+        <div class="trash-item-info">
+          <div class="trash-item-name">Dog lover</div>
+          <div class="trash-item-desc">Swipes right on every dog in the street. No exceptions.</div>
+        </div>
+        <span class="trash-item-date">Always</span>
+      </div>
+      <div class="trash-item">
+        <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22V12"/><path d="M12 12C12 12 8 9 8 6a4 4 0 0 1 8 0c0 3-4 6-4 6z"/><path d="M8 17c-2 0-4-1-4-3s2-3 4-3h8c2 0 4 1 4 3s-2 3-4 3"/></svg></span>
+        <div class="trash-item-info">
+          <div class="trash-item-name">Tulip obsession</div>
+          <div class="trash-item-desc">Amsterdam wasn't about the museums. It was about the flowers.</div>
+        </div>
+        <span class="trash-item-date">Spring forever</span>
+      </div>
+      <div class="trash-item">
+        <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16l-1.5 9H5.5L4 11z"/><path d="M2 11h20"/><path d="M8 5c0 2 1.5 2 1.5 4M12 5c0 2 1.5 2 1.5 4M16 5c0 2 1.5 2 1.5 4"/></svg></span>
+        <div class="trash-item-info">
+          <div class="trash-item-name">Asian food addict</div>
+          <div class="trash-item-desc">Will travel for ramen. Has strong opinions about soy sauce.</div>
+        </div>
+        <span class="trash-item-date">Ongoing</span>
+      </div>
+      <div class="trash-item">
+        <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.75"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span>
+        <div class="trash-item-info">
+          <div class="trash-item-name">Suitcase always packed</div>
+          <div class="trash-item-desc">Boarding pass collector. Window seat. No exceptions.</div>
+        </div>
+        <span class="trash-item-date">Next: TBD</span>
+      </div>
+      <div class="trash-item">
+        <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+        <div class="trash-item-info">
+          <div class="trash-item-name">Camera in hand</div>
+          <div class="trash-item-desc">If it wasn't photographed, it didn't happen.</div>
+        </div>
+        <span class="trash-item-date">Since '16</span>
+      </div>
+      <div class="trash-item">
+        <span class="trash-item-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/><path d="M9 18h6"/></svg></span>
+        <div class="trash-item-info">
+          <div class="trash-item-name">Early adopter</div>
+          <div class="trash-item-desc">First to install, last to read the terms and conditions.</div>
+        </div>
+        <span class="trash-item-date">'20–∞</span>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- MAIL WINDOW -->
+  <div class="window" id="win-mail" style="width:560px;height:400px;top:100px;left:300px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-mail')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-mail')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-mail')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">New Message — Mail</div>
+    </div>
+    <div class="win-body" style="padding:0;display:flex;flex-direction:column">
+      <div class="mail-toolbar">
+        <button class="mail-toolbar-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-7 7-7-7"/></svg>
+          Send
+        </button>
+        <button class="mail-toolbar-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <div class="mail-toolbar-spacer"></div>
+        <button class="mail-toolbar-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </button>
+      </div>
+      <div class="mail-fields">
+        <div class="mail-field-row">
+          <span class="mail-field-label">To:</span>
+          <div class="mail-field-value">
+            <span class="mail-contact-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              isacorreaur@gmail.com
+            </span>
+          </div>
+        </div>
+        <div class="mail-field-row">
+          <span class="mail-field-label">Subject:</span>
+          <div class="mail-field-value" id="mail-subject" contenteditable="true" style="cursor:text">Hola Isa — let's work together</div>
+        </div>
+      </div>
+      <div class="mail-body-compose" style="flex:1">
+        <textarea id="mail-body" placeholder="Write your message here...
+
+(Don't be shy — even a simple 'hi' works.)"></textarea>
+      </div>
+      <div class="mail-footer-bar">
+        <button class="mail-send-blue" onclick="sendMail()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          Send
+        </button>
+        <div class="mail-footer-links">
+          <a class="mail-footer-link" href="https://www.linkedin.com/in/isacorrea97/" target="_blank">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <span class="mail-footer-sep"></span>
+          <a class="mail-footer-link" href="mailto:isacorreaur@gmail.com?subject=Hola%20Isa%20%E2%80%94%20let's%20work%20together">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            isacorreaur@gmail.com
+          </a>
+          <span class="mail-footer-sep"></span>
+          <a class="mail-footer-link" href="tel:+34680391173">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            +34 680 391 173
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- FIGMA ALERT -->
+  <div class="window" id="win-figma" style="width:400px;height:auto;min-height:0;top:160px;left:calc(50% - 200px)">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-figma')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-figma')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-figma')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Figma</div>
+    </div>
+    <div class="win-body" style="padding:20px 24px 24px;display:flex;gap:16px;align-items:flex-start">
+      <img src="icons/figma.webp" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
+      <div>
+        <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">This portfolio wasn't made in Figma.<br>But everything inside it was designed here first.</p>
+        <button onclick="closeWindow('win-figma')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Fair enough</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLAUDE ALERT -->
+  <div class="window" id="win-claude" style="width:440px;height:auto;min-height:0;top:160px;left:calc(50% - 220px)">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-claude')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-claude')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-claude')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">claude code — ai tools</div>
+    </div>
+    <div class="win-body" style="padding:20px 22px 22px">
+      <div class="claude-terminal" id="claude-checklist">
+        <div class="ct-typewriter" id="ct-typewriter"></div>
+        <div class="ct-divider" style="opacity:0" id="ct-divider-el"></div>
+        <div class="ct-section-title" style="opacity:0" id="ct-section-el">stack</div>
+        <div class="ct-line" data-delay="0"><span class="ct-check">✓</span> <span class="ct-tools">claude · runway · midjourney · firefly · gemini · copilot</span></div>
+        <div class="ct-line" data-delay="150"><span class="ct-check">✓</span> <span class="ct-certs">certified × 6 · anthropic · runway · google · microsoft</span></div>
+        <button class="claude-prompt-btn" onclick="closeWindow('win-claude')" style="opacity:0" id="ct-btn-el">><span class="ct-cursor"></span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADOBE ALERT -->
+  <div class="window" id="win-adobe" style="width:400px;height:auto;min-height:0;top:160px;left:calc(50% - 200px)">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-adobe')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-adobe')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-adobe')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Adobe Creative Cloud</div>
+    </div>
+    <div class="win-body" style="padding:20px 24px 24px;display:flex;gap:16px;align-items:flex-start">
+      <img src="icons/creative.webp" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
+      <div>
+        <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">I installed Photoshop at 15 to figure out what a layer was. Illustrator and After Effects came next. The rest is muscle memory — and knowing every shortcut.</p>
+        <button onclick="closeWindow('win-adobe')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Respect.</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAMS -->
+  <div class="window" id="win-teams" style="width:420px;height:auto;min-height:0;top:160px;left:calc(50% - 210px)">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-teams')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-teams')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-teams')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Microsoft Teams</div>
+    </div>
+    <div class="win-body" style="padding:20px 24px 24px;display:flex;gap:16px;align-items:flex-start">
+      <img src="icons/teams1.webp" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
+      <div>
+        <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">Teams, Slack, Google Meet, Monday, Jira... I've onboarded into every platform you can think of. The tool changes, the workflow doesn't.</p>
+        <button onclick="closeWindow('win-teams')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Adapt.</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WALLPAPER PICKER -->
+  <div class="window" id="win-wallpaper" style="width:520px;height:auto;min-height:0;top:120px;left:calc(50% - 260px)">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-wallpaper')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-wallpaper')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-wallpaper')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Wallpaper</div>
+    </div>
+    <div class="win-body" style="padding:20px 24px 24px">
+      <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px">Choose a wallpaper</p>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:16px">Dynamic wallpapers. Click to apply.</p>
+      <div id="wallpaper-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px"></div>
+    </div>
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div id="ctx-menu">
+    <div class="ctx-item" onclick="createFolder();hideCtxMenu()">New Folder</div>
+    <div class="ctx-item" onclick="hideCtxMenu()">Get Info</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" onclick="openWindow('win-about');hideCtxMenu()">About Isa</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" onclick="openWindow('win-wallpaper');hideCtxMenu()">Change Wallpaper…</div>
+  </div>
+
+  <!-- DOCK -->
+  <div id="dock">
+    <!-- Creative tools -->
+    <div class="dock-item" onclick="openWindow('win-figma')">
+      <div class="dock-icon di-figma"><img src="icons/figma.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">Figma</div>
+    </div>
+
+    <div class="dock-item" onclick="openWindow('win-claude')">
+      <div class="dock-icon di-claude"><img src="icons/claude.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">AI Tools</div>
+    </div>
+
+    <div class="dock-item" onclick="openWindow('win-adobe')">
+      <div class="dock-icon di-cc"><img src="icons/creative.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">Adobe</div>
+    </div>
+
+    <div class="dock-item" onclick="openWindow('win-teams')">
+      <div class="dock-icon" style="background:linear-gradient(135deg,#5b5fc7,#7b83eb)"><img src="icons/teams1.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">Teams</div>
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <div class="dock-item" onclick="openWindow('win-mail')">
+      <div class="dock-icon di-mail"><img src="icons/mail.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">Contact</div>
+    </div>
+
+    <div class="dock-item" onclick="openWindow('win-about')">
+      <div class="dock-icon di-notes"><img src="icons/notas.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">About me</div>
+    </div>
+
+    <div class="dock-item" onclick="openWindow('win-trash')">
+      <div class="dock-icon di-trash"><img src="icons/trash.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
+      <div class="dock-tooltip">Trash</div>
+    </div>
+  </div>
+
+</div><!-- /desktop -->
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLightbox()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button id="lb-prev" class="lb-arrow" onclick="lbPrev()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div id="lb-content"></div>
+  <button id="lb-next" class="lb-arrow" onclick="lbNext()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div id="lb-counter"></div>
+</div>
+
+<!-- PHONE MODAL -->
+<div id="phone-modal">
+  <button id="phone-close" onclick="closePhoneModal()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="phone-frame">
+    <div class="phone-btn-r"></div>
+    <div class="phone-btn-l1"></div>
+    <div class="phone-btn-l2"></div>
+    <div class="phone-btn-l3"></div>
+    <div class="phone-dynamic-island"></div>
+    <div class="phone-screen">
+      <iframe id="phone-iframe" src="" title="Mobile preview"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CLOCK ──────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('clock').textContent =
+    `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${h}:${m}`;
+}
+updateClock(); setInterval(updateClock, 1000);
+
+
+// ── POSITION FILE ICONS (fixed, centered) ────────
+(function positionIcons() {
+  const cx = window.innerWidth / 2;
+  const positions = {
+    'file-lume':      { x: cx - 310, y: 200 },
+    'file-phone':     { x: cx - 100, y: 160 },
+    'file-lanza':     { x: cx +  80, y: 210 },
+    'file-piccadilly':{ x: cx - 220, y: 370 },
+    'file-sony':      { x: cx +  50, y: 380 }
+  };
+  Object.entries(positions).forEach(([id, pos]) => {
+    const el = document.getElementById(id);
+    if (el) { el.style.left = Math.round(pos.x) + 'px'; el.style.top = Math.round(pos.y) + 'px'; }
+  });
+})();
+
+// ── WINDOW MANAGEMENT ───────────────────────────
+let zTop = 200;
+
+function openWindow(id) {
+  const w = document.getElementById(id);
+  if (!w) return;
+  // Randomise position every time it opens
+  const ww = w.offsetWidth  || parseInt(w.style.width)  || 560;
+  const wh = w.offsetHeight || parseInt(w.style.height) || 520;
+  const MENUBAR = 36, DOCK = 90, PAD = 30;
+  const maxX = window.innerWidth  - ww - PAD;
+  const maxY = window.innerHeight - wh - DOCK - PAD;
+  const rx = PAD + Math.random() * Math.max(0, maxX - PAD);
+  const ry = MENUBAR + PAD + Math.random() * Math.max(0, maxY - MENUBAR - PAD);
+  w.style.left = Math.round(rx) + 'px';
+  w.style.top  = Math.round(ry) + 'px';
+  w.classList.add('visible', 'active');
+  w.style.zIndex = ++zTop;
+  document.querySelectorAll('.window').forEach(x => { if(x.id!==id) x.classList.remove('active'); });
+}
+
+function closeWindow(id) {
+  const w = document.getElementById(id);
+  if (!w) return;
+  w.style.transform = 'scale(0.88)';
+  w.style.opacity = '0';
+  w.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+  setTimeout(() => {
+    w.classList.remove('visible','active');
+    w.style.transform = '';
+    w.style.opacity = '';
+    w.style.transition = '';
+  }, 200);
+}
+
+function minimizeWindow(id) {
+  const w = document.getElementById(id);
+  if (!w) return;
+  w.style.transform = 'scale(0.6) translateY(60px)';
+  w.style.opacity = '0';
+  w.style.transition = 'transform 0.25s ease, opacity 0.2s ease';
+  setTimeout(() => {
+    w.classList.remove('visible','active');
+    w.style.transform = '';
+    w.style.opacity = '';
+    w.style.transition = '';
+  }, 260);
+}
+
+// click to focus window
+document.addEventListener('mousedown', e => {
+  const win = e.target.closest('.window');
+  if (win) {
+    document.querySelectorAll('.window').forEach(x => x.classList.remove('active'));
+    win.classList.add('active');
+    win.style.zIndex = ++zTop;
+  }
+});
+
+// ── DRAG ────────────────────────────────────────
+let dragging = null, ox = 0, oy = 0;
+
+function startDrag(e, id) {
+  if (e.target.classList.contains('win-btn')) return;
+  dragging = document.getElementById(id);
+  const r = dragging.getBoundingClientRect();
+  ox = e.clientX - r.left;
+  oy = e.clientY - r.top;
+  e.preventDefault();
+}
+
+document.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  dragging.style.left = (e.clientX - ox) + 'px';
+  dragging.style.top  = (e.clientY - oy) + 'px';
+});
+
+document.addEventListener('mouseup', () => { dragging = null; });
+
+// ── FILE ICON DRAG ───────────────────────────────
+document.querySelectorAll('.file-icon').forEach(icon => {
+  let isDragging = false, startX, startY, origLeft, origTop, moved = false;
+  icon.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    isDragging = true; moved = false;
+    startX = e.clientX; startY = e.clientY;
+    const s = getComputedStyle(icon);
+    origLeft = parseInt(icon.style.left); origTop = parseInt(icon.style.top);
+    icon.style.zIndex = 99;
+    e.stopPropagation();
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - startX, dy = e.clientY - startY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+    if (moved) {
+      icon.style.left = (origLeft + dx) + 'px';
+      icon.style.top  = (origTop + dy)  + 'px';
+    }
+  });
+  document.addEventListener('mouseup', () => {
+    if (isDragging) { isDragging = false; icon.style.zIndex = ''; }
+  });
+  icon.addEventListener('click', e => {
+    if (moved) { moved = false; return; }
+    const win = icon.getAttribute('data-win');
+    if (win) openWindow(win);
+  });
+});
+
+// ── ABOUT TABS ───────────────────────────────────
+function switchTab(tabId) {
+  const tabMap = {
+    'tab-about': 'panel-about',
+    'tab-exp':   'panel-exp',
+    'tab-skills':'panel-skills',
+    'tab-certs': 'panel-certs'
+  };
+  document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.getElementById(tabMap[tabId]).classList.add('active');
+}
+
+// ── MAIL ─────────────────────────────────────────
+function sendMail() {
+  const subject = document.getElementById('mail-subject').textContent || 'Hola Isa';
+  const body = document.getElementById('mail-body').value || '';
+  window.location.href = `mailto:isacorreaur@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+// ── CONTEXT MENU ─────────────────────────────────
+const ctxMenu = document.getElementById('ctx-menu');
+document.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  ctxMenu.style.left = e.clientX + 'px';
+  ctxMenu.style.top  = e.clientY + 'px';
+  ctxMenu.classList.add('visible');
+});
+document.addEventListener('click', hideCtxMenu);
+function hideCtxMenu() { ctxMenu.classList.remove('visible'); }
+
+// ── EXTERNAL ─────────────────────────────────────
+function openExternal(url) { window.open(url, '_blank'); }
+
+// ── LIGHTBOX ─────────────────────────────────────
+let lbItems = [], lbCurrent = 0;
+
+function openLightbox(items, index) {
+  lbItems = items; lbCurrent = index;
+  renderLbItem();
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function renderLbItem() {
+  const item = lbItems[lbCurrent];
+  const wrap = document.getElementById('lb-content');
+  const style = 'max-width:88vw;max-height:88vh;border-radius:10px;object-fit:contain;box-shadow:0 24px 80px rgba(0,0,0,.7)';
+  if (item.type === 'video') {
+    wrap.innerHTML = `<video style="${style}" src="${item.src}" autoplay muted loop playsinline controls></video>`;
+  } else {
+    wrap.innerHTML = `<img style="${style}" src="${item.src}" alt="">`;
+  }
+  const multi = lbItems.length > 1;
+  document.getElementById('lb-prev').style.display = multi ? 'flex' : 'none';
+  document.getElementById('lb-next').style.display = multi ? 'flex' : 'none';
+  document.getElementById('lb-counter').textContent = multi ? `${lbCurrent + 1} / ${lbItems.length}` : '';
+}
+
+function lbNext() { lbCurrent = (lbCurrent + 1) % lbItems.length; renderLbItem(); }
+function lbPrev() { lbCurrent = (lbCurrent - 1 + lbItems.length) % lbItems.length; renderLbItem(); }
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lb-content').innerHTML = '';
+}
+
+// Click outside to close
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target.id === 'lightbox') closeLightbox();
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeLightbox(); closePhoneModal(); return; }
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); lbNext(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); lbPrev(); }
+});
+
+// ── PHONE MODAL ───────────────────────────────────
+function openPhoneModal(url) {
+  document.getElementById('phone-iframe').src = url;
+  document.getElementById('phone-modal').classList.add('open');
+}
+function closePhoneModal() {
+  document.getElementById('phone-modal').classList.remove('open');
+  document.getElementById('phone-iframe').src = '';
+}
+document.getElementById('phone-modal').addEventListener('click', e => {
+  if (e.target.id === 'phone-modal') closePhoneModal();
+});
+
+// Wire up lume media items
+(function() {
+  const els = document.querySelectorAll('#win-lume .lume-media img, #win-lume .lume-media video');
+  const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
+  els.forEach((el, i) => {
+    el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
+  });
+})();
+
+
+// Wire up piccadilly media items
+(function() {
+  const els = document.querySelectorAll('#win-piccadilly .lume-media img, #win-piccadilly .lume-media video');
+  const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
+  els.forEach((el, i) => {
+    el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
+  });
+})();
+
+// ── WIN-ABOUT RESIZE ─────────────────────────────
+(function() {
+  const win = document.getElementById('win-about');
+  const handle = win.querySelector('.win-resize');
+  let isResizing = false;
+  let startX, startY, startW, startH;
+
+  handle.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startW = win.offsetWidth;
+    startH = win.offsetHeight;
+    win.style.zIndex = ++zTop;
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isResizing) return;
+    const newW = startW + (e.clientX - startX);
+    const newH = startH + (e.clientY - startY);
+    if (newW >= 480) win.style.width = newW + 'px';
+    if (newH >= 350) win.style.height = newH + 'px';
+  });
+
+  document.addEventListener('mouseup', function() {
+    isResizing = false;
+  });
+})();
+
+// Wire up lanzarote media items
+(function() {
+  const els = document.querySelectorAll('#win-lanza .lume-media img, #win-lanza .lume-media video');
+  const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
+  els.forEach((el, i) => {
+    el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
+  });
+})();
+
+// ── NOTIFICATION ENTRANCE ────────────────────────
+(function() {
+  const notifs = document.querySelectorAll('.notif');
+  notifs.forEach((n, i) => {
+    setTimeout(() => { n.classList.add('visible'); }, 600 + (i * 250));
+  });
+})();
+
+// ── WALLPAPER PICKER ─────────────────────────────
+(function() {
+  const wallpapers = [
+    { id:'wp-1', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4', thumb:'wallpapers/thumb-1.jpg' },
+    { id:'wp-2', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4', thumb:'wallpapers/thumb-2.jpg' },
+    { id:'wp-3', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260228_065522_522e2295-ba22-457e-8fdb-fbcd68109c73.mp4', thumb:'wallpapers/thumb-3.jpg' },
+    { id:'wp-4', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260308_114720_3dabeb9e-2c39-4907-b747-bc3544e2d5b7.mp4', thumb:'wallpapers/thumb-4.jpg' },
+    { id:'wp-5', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260306_074215_04640ca7-042c-45d6-bb56-58b1e8a42489.mp4', thumb:'wallpapers/thumb-5.jpg' }
+  ];
+  const grid = document.getElementById('wallpaper-grid');
+  const video = document.getElementById('bg-video');
+  wallpapers.forEach((wp, i) => {
+    const div = document.createElement('div');
+    div.className = 'wp-thumb' + (video.src === wp.url ? ' active' : '');
+    div.innerHTML = '<img src="' + wp.thumb + '" alt="Wallpaper ' + (i+1) + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div class=wp-placeholder>▶</div>\'">';
+    div.addEventListener('click', function() {
+      video.src = wp.url;
+      video.load();
+      video.play();
+      grid.querySelectorAll('.wp-thumb').forEach(t => t.classList.remove('active'));
+      div.classList.add('active');
+    });
+    grid.appendChild(div);
+  });
+})();
+
+// ── NEW FOLDER ───────────────────────────────────
+let folderCount = 0;
+let lastCtxX = 0, lastCtxY = 0;
+
+document.addEventListener('contextmenu', function(e) {
+  lastCtxX = e.clientX;
+  lastCtxY = e.clientY;
+});
+
+function createFolder() {
+  folderCount++;
+  const workspace = document.getElementById('workspace');
+
+  const icon = document.createElement('div');
+  icon.className = 'file-icon';
+  icon.style.left = lastCtxX + 'px';
+  icon.style.top = (lastCtxY - 28) + 'px';
+
+  const thumb = document.createElement('div');
+  thumb.className = 'thumb';
+  thumb.style.cssText = 'background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center';
+  thumb.innerHTML = '<img src="icons/folder.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">';
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'fname-input';
+  input.value = 'untitled folder' + (folderCount > 1 ? ' ' + folderCount : '');
+
+  icon.appendChild(thumb);
+  icon.appendChild(input);
+  workspace.appendChild(icon);
+
+  setTimeout(() => { input.focus(); input.select(); }, 50);
+
+  function confirmName() {
+    const name = input.value.trim() || 'untitled folder';
+    const fname = document.createElement('div');
+    fname.className = 'fname';
+    fname.textContent = name;
+    input.replaceWith(fname);
+
+    let isDragging = false, startX, startY, origLeft, origTop, moved = false;
+    icon.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      isDragging = true; moved = false;
+      startX = e.clientX; startY = e.clientY;
+      origLeft = parseInt(icon.style.left); origTop = parseInt(icon.style.top);
+      icon.style.zIndex = 99;
+      e.stopPropagation(); e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      if (moved) { icon.style.left = (origLeft + dx) + 'px'; icon.style.top = (origTop + dy) + 'px'; }
+    });
+    document.addEventListener('mouseup', function() {
+      if (isDragging) { isDragging = false; icon.style.zIndex = ''; }
+    });
+  }
+
+  input.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); confirmName(); } });
+  input.addEventListener('blur', function() { confirmName(); });
+  input.addEventListener('click', function(e) { e.stopPropagation(); });
+  input.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+}
+
+// ── CLAUDE CHECKLIST ANIMATION ───────────────────
+(function() {
+  const phrases = [
+    "I don't use AI to skip the work.",
+    "I use it to do work that didn't exist before."
+  ];
+
+  function typeWriter(el, texts, cb) {
+    el.innerHTML = '';
+    let tIdx = 0, cIdx = 0;
+    const cursor = '<span class="ct-tw-cursor"></span>';
+
+    function type() {
+      if (tIdx >= texts.length) {
+        el.innerHTML = texts.map(t => t).join('<br>');
+        if (cb) cb();
+        return;
+      }
+      const current = texts[tIdx].substring(0, cIdx + 1);
+      const prev = texts.slice(0, tIdx).join('<br>');
+      el.innerHTML = (prev ? prev + '<br>' : '') + current + cursor;
+      cIdx++;
+      if (cIdx >= texts[tIdx].length) {
+        tIdx++;
+        cIdx = 0;
+        setTimeout(type, 300);
+      } else {
+        setTimeout(type, 28);
+      }
+    }
+    type();
+  }
+
+  const origOpen = openWindow;
+  openWindow = function(id) {
+    origOpen(id);
+    if (id === 'win-claude') {
+      const twEl = document.getElementById('ct-typewriter');
+      const dividerEl = document.getElementById('ct-divider-el');
+      const sectionEl = document.getElementById('ct-section-el');
+      const btnEl = document.getElementById('ct-btn-el');
+      const lines = document.querySelectorAll('#claude-checklist .ct-line');
+
+      // Reset
+      twEl.innerHTML = '';
+      dividerEl.style.opacity = '0';
+      sectionEl.style.opacity = '0';
+      btnEl.style.opacity = '0';
+      lines.forEach(l => l.classList.remove('visible'));
+
+      // Start typewriter
+      setTimeout(() => {
+        typeWriter(twEl, phrases, function() {
+          setTimeout(() => {
+            dividerEl.style.transition = 'opacity 0.3s';
+            dividerEl.style.opacity = '1';
+            sectionEl.style.transition = 'opacity 0.3s';
+            sectionEl.style.opacity = '1';
+
+            lines.forEach((line, i) => {
+              setTimeout(() => line.classList.add('visible'), 200 + (i * 200));
+            });
+
+            setTimeout(() => {
+              btnEl.style.transition = 'opacity 0.3s';
+              btnEl.style.opacity = '1';
+            }, 200 + (lines.length * 200) + 100);
+          }, 200);
+        });
+      }, 200);
+    }
+  };
+})();
+
+</script>
+</body>
+</html>
