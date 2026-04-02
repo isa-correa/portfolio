@@ -429,7 +429,7 @@
     <div class="photos-main">
       <div class="photos-toolbar">
         <h2 style="font-size:20px;font-weight:600;color:var(--text);margin:0">Library</h2>
-        <input type="range" id="zoom-slider" min="2" max="6" value="4" style="width:80px;accent-color:#0064d7;cursor:pointer">
+        <input type="range" id="zoom-slider" min="100" max="400" value="200" step="1" style="width:80px;accent-color:#0064d7;cursor:pointer">
       </div>
       <div id="photo-grid">
         <div class="photo-item" style="animation-delay:0ms" onclick="openLb(0)"><img src="1.jpg" alt="Lanzarote 1" loading="lazy" draggable="false"></div>
@@ -526,7 +526,8 @@ updateClock(); setInterval(updateClock, 1000);
 
 // ── ZOOM SLIDER ─────────────────────────────────
 document.getElementById('zoom-slider').addEventListener('input', function() {
-  document.getElementById('photo-grid').style.gridTemplateColumns = `repeat(${this.value}, 1fr)`;
+  const size = this.value + 'px';
+  document.getElementById('photo-grid').style.gridTemplateColumns = `repeat(auto-fill, minmax(${size}, 1fr))`;
 });
 
 // ── INTERSECTION OBSERVER ───────────────────────
