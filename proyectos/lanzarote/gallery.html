@@ -347,6 +347,62 @@
     color: rgba(255,255,255,0.45); font-size:14px; letter-spacing: 0.06em;
     pointer-events: none;
   }
+
+  /* desktop-only: hide mobile-only elements */
+  #mobile-back-btn { display: none; }
+  #mobile-photos-header { display: none; }
+
+  /* ── MOBILE ─────────────────────────────────────── */
+  @media (max-width: 768px) {
+
+    /* 1. MENUBAR */
+    #menubar .menu-items span:not(:first-child) { display: none; }
+
+    /* 5. DOCK */
+    #dock { display: none !important; }
+
+    /* 2. VENTANA FULLSCREEN */
+    .window.visible {
+      width: 100vw !important;
+      height: 100vh !important;
+      top: 0 !important;
+      left: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+    }
+    .win-titlebar { display: none !important; }
+    #mobile-back-btn { display: flex !important; }
+
+    /* 3. SIDEBAR */
+    .photos-sidebar { display: none !important; }
+
+    /* 7. TOOLBAR — iOS style */
+    .photos-toolbar {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding-top: 52px !important;
+      margin-bottom: 10px !important;
+    }
+    .photos-toolbar h2  { display: none !important; }
+    .photos-toolbar input[type=range] { display: none !important; }
+    #mobile-photos-header { display: block !important; text-align: center; }
+
+    /* 4. GRID — 3 columnas */
+    .photos-main { padding: 0 8px 8px !important; overflow-y: auto !important; }
+    #photo-grid  { grid-template-columns: repeat(3, 1fr) !important; gap: 3px !important; }
+    .photo-item  { border-radius: 4px !important; }
+
+    /* 6. LIGHTBOX */
+    .lb-arrow  { width: 60px !important; height: 60px !important; }
+    #lb-prev   { left: 4px !important; }
+    #lb-next   { right: 4px !important; }
+    #lb-close  { width: 48px !important; height: 48px !important; top: 14px !important; right: 14px !important; }
+  }
 </style>
 </head>
 <body>
@@ -430,6 +486,10 @@
       <div class="photos-toolbar">
         <h2 style="font-size:20px;font-weight:600;color:var(--text);margin:0">Library</h2>
         <input type="range" id="zoom-slider" min="100" max="400" value="200" step="1" style="width:80px;accent-color:#0064d7;cursor:pointer">
+        <div id="mobile-photos-header">
+          <div style="font-size:17px;font-weight:600;color:var(--text);line-height:1.2">Lanzarote</div>
+          <div style="font-size:13px;color:var(--text-light);margin-top:3px">23 photos</div>
+        </div>
       </div>
       <div id="photo-grid">
         <div class="photo-item" style="animation-delay:0ms" onclick="openLb(0)"><img src="1.webp" alt="Lanzarote 1" loading="lazy" draggable="false"></div>
@@ -460,6 +520,12 @@
 
   </div>
 </div>
+
+<!-- BACK BUTTON (mobile only) -->
+<a id="mobile-back-btn" href="../../index.html" style="position:fixed;top:12px;left:12px;z-index:200;align-items:center;gap:5px;background:rgba(0,0,0,0.38);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;border-radius:20px;padding:7px 14px 7px 10px;color:#fff;font-size:15px;font-weight:500;text-decoration:none;cursor:pointer">
+  <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 2 2 8 8 14"/></svg>
+  Back
+</a>
 
 <!-- DOCK -->
 <div id="dock">
@@ -564,6 +630,17 @@ document.addEventListener('keydown', e => {
   else if (e.key==='ArrowRight'||e.key==='ArrowDown') { e.preventDefault(); lbNext(); }
   else if (e.key==='ArrowLeft'||e.key==='ArrowUp') { e.preventDefault(); lbPrev(); }
 });
+
+// Lightbox swipe
+(function() {
+  let tStartX = 0;
+  const lb = document.getElementById('lightbox');
+  lb.addEventListener('touchstart', e => { tStartX = e.changedTouches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tStartX;
+    if (Math.abs(dx) > 48) { dx < 0 ? lbNext() : lbPrev(); }
+  }, { passive: true });
+})();
 
 const bgVideo = document.getElementById('bg-video');
 function revealPage() {
