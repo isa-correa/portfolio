@@ -335,6 +335,7 @@
   .notif-icon-gold { background: rgba(240,165,0,0.15); color: #d4900a; }
   .notif-icon-blue { background: rgba(0,100,215,0.12); color: #0064d7; }
   .notif-icon-green { background: rgba(40,200,64,0.12); color: #1a9a3a; }
+  .notif-icon-purple { background: rgba(140,80,200,0.12); color: #8a50c8; }
   .notif-body { flex: 1; min-width: 0; }
   .notif-app { font-size: 13px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .notif-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 1px; }
@@ -960,7 +961,7 @@
       <!-- Bell icon (mobile only) -->
       <div id="notif-bell" style="display:none;position:relative;cursor:pointer;background:rgba(242,238,232,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.85);border-radius:50%;width:50px;height:50px;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.15);animation:bellPulse 2.4s ease-in-out infinite" onclick="showMobileNotifs();event.stopPropagation()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span style="position:absolute;top:-3px;right:-3px;background:#ff3b30;color:#fff;border-radius:10px;padding:1px 5px;font-size:11px;font-weight:700;min-width:18px;text-align:center;line-height:16px">3</span>
+        <span style="position:absolute;top:-3px;right:-3px;background:#ff3b30;color:#fff;border-radius:10px;padding:1px 5px;font-size:11px;font-weight:700;min-width:18px;text-align:center;line-height:16px">4</span>
       </div>
 
       <div class="notif" id="notif-1" onclick="openWindow('win-piccadilly')">
@@ -987,6 +988,18 @@
         <span class="notif-time">2m ago</span>
       </div>
 
+      <div class="notif" id="notif-sony" onclick="openWindow('win-sony')">
+        <div class="notif-icon notif-icon-purple">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="notif-body">
+          <div class="notif-app">Achievement</div>
+          <div class="notif-title">Sony picked it</div>
+          <div class="notif-desc">Illustration shared by Sony Pictures across 8+ countries. Not bad for an "almost didn't send it."</div>
+        </div>
+        <span class="notif-time">3m ago</span>
+      </div>
+
       <div class="notif" id="notif-3" onclick="openWindow('win-about');switchTab('tab-certs')">
         <div class="notif-icon notif-icon-green">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/><path d="M9 18h6"/></svg>
@@ -996,7 +1009,7 @@
           <div class="notif-title">AI before it was cool</div>
           <div class="notif-desc">6 certifications and counting.</div>
         </div>
-        <span class="notif-time">5m ago</span>
+        <span class="notif-time">6m ago</span>
       </div>
 
     </div>
@@ -1288,7 +1301,7 @@
           <img src="proyectos/lanzarote/1.webp" alt="Lanzarote — photo 1">
           <img src="proyectos/lanzarote/2.webp" alt="Lanzarote — photo 2">
           <img src="proyectos/lanzarote/9.webp" alt="Lanzarote — photo 9">
-          <img src="proyectos/lanzarote/4.webp" alt="Lanzarote — photo 4">
+          <img src="proyectos/lanzarote/pinterest.webp" alt="Lanzarote — Pinterest">
         </div>
         <details class="lume-accordion">
           <summary>
@@ -1299,6 +1312,33 @@
             <p>You don't just photograph Lanzarote — you direct it. An island that looks like it was designed by someone obsessed with contrast: volcanic black, whitewashed walls, absolute blue. Before I even picked up the camera, the mood was already clear in my head: raw light, clean framing, people occupying the space without over-posing.</p>
             <p>This project is the result of a week applying the same process I use in any other job: define a vision, make quick decisions about what to include and what to leave out, and execute with intent. There's no production team, but there is direction. Every image serves a purpose.</p>
             <p>Keep what matters. Let go of everything else.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Analytics — organic reach
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin-bottom:14px">
+              <div>
+                <div style="font-size:22px;font-weight:700;color:var(--text)">83.682</div>
+                <div style="font-size:13px;color:var(--text-light)">Impressions</div>
+              </div>
+              <div>
+                <div style="font-size:22px;font-weight:700;color:var(--text)">4.441</div>
+                <div style="font-size:13px;color:var(--text-light)">Engagements</div>
+              </div>
+              <div>
+                <div style="font-size:22px;font-weight:700;color:var(--text)">3.579</div>
+                <div style="font-size:13px;color:var(--text-light)">Pin clicks</div>
+              </div>
+              <div>
+                <div style="font-size:22px;font-weight:700;color:var(--text)">878</div>
+                <div style="font-size:13px;color:var(--text-light)">Saves</div>
+              </div>
+            </div>
+            <p>83,682 impressions and a 5.3% engagement rate, all organic. 878 saves, the highest-value action on the platform, indicating genuine content retention and long-term discoverability. 3,579 pin clicks confirm the image holds attention beyond the feed. 38 pins, zero paid promotion.</p>
           </div>
         </details>
         <div class="lume-ctas">
@@ -2241,7 +2281,7 @@ function showMobileNotifs() {
   const bell     = document.getElementById('notif-bell');
   const closeBtn = document.getElementById('notif-close-btn');
   const notifEl  = document.getElementById('notifications');
-  const ids      = ['notif-1','notif-2','notif-3'];
+  const ids      = ['notif-1','notif-2','notif-sony','notif-3'];
 
   // Fade out bell
   bell.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
@@ -2279,7 +2319,7 @@ function hideMobileNotifs() {
   const bell     = document.getElementById('notif-bell');
   const closeBtn = document.getElementById('notif-close-btn');
   const notifEl  = document.getElementById('notifications');
-  const ids      = ['notif-3','notif-2','notif-1'];
+  const ids      = ['notif-3','notif-sony','notif-2','notif-1'];
 
   closeBtn.style.display = 'none';
 
