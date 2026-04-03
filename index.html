@@ -326,7 +326,7 @@
   .trash-item-date { font-size:13px; color: var(--text-light); }
 
   /* ── NOTIFICATIONS ───────────────────────────────── */
-  #notifications { position: absolute; top: 16px; right: 16px; width: 320px; z-index: 50; display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+  #notifications { position: absolute; top: 16px; right: 16px; width: 320px; z-index: 50; display: flex; flex-direction: column; gap: 8px; cursor: pointer; max-height: 85vh; overflow: hidden; }
   .notif { background: rgba(242,238,232,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.8); border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.1); padding: 12px 14px; display: flex; align-items: flex-start; gap: 11px; transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.7s ease, background 0.3s ease; opacity: 0; transform: translateX(50px); }
   .notif.visible { opacity: 1; transform: translateX(0); }
   .notif:hover { background: rgba(242,238,232,0.92); }
@@ -715,6 +715,12 @@
 
   .about-title-short { display: none; }
   .mail-send-mobile { display: none; }
+
+  /* ── SMALL DESKTOP ──────────────────────────────── */
+  @media (min-width: 769px) and (max-width: 1280px) {
+    .project-window { width: 460px !important; height: 460px !important; }
+    #win-about { width: 680px !important; height: 480px !important; }
+  }
 
   /* ── MOBILE RESPONSIVE ──────────────────────────── */
   @media (max-width: 768px) {
@@ -1783,9 +1789,15 @@ updateClock(); setInterval(updateClock, 1000);
     'file-piccadilly':{ x: cx - 220, y: 370 },
     'file-sony':      { x: cx +  50, y: 380 }
   };
+  const minX = 60;
+  const maxX = window.innerWidth - 120;
   Object.entries(positions).forEach(([id, pos]) => {
     const el = document.getElementById(id);
-    if (el) { el.style.left = Math.round(pos.x) + 'px'; el.style.top = Math.round(pos.y) + 'px'; }
+    if (el) {
+      const x = Math.min(Math.max(Math.round(pos.x), minX), maxX);
+      el.style.left = x + 'px';
+      el.style.top  = Math.round(pos.y) + 'px';
+    }
   });
 })();
 
