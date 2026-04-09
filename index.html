@@ -271,6 +271,16 @@
   .cert-name { font-weight: 600; font-size: 14.5px; color: var(--text); line-height: 1.3; margin-bottom: 2px; }
   .cert-org { font-size: 13px; color: var(--text-light); }
 
+  /* ── EDUCATION ACCORDION ─────────────────────────── */
+  .edu-item { border-radius: 10px; margin-bottom: 4px; overflow: hidden; }
+  .edu-item:hover { background: rgba(0,0,0,0.03); }
+  .edu-header { display: flex; gap: 12px; align-items: center; padding: 12px 14px; cursor: pointer; width: 100%; background: none; border: none; text-align: left; }
+  .edu-chevron { margin-left: auto; flex-shrink: 0; color: var(--text-light); transition: transform 0.28s ease; }
+  .edu-item.open .edu-chevron { transform: rotate(180deg); }
+  .edu-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .edu-body-inner { padding: 0 14px 14px 62px; font-size: 13.5px; color: var(--text-mid); line-height: 1.6; }
+  .edu-year { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
   /* ── PROJECT WINDOWS ─────────────────────────────── */
   .project-window { width: 520px; height: 440px; }
   .project-cover {
@@ -839,6 +849,7 @@
       transform: translate(-50%, -50%) !important;
       width: 320px !important;
       z-index: 9000 !important;
+      overflow: visible !important;
     }
     #notif-close-btn { top: -10px !important; left: -10px !important; }
 
@@ -875,12 +886,7 @@
     .mail-footer-link { font-size: 13px !important; }
     .mail-footer-sep { display: none !important; }
 
-    /* CONTEXT MENU centrado */
-    #ctx-menu.visible {
-      left: 50% !important;
-      top: 50% !important;
-      transform: translate(-50%, -50%) !important;
-    }
+    /* CONTEXT MENU posicionado donde el usuario toca */
 
     /* WIN-ABOUT título corto en móvil */
     .about-title-full  { display: none; }
@@ -1040,6 +1046,7 @@
         <div class="sidebar-tab" id="tab-exp" onclick="switchTab('tab-exp')">Experience <span class="tab-count">4</span></div>
         <div class="sidebar-tab" id="tab-skills" onclick="switchTab('tab-skills')">Skills <span class="tab-count">∞</span></div>
         <div class="sidebar-tab" id="tab-certs" onclick="switchTab('tab-certs')">Certifications <span class="tab-count">6</span></div>
+        <div class="sidebar-tab" id="tab-edu" onclick="switchTab('tab-edu')">Education <span class="tab-count">2</span></div>
       </div>
       <div class="about-content">
 
@@ -1177,6 +1184,41 @@
             <span class="cert-icon cert-icon-microsoft"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5v7H3V5.5zM11.5 4.36L21 3v8.5h-9.5V4.36zM3 12.5h7.5V19.5L3 18.44V12.5zM11.5 12.5H21V21l-9.5-1.36V12.5z"/></svg></span>
             <div><div class="cert-name">Microsoft Copilot Full Course</div><div class="cert-org">Microsoft</div></div>
           </div>
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="tab-panel" id="panel-edu">
+
+          <div class="edu-item" id="edu-1">
+            <button class="edu-header" onclick="toggleEdu('edu-1')">
+              <span class="cert-icon cert-icon-runway"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path d="M4 19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M9 7v14M9 11h6"/></svg></span>
+              <div>
+                <div class="cert-name">Product Design</div>
+                <div class="cert-org">Udacity · UD509</div>
+                <div class="edu-year">2026</div>
+              </div>
+              <svg class="edu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="edu-body">
+              <div class="edu-body-inner">The course where I stopped calling myself "just a graphic designer." Validating ideas before building them, designing with real product logic, and measuring whether any of it actually lands — this is the layer underneath the aesthetics that makes the work matter. Covers: ideation &amp; validation, UX/UI, accessibility, user flows, design sprint and key metrics.</div>
+            </div>
+          </div>
+
+          <div class="edu-item" id="edu-2">
+            <button class="edu-header" onclick="toggleEdu('edu-2')">
+              <span class="cert-icon cert-icon-runway"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 19l-7-7 7-7"/><path d="M19 19l-7-7 7-7"/></svg></span>
+              <div>
+                <div class="cert-name">Graphic Design</div>
+                <div class="cert-org">Universidad de Córdoba · Andalucía, Spain</div>
+                <div class="edu-year">2016–2020</div>
+              </div>
+              <svg class="edu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="edu-body">
+              <div class="edu-body-inner">Four years building the foundation, from typography and colour theory to brand systems and print production. The place where the obsession started.</div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -1918,12 +1960,17 @@ function switchTab(tabId) {
     'tab-about': 'panel-about',
     'tab-exp':   'panel-exp',
     'tab-skills':'panel-skills',
-    'tab-certs': 'panel-certs'
+    'tab-certs': 'panel-certs',
+    'tab-edu':   'panel-edu'
   };
   document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   document.getElementById(tabMap[tabId]).classList.add('active');
+  const sc = document.querySelector('#win-about .about-content');
+  if (sc) sc.scrollTop = 0;
+  const wb = document.querySelector('#win-about .win-body');
+  if (wb) wb.scrollTop = 0;
 }
 
 // ── MAIL ─────────────────────────────────────────
@@ -1931,6 +1978,21 @@ function sendMail() {
   const subject = document.getElementById('mail-subject').textContent || 'Hola Isa';
   const body = document.getElementById('mail-body').value || '';
   window.location.href = `mailto:isacorreaur@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+// ── EDUCATION ACCORDION ──────────────────────────
+function toggleEdu(id) {
+  const item = document.getElementById(id);
+  const body = item.querySelector('.edu-body');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.edu-item.open').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.edu-body').style.maxHeight = '0';
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
 }
 
 // ── CONTEXT MENU ─────────────────────────────────
@@ -2380,7 +2442,12 @@ function hideMobileNotifs() {
   ws.addEventListener('touchstart', e => { if (e.target === ws) moved = false; }, { passive: true });
   ws.addEventListener('touchmove',  e => { if (e.target === ws) moved = true;  }, { passive: true });
   ws.addEventListener('touchend', e => {
-    if (e.target === ws && !moved) ctxMenu.classList.add('visible');
+    if (e.target === ws && !moved) {
+      const t = e.changedTouches[0];
+      ctxMenu.style.left = t.clientX + 'px';
+      ctxMenu.style.top  = t.clientY + 'px';
+      ctxMenu.classList.add('visible');
+    }
   }, { passive: true });
 })();
 
