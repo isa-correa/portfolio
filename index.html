@@ -764,6 +764,7 @@
       align-items: center;
     }
     .file-icon .thumb img { width: 68px !important; }
+    #file-briefcanvas .thumb img { width: 90px !important; }
     .file-icon .fname { font-size: 12px; }
 
     /* WINDOWS - centradas horizontal; el JS centra vertical */
@@ -967,6 +968,13 @@
       <div class="fname">Piccadilly-Kiosk</div>
     </div>
 
+    <div class="file-icon" id="file-briefcanvas" data-win="win-briefcanvas">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/briefcanvas/briefcanvas-icon.webp" draggable="false" style="width:96px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">✨BriefCanvas</div>
+    </div>
+
     <div class="file-icon" id="file-sony" data-win="win-sony">
       <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
         <img src="proyectos/sony/monster-hunter-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
@@ -998,14 +1006,14 @@
         <span class="notif-time">now</span>
       </div>
 
-      <div class="notif" id="notif-2" onclick="openWindow('win-about');switchTab('tab-exp')">
+      <div class="notif" id="notif-2" onclick="openWindow('win-briefcanvas')">
         <div class="notif-icon notif-icon-blue">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <div class="notif-body">
           <div class="notif-app">Achievement</div>
-          <div class="notif-title">PowerPoint killer</div>
-          <div class="notif-desc">Pitched HTML to a boardroom. They didn't miss the slides.</div>
+          <div class="notif-title">The creative workflow works</div>
+          <div class="notif-desc">n8n, Gemini 2.5 Flash, 180 placeholders and an auxiliary Node.js server. A brief goes in. Three complete creative directions come out.</div>
         </div>
         <span class="notif-time">2m ago</span>
       </div>
@@ -1409,6 +1417,57 @@
           <a class="finder-btn" href="proyectos/phone-pitch/movil-limpio.html" target="_blank">View Desktop Version →</a>
           <a class="finder-link view-mobile-btn" href="#" onclick="event.preventDefault();if(window.innerWidth<=768){window.open('proyectos/phone-pitch/movil-limpio.html','_blank');}else{openPhoneModal('proyectos/phone-pitch/movil-limpio.html');}">View Mobile Version →</a>
         </div>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: BRIEFCANVAS -->
+  <div class="window project-window" id="win-briefcanvas" style="top:160px;left:620px;width:580px;height:600px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-briefcanvas')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-briefcanvas')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-briefcanvas')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">BriefCanvas.workflow</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Generative AI · Workflow · Creative Direction</div>
+        <div class="project-title">✨ BriefCanvas</div>
+        <div class="project-tags">
+          <span class="project-tag">AI</span>
+          <span class="project-tag">n8n</span>
+          <span class="project-tag">Automation</span>
+          <span class="project-tag">Creative Direction</span>
+          <span class="project-tag">Workflow</span>
+        </div>
+        <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;background:#000;position:relative">
+          <video
+            id="briefcanvas-video"
+            src="proyectos/briefcanvas/briefcanvas.mp4"
+            poster="proyectos/briefcanvas/briefcanvas-cover.jpg"
+            preload="none"
+            controls
+            playsinline
+            style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+          ></video>
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            About the project
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>Imagine Pinterest truly understanding what you need. Instead of showing you random images, it gives you three complete creative concepts — each with its own colour palette, typography, and story. That's BriefCanvas.</p>
+            <p>Every creative knows what it feels like to have a brief in front of you and a blank page with no idea where to start. BriefCanvas uses artificial intelligence to turn any brief into three fully formed visual concepts in under a minute. Each concept has its own style: colour palette, typeface, narrative, cultural references, and an AI-generated moodboard. Three different directions to start working from. Not random images — ideas built from what you described. A way out of the creative block, with clarity instead of noise.</p>
+            <p>The process works like this: you input the brief as text, the AI acts as a senior creative director and returns a structured JSON, one node generates the image URLs, and the final node assembles everything into a navigable interactive HTML deck.</p>
+            <p>Why Greek visual? Think of it as Pinterest, but two thousand years old. Ancient Greece was a place where many cultures went to find aesthetic ideas. The Romans did it. The Renaissance did it. The Bauhaus did it. That classical style still shapes design today. That's where the marble, bronze, and Cormorant Garamond typeface come from. <em>"Olympus decides. Three paths from the same trunk."</em></p>
+            <p>The cover image has a special effect: as you move your cursor, the light shifts and reveals what was hidden behind the white marble — a Greek figure gathering fruit from a tree. The ideas waiting there for you.</p>
+            <p>I'm a designer. I had worked with n8n before, but this was my first workflow of this scale. It wasn't my territory, but it fascinated me enough that I wanted to learn whatever it took to build it.</p>
+          </div>
+        </details>
       </div>
     </div>
     <div class="win-resize">⌟</div>
@@ -1914,11 +1973,12 @@ updateClock(); setInterval(updateClock, 1000);
 (function positionIcons() {
   const cx = window.innerWidth / 2;
   const positions = {
-    'file-lume':      { x: cx - 310, y: 200 },
-    'file-phone':     { x: cx - 100, y: 160 },
-    'file-lanza':     { x: cx +  80, y: 210 },
-    'file-piccadilly':{ x: cx - 220, y: 370 },
-    'file-sony':      { x: cx +  50, y: 380 }
+    'file-lume':      { x: cx - 280, y: 130 },
+    'file-phone':     { x: cx -  60, y: 220 },
+    'file-lanza':     { x: cx + 150, y: 175 },
+    'file-piccadilly':{ x: cx - 240, y: 370 },
+    'file-briefcanvas':{ x: cx -  20, y: 420 },
+    'file-sony':      { x: cx + 200, y: 350 }
   };
   const minX = 60;
   const maxX = window.innerWidth - 120;

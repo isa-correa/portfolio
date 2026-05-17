@@ -764,6 +764,7 @@
       align-items: center;
     }
     .file-icon .thumb img { width: 68px !important; }
+    #file-briefcanvas .thumb img { width: 90px !important; }
     .file-icon .fname { font-size: 12px; }
 
     /* WINDOWS - centradas horizontal; el JS centra vertical */
@@ -967,6 +968,13 @@
       <div class="fname">Piccadilly-Kiosk</div>
     </div>
 
+    <div class="file-icon" id="file-briefcanvas" data-win="win-briefcanvas">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/briefcanvas/briefcanvas-icon.webp" draggable="false" style="width:96px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">✨BriefCanvas</div>
+    </div>
+
     <div class="file-icon" id="file-sony" data-win="win-sony">
       <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
         <img src="proyectos/sony/monster-hunter-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
@@ -998,14 +1006,14 @@
         <span class="notif-time">now</span>
       </div>
 
-      <div class="notif" id="notif-2" onclick="openWindow('win-about');switchTab('tab-exp')">
+      <div class="notif" id="notif-2" onclick="openWindow('win-briefcanvas')">
         <div class="notif-icon notif-icon-blue">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <div class="notif-body">
           <div class="notif-app">Logro</div>
-          <div class="notif-title">PowerPointkiller</div>
-          <div class="notif-desc">Presenté en HTML a un comité directivo. No echaron de menos las diapositivas.</div>
+          <div class="notif-title">El workflow creativo funciona</div>
+          <div class="notif-desc">n8n, Gemini 2.5 Flash, 180 placeholders y un servidor Node.js auxiliar. Un brief entra. Tres direcciones creativas completas salen.</div>
         </div>
         <span class="notif-time">2m ago</span>
       </div>
@@ -1414,6 +1422,57 @@
     <div class="win-resize">⌟</div>
   </div>
 
+  <!-- PROJECT: BRIEFCANVAS -->
+  <div class="window project-window" id="win-briefcanvas" style="top:160px;left:620px;width:580px;height:600px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-briefcanvas')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-briefcanvas')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-briefcanvas')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">BriefCanvas.workflow</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">IA Generativa · Flujo de trabajo · Dirección Creativa</div>
+        <div class="project-title">✨ BriefCanvas</div>
+        <div class="project-tags">
+          <span class="project-tag">IA</span>
+          <span class="project-tag">n8n</span>
+          <span class="project-tag">Automatización</span>
+          <span class="project-tag">Dirección Creativa</span>
+          <span class="project-tag">Workflow</span>
+        </div>
+        <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;background:#000;position:relative">
+          <video
+            id="briefcanvas-video"
+            src="proyectos/briefcanvas/briefcanvas.mp4"
+            poster="proyectos/briefcanvas/briefcanvas-cover.jpg"
+            preload="none"
+            controls
+            playsinline
+            style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+          ></video>
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            Sobre el proyecto
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>Imagina que Pinterest entiende perfectamente lo que necesitas. En lugar de enseñarte imágenes sueltas, te ofrece tres ideas creativas completas. Cada una incluye colores, tipografía y una historia detrás. Eso es BriefCanvas.</p>
+            <p>Todos los creativos saben lo que es tener un brief delante y una página en blanco sin saber por dónde empezar. BriefCanvas usa inteligencia artificial para convertir cualquier brief en tres ideas visuales completas en menos de un minuto. Cada idea tiene su propio estilo: paleta de colores, tipografía, historia que contar y referentes culturales, además de un moodboard creado por IA. Son tres caminos diferentes para empezar a trabajar. No son solo imágenes sueltas, sino ideas generadas a partir de lo que tú has contado. Así puedes salir del bloqueo con ideas claras, no con ruido.</p>
+            <p>El proceso funciona así: introduces el brief en texto, la IA actúa como un director creativo senior y te devuelve un JSON estructurado, un nodo genera las URLs de imágenes y el último nodo ensambla todo en un deck HTML interactivo navegable.</p>
+            <p>¿Por qué visual griego? Piensa en ello como Pinterest, pero de hace dos mil años. La antigua Grecia fue un lugar al que muchas culturas iban a buscar ideas estéticas. Los romanos, el Renacimiento y la Bauhaus lo hicieron. Ese estilo clásico todavía influye en el diseño de hoy. De ahí vienen el mármol, el bronce y la tipografía Cormorant Garamond. <em>"El Olimpo decide. Tres caminos salen del mismo tronco."</em></p>
+            <p>La imagen de portada tiene un efecto especial: cuando mueves el cursor, la luz cambia y descubres lo que había tras el mármol blanco. Una figura griega recogiendo frutos de un árbol — las ideas que esperan ahí.</p>
+            <p>Soy diseñadora. Había trabajado con n8n antes, pero este era mi primer workflow de esta envergadura. No era mi terreno, pero me llamaba tanto la atención que quise aprender lo necesario para hacerlo.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
   <!-- PROJECT: LANZAROTE -->
   <div class="window project-window" id="win-lanza" style="top:90px;left:240px;width:555px;height:580px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-lanza')">
@@ -1789,7 +1848,7 @@
       <img src="icons/teams1.webp" style="width:48px;height:48px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15)" draggable="false">
       <div>
         <p style="font-size:15.5px;font-weight:500;color:var(--text);line-height:1.55;margin-bottom:16px">Teams, Slack, Google Meet, Monday, Jira... Me he adaptado a cada plataforma que puedas imaginar. La herramienta cambia, el flujo de trabajo no.</p>
-        <button onclick="closeWindow('win-teams')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Adapt.</button>
+        <button onclick="closeWindow('win-teams')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 18px;font-size:14.5px;font-weight:500;cursor:pointer">Adaptarse.</button>
       </div>
     </div>
   </div>
@@ -1914,11 +1973,12 @@ updateClock(); setInterval(updateClock, 1000);
 (function positionIcons() {
   const cx = window.innerWidth / 2;
   const positions = {
-    'file-lume':      { x: cx - 310, y: 200 },
-    'file-phone':     { x: cx - 100, y: 160 },
-    'file-lanza':     { x: cx +  80, y: 210 },
-    'file-piccadilly':{ x: cx - 220, y: 370 },
-    'file-sony':      { x: cx +  50, y: 380 }
+    'file-lume':      { x: cx - 280, y: 130 },
+    'file-phone':     { x: cx -  60, y: 220 },
+    'file-lanza':     { x: cx + 150, y: 175 },
+    'file-piccadilly':{ x: cx - 240, y: 370 },
+    'file-briefcanvas':{ x: cx -  20, y: 420 },
+    'file-sony':      { x: cx + 200, y: 350 }
   };
   const minX = 60;
   const maxX = window.innerWidth - 120;
