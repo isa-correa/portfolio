@@ -995,7 +995,8 @@
 <!-- DESKTOP -->
 <div id="desktop">
 
-  <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" poster="icons/wallpaper/tulips.webp" muted playsinline autoplay loop></video>
+  <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" poster="icons/wallpaper/main.webp" muted playsinline autoplay loop></video>
+  <script>(function(){var s=null;try{s=JSON.parse(localStorage.getItem('portfolio-wallpaper'));}catch(e){}if(s&&s.url){var v=document.getElementById('bg-video');v.src=s.url;v.poster=s.poster||'';v.load();v.play().catch(function(){});}})()</script>
 
   <!-- MENU BAR -->
   <div id="menubar">
@@ -2545,10 +2546,12 @@ document.getElementById('phone-modal').addEventListener('click', e => {
     div.innerHTML = '<img src="' + wp.thumb + '" alt="Wallpaper ' + (i+1) + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div class=wp-placeholder>▶</div>\'">';
     div.addEventListener('click', function() {
       video.src = wp.url;
+      video.poster = wp.thumb;
       video.load();
       video.play();
       grid.querySelectorAll('.wp-thumb').forEach(t => t.classList.remove('active'));
       div.classList.add('active');
+      try{localStorage.setItem('portfolio-wallpaper',JSON.stringify({url:wp.url,poster:wp.thumb}));}catch(e){}
     });
     grid.appendChild(div);
   });
