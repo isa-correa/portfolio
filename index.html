@@ -765,6 +765,7 @@
     }
     .file-icon .thumb img { width: 68px !important; }
     #file-briefcanvas .thumb img { width: 90px !important; }
+    #file-calendar-notification .thumb img { width: 90px !important; }
     .file-icon .fname { font-size: 12px; }
 
     /* WINDOWS - centradas horizontal; el JS centra vertical */
@@ -990,6 +991,13 @@
       <div class="fname">Sony-Pictures</div>
     </div>
 
+    <div class="file-icon" id="file-calendar-notification" data-win="win-calendar-notification">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/notificacion-calendar/icon.webp" draggable="false" style="width:110px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">Calendar-notification</div>
+    </div>
+
     <!-- NOTIFICATIONS -->
     <div id="notifications">
 
@@ -1033,7 +1041,7 @@
         <div class="notif-body">
           <div class="notif-app">Achievement</div>
           <div class="notif-title">Sony picked it</div>
-          <div class="notif-desc">Illustration shared by Sony Pictures across 8+ countries. Not bad for an "almost didn't send it."</div>
+          <div class="notif-desc">Illustration shared by Sony Pictures across 8+ countries.</div>
         </div>
         <span class="notif-time">3m ago</span>
       </div>
@@ -1645,6 +1653,87 @@
     <div class="win-resize">⌟</div>
   </div>
 
+  <div class="window project-window" id="win-calendar-notification" style="top:130px;left:340px;width:555px;height:580px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-calendar-notification')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-calendar-notification')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-calendar-notification')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Calendar-notification</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">macOS · Python · UX · Productivity</div>
+        <div class="project-title">Floating reminder system for Google Calendar</div>
+        <div class="project-tags">
+          <span class="project-tag">macOS</span>
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Google Calendar</span>
+          <span class="project-tag">UX</span>
+          <span class="project-tag">Animation</span>
+        </div>
+        <div style="margin:14px 20px 16px;background:#85C8FF;border-radius:10px;padding:20px 16px;display:flex;align-items:center;justify-content:center;gap:0;overflow:hidden;transform:translateZ(0);will-change:transform">
+          <img src="proyectos/notificacion-calendar/preview-frame.webp" alt="plane" style="width:210px;flex-shrink:0;display:block" draggable="false">
+          <svg width="50" height="20" viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+            <path d="M0 14 Q40 22 80 15" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+          </svg>
+          <div style="flex-shrink:0">
+            <div style="width:160px;background:white;border-radius:6px;overflow:hidden;border:1px solid #e0e0e0;font-family:-apple-system,'Helvetica Neue',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.18)">
+              <div style="background:#001391;padding:7px 12px;white-space:nowrap">
+                <span style="color:white;font-size:10px;font-weight:700;letter-spacing:0.3px">🔔 Your meeting is starting</span>
+              </div>
+              <div style="padding:9px 12px">
+                <div style="font-size:13px;font-weight:700;color:#1a1a1a">Creative daily</div>
+                <div style="display:block;width:100%;background:#001391;color:white;font-size:10px;font-weight:600;text-align:center;padding:5px 0;border-radius:20px;margin-top:8px">Join now →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lume-ctas" style="padding:0 20px 16px">
+          <button class="finder-btn" onclick="launchReminderDemo()">See reminder notification →</button>
+        </div>
+        <details class="lume-accordion">
+          <summary>
+            Context
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>It happened to me all the time. Normal Google Calendar notifications just didn't catch my attention. Switching between tabs, windows, focus mode and my workflow made me show up late or miss meetings entirely.</p>
+            <p>I realised the problem wasn't the existence of the notification, but how it looked within the operating system. Most reminders work as secondary desktop elements.</p>
+            <p>I wanted something different: an interaction that was impossible to ignore, but without being aggressive or invasive. So I framed the project as a small experience integrated into macOS.</p>
+            <p>The idea was to turn the start of a meeting into a highly recognisable visual event: a plane crossing the top of the screen carrying a banner with the meeting info and a join button. Instead of a static window or a standard notification, I went for something with movement and narrative.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Design
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>Building this, I tried to balance three things: capturing attention quickly, keeping a clean aesthetic, and not disrupting the user's workflow. That's why the entire interface floats over the actual desktop content without blocking it. The window is transparent and only holds the essential visual elements.</p>
+            <p>I made deliberate decisions about visual hierarchy. The deep blue header acts as an immediate visual anchor, clearly separating the alert state from surrounding content. The meeting name carries more typographic weight to prioritise recognition. The button removes the intermediate step of finding the meeting or opening Calendar manually.</p>
+            <p>Movement was especially important. An overly aggressive animation made the experience feel intrusive. I worked on a smooth horizontal animation with a slight banner sway to give a sense of weight and suspension. That small detail changes the perceived quality significantly because it introduces organic movement.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Technical
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>One of the most complex parts was achieving real transparency in macOS using Python: not just a borderless window, but a completely invisible layer for the system where only the animated elements existed, floating above any open application.</p>
+            <p>That means working with transparent rendering, always-on-top window management, background-less compositing, and compatibility with how macOS handles visual layers.</p>
+            <p>The animation only appears when a meeting starts, crosses the screen, allows immediate interaction, and self-destructs when the journey ends. It leaves no visual residue, takes no persistent space, and requires no manual action to close.</p>
+            <p>That was important: it had to work as an ephemeral but highly recognisable event, reducing the friction between the reminder and actually joining the meeting.</p>
+            <p>All the code development was done with AI-assisted programming, which let me tackle technical challenges outside my usual stack while staying focused on design and experience decisions.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
   <!-- TRASH WINDOW -->
   <div class="window" id="win-trash" style="width:480px;height:420px;top:140px;left:260px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-trash')">
@@ -1931,6 +2020,13 @@
 
 </div><!-- /desktop -->
 
+<!-- REMINDER OVERLAY -->
+<iframe id="reminder-overlay"
+  src=""
+  allowtransparency="true"
+  style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;background:transparent;pointer-events:none;z-index:9999"
+></iframe>
+
 <!-- LIGHTBOX -->
 <div id="lightbox">
   <button id="lb-close" onclick="closeLightbox()">
@@ -1986,7 +2082,8 @@ updateClock(); setInterval(updateClock, 1000);
     'file-lanza':     { x: cx + 150, y: 175 },
     'file-piccadilly':{ x: cx - 240, y: 370 },
     'file-briefcanvas':{ x: cx -  20, y: 420 },
-    'file-sony':      { x: cx + 200, y: 350 }
+    'file-sony':      { x: cx + 200, y: 350 },
+    'file-calendar-notification': { x: cx - 440, y: 330 }
   };
   const minX = 60;
   const maxX = window.innerWidth - 120;
@@ -2110,6 +2207,33 @@ document.querySelectorAll('.file-icon').forEach(icon => {
     if (win) openWindow(win);
   });
 });
+
+// ── REMINDER DEMO ────────────────────────────────
+function launchReminderDemo() {
+  const overlay = document.getElementById('reminder-overlay');
+  if (overlay.style.display === 'block') return;
+  overlay.onload = function() { overlay.style.display = 'block'; overlay.onload = null; };
+  overlay.src = 'proyectos/notificacion-calendar/reminder.html?t=' + Date.now();
+}
+
+window.addEventListener('message', e => {
+  if (e.data === 'reminder-done') {
+    const overlay = document.getElementById('reminder-overlay');
+    overlay.style.display = 'none';
+  }
+});
+
+(function() {
+  const origOpen = openWindow;
+  openWindow = function(id) {
+    origOpen(id);
+    if (id === 'win-calendar-notification') {
+      const img = document.querySelector('#win-calendar-notification img[data-src]');
+      if (img && !img.src) img.src = img.dataset.src;
+      launchReminderDemo();
+    }
+  };
+})();
 
 // ── ABOUT TABS ───────────────────────────────────
 function switchTab(tabId) {
