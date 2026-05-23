@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reminder</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: transparent;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+  @keyframes volar {
+    0%   { transform: translateX(110vw); }
+    100% { transform: translateX(-700px); }
+  }
+  .vuelo {
+    position: absolute;
+    top: 30px;
+    display: inline-flex;
+    align-items: center;
+    animation: volar 12s linear 1 forwards;
+  }
+  .gif {
+    width: 220px;
+    display: block;
+    flex-shrink: 0;
+  }
+  .cuerda {
+    width: 80px;
+    flex-shrink: 0;
+  }
+  @keyframes balanceo {
+    0%, 100% { transform: rotate(-0.8deg); }
+    50%       { transform: rotate(0.8deg); }
+  }
+  .banner-wrap {
+    animation: balanceo 2.4s ease-in-out infinite;
+    transform-origin: left center;
+    flex-shrink: 0;
+  }
+  .banner {
+    width: 200px;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  }
+  .banner-header {
+    background: #001391;
+    padding: 8px 14px;
+  }
+  .banner-header span {
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .banner-body { padding: 11px 14px; }
+  .reunion-nombre {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    background: #001391;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="vuelo">
+  <img class="gif" src="notificacionbbva.gif" alt="avión">
+  <svg class="cuerda" viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 14 Q40 22 80 15" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+  </svg>
+  <div class="banner-wrap">
+    <div class="banner">
+      <div class="banner-header">
+        <span>🔔 Your meeting is starting</span>
+      </div>
+      <div class="banner-body">
+        <div class="reunion-nombre" id="nombre-reu">Cargando...</div>
+        <a class="btn" href="#" id="link-reu">Join now →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const nombre = params.get('nombre') || 'Creative daily';
+  const link = params.get('link') || '#';
+  document.getElementById('nombre-reu').textContent = nombre;
+  const btn = document.getElementById('link-reu');
+  btn.href = link;
+  btn.onclick = () => { window.open(link, '_blank'); };
+
+  document.querySelector('.vuelo').addEventListener('animationend', () => {
+    window.parent.postMessage('reminder-done', '*');
+  });
+</script>
+</body>
+</html>
