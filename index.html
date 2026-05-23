@@ -2545,10 +2545,10 @@ document.getElementById('phone-modal').addEventListener('click', e => {
     div.className = 'wp-thumb' + (video.src === wp.url ? ' active' : '');
     div.innerHTML = '<img src="' + wp.thumb + '" alt="Wallpaper ' + (i+1) + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div class=wp-placeholder>▶</div>\'">';
     div.addEventListener('click', function() {
+      video.poster = '';
       video.src = wp.url;
-      video.poster = wp.thumb;
       video.load();
-      video.play();
+      video.play().catch(function(){});
       grid.querySelectorAll('.wp-thumb').forEach(t => t.classList.remove('active'));
       div.classList.add('active');
       try{localStorage.setItem('portfolio-wallpaper',JSON.stringify({url:wp.url,poster:wp.thumb}));}catch(e){}
