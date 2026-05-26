@@ -1788,22 +1788,16 @@
           <span class="project-tag">UX</span>
           <span class="project-tag">Animation</span>
         </div>
-        <div style="margin:14px 20px 16px;background:#160d1b;border-radius:10px;padding:20px 16px;display:flex;align-items:center;justify-content:center;gap:0;overflow:hidden;transform:translateZ(0);will-change:transform">
-          <div id="lottie-cal-preview" style="width:210px;height:160px;flex-shrink:0;display:block"></div>
-          <svg width="50" height="20" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-            <line x1="0" y1="10" x2="80" y2="10" stroke="white" stroke-width="5"/>
-            <line x1="0" y1="10" x2="80" y2="10" stroke="#160d1b" stroke-width="3"/>
-          </svg>
-          <div style="flex-shrink:0">
-            <div style="width:160px;background:#f9e9da;border-radius:0;overflow:hidden;border:3px solid #160d1b;box-shadow:0 0 0 2px white;font-family:'Press Start 2P',monospace;image-rendering:pixelated">
-              <div style="background:#fe89b7;padding:8px 10px;border-bottom:3px solid #160d1b">
-                <span style="color:#160d1b;font-size:7px;line-height:1.6;display:block;word-break:break-word;text-align:center">Daily standup</span>
-              </div>
-              <div style="padding:10px">
-                <div style="display:block;width:100%;background:#160d1b;color:#fe89b7;font-family:'Press Start 2P',monospace;font-size:6px;text-align:center;padding:8px 6px;border-radius:0;border:2px solid #fe89b7;line-height:1.5;letter-spacing:0.3px;box-shadow:3px 3px 0 #fe89b7">JOIN NOW</div>
-              </div>
-            </div>
-          </div>
+        <div style="margin:14px 20px 16px;border-radius:10px;overflow:hidden;background:#000;position:relative">
+          <video
+            id="calendar-reminder-video"
+            src="proyectos/notificacion-calendar/video-reminder.mp4"
+            poster="proyectos/notificacion-calendar/cover-video.webp"
+            preload="none"
+            controls
+            playsinline
+            style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+          ></video>
         </div>
         <div class="lume-ctas" style="padding:0 20px 16px">
           <button class="finder-btn" onclick="launchReminderDemo()">See reminder notification →</button>
@@ -2342,25 +2336,12 @@ window.addEventListener('message', e => {
   }
 });
 
-// ── CALENDAR NOTIFICATION LAZY LOTTIE + AUTO DEMO ─
+// ── CALENDAR NOTIFICATION AUTO DEMO ─
 (function() {
-  let lottieInited = false;
   const origOpen = openWindow;
   openWindow = function(id) {
     origOpen(id);
     if (id === 'win-calendar-notification') {
-      if (!lottieInited) {
-        lottieInited = true;
-        lottie.loadAnimation({
-          container: document.getElementById('lottie-cal-preview'),
-          renderer: 'canvas',
-          loop: true,
-          autoplay: true,
-          path: 'proyectos/notificacion-calendar/notificacion2.json'
-        });
-      }
-      const img = document.querySelector('#win-calendar-notification img[data-src]');
-      if (img && !img.src) img.src = img.dataset.src;
       launchReminderDemo();
     }
   };
