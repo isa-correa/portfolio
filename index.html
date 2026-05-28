@@ -1376,7 +1376,7 @@
   </div>
 
   <!-- PROJECT: LUME MOOD -->
-  <div class="window project-window" id="win-lume" style="top:100px;left:120px;width:555px;height:580px">
+  <div class="window project-window" id="win-lume" style="top:100px;left:120px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-lume')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-lume')"><span class="btn-icon">✕</span></button>
@@ -1386,10 +1386,6 @@
       <div class="win-title">Lume-Mood.app</div>
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
-      <!-- Cover image -->
-      <div class="project-cover" style="background:#0d0d1a;height:190px">
-        <img src="proyectos/lume-mood/lume-mood-cover.webp" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1">
-      </div>
       <div class="project-meta">
         <div class="project-type">PRODUCT DESIGN · DESIGN SYSTEM · INTERACTION DESIGN</div>
         <div class="project-title">Lume Mood</div>
@@ -1508,7 +1504,7 @@
   </div>
 
   <!-- PROJECT: PHONE PITCH -->
-  <div class="window project-window" id="win-phone" style="top:130px;left:180px;width:555px;height:580px">
+  <div class="window project-window" id="win-phone" style="top:130px;left:180px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-phone')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-phone')"><span class="btn-icon">✕</span></button>
@@ -1553,7 +1549,7 @@
   </div>
 
   <!-- PROJECT: BRIEFCANVAS -->
-  <div class="window project-window" id="win-briefcanvas" style="top:160px;left:620px;width:580px;height:600px">
+  <div class="window project-window" id="win-briefcanvas" style="top:160px;left:620px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-briefcanvas')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-briefcanvas')"><span class="btn-icon">✕</span></button>
@@ -1604,7 +1600,7 @@
   </div>
 
   <!-- PROJECT: LANZAROTE -->
-  <div class="window project-window" id="win-lanza" style="top:90px;left:240px;width:555px;height:580px">
+  <div class="window project-window" id="win-lanza" style="top:90px;left:240px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-lanza')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-lanza')"><span class="btn-icon">✕</span></button>
@@ -1676,7 +1672,7 @@
   </div>
 
   <!-- PROJECT: PICCADILLY -->
-  <div class="window project-window" id="win-piccadilly" style="top:120px;left:280px;width:555px;height:580px">
+  <div class="window project-window" id="win-piccadilly" style="top:120px;left:280px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-piccadilly')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-piccadilly')"><span class="btn-icon">✕</span></button>
@@ -1686,9 +1682,6 @@
       <div class="win-title">Piccadilly-Kiosk.live</div>
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
-      <div class="project-cover" style="background:linear-gradient(135deg,#c31432,#240b36,#3a1a5c);height:190px">
-        <img src="proyectos/kiosko/kiosko-cover.webp" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1">
-      </div>
       <div class="project-meta">
         <div class="project-type">Environmental Design · Signage · London 2025</div>
         <div class="project-title">Piccadilly Kiosk</div>
@@ -1723,7 +1716,7 @@
   </div>
 
   <!-- PROJECT: SONY -->
-  <div class="window project-window" id="win-sony" style="top:110px;left:320px;width:555px;height:580px">
+  <div class="window project-window" id="win-sony" style="top:110px;left:320px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-sony')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-sony')"><span class="btn-icon">✕</span></button>
@@ -1767,7 +1760,7 @@
     <div class="win-resize">⌟</div>
   </div>
 
-  <div class="window project-window" id="win-calendar-notification" style="top:130px;left:340px;width:555px;height:580px">
+  <div class="window project-window" id="win-calendar-notification" style="top:130px;left:340px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-calendar-notification')">
       <div class="win-buttons">
         <button class="win-btn close" onclick="closeWindow('win-calendar-notification')"><span class="btn-icon">✕</span></button>
@@ -2507,6 +2500,33 @@ document.getElementById('phone-modal').addEventListener('click', e => {
   document.addEventListener('mouseup', function() {
     isResizing = false;
   });
+})();
+
+// ── PROJECT WINDOWS RESIZE ──────────────────────
+(function() {
+  var resizing = null, startX, startY, startW, startH;
+  document.querySelectorAll('.project-window').forEach(function(win) {
+    var handle = win.querySelector('.win-resize');
+    if (!handle) return;
+    handle.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      resizing = win;
+      startX = e.clientX;
+      startY = e.clientY;
+      startW = win.offsetWidth;
+      startH = win.offsetHeight;
+      win.style.zIndex = ++zTop;
+    });
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!resizing) return;
+    var newW = startW + (e.clientX - startX);
+    var newH = startH + (e.clientY - startY);
+    if (newW >= 320) resizing.style.width  = newW + 'px';
+    if (newH >= 300) resizing.style.height = newH + 'px';
+  });
+  document.addEventListener('mouseup', function() { resizing = null; });
 })();
 
 // Wire up lanzarote media items
