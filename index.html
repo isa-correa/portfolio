@@ -539,6 +539,7 @@
   }
   .lume-accordion-body p { margin-bottom: 10px; }
   .lume-accordion-body p:last-child { margin-bottom: 0; }
+  .rol-badge { display:inline-block; background:rgba(0,100,215,0.07); border:1px solid rgba(0,100,215,0.18); border-radius:6px; padding:6px 12px; font-size:13.5px; margin-bottom:12px; }
   .lume-ctas { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 20px; }
   .project-cta-outline {
     background: transparent;
@@ -1391,11 +1392,11 @@
         <div class="project-title">Lume Mood</div>
         <!-- Tags -->
         <div class="project-tags">
-          <span class="project-tag">Product Strategy</span>
+          <span class="project-tag">Figma</span>
           <span class="project-tag">Design System</span>
           <span class="project-tag">Microinteractions</span>
           <span class="project-tag">Functional Prototype</span>
-          <span class="project-tag">iOS</span>
+          <span class="project-tag">AI-assisted</span>
         </div>
         <!-- Media gallery -->
         <div class="lume-media">
@@ -1411,91 +1412,44 @@
         <!-- Accordions -->
         <details class="lume-accordion" open>
           <summary>
-            Overview
+            The project
             <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>Lume Mood is an iOS emotional tracking app that turns the daily check-in into a sensorial gesture rather than a form. I ran a full end-to-end product design process — concept, identity, design system, screens and flows in Figma — and then went a step further: I built a functional, interactive prototype in HTML/CSS/JS using Claude, so anyone can feel the product moving in real time, not just preview it. The goal was solving a tension no app in the category handles well: being fast in the moment, accumulating value over time, and feeling good to use, all at once.</p>
-          </div>
-        </details>
-        <details class="lume-accordion">
-          <summary>
-            Role &amp; Context
-            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </summary>
-          <div class="lume-accordion-body">
-            <p><strong>Role</strong> — Product Designer (end-to-end)<br>
-            <strong>Project type</strong> — Self-initiated · original concept<br>
-            <strong>Year</strong> — 2026<br>
-            <strong>Platform</strong> — iOS · functional web prototype<br>
-            <strong>Tools</strong> — Figma, HTML/CSS/JS, Claude as a development tool</p>
-            <p>Scope: category research, concept and naming, visual identity, design system, information architecture, interaction design, screens and flows in Figma — and a functional interactive prototype built in HTML/CSS/JS using Claude, so anyone can experience the product in real time.</p>
-          </div>
-        </details>
-        <details class="lume-accordion">
-          <summary>
-            The Problem
-            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </summary>
-          <div class="lume-accordion-body">
-            <p>Emotional tracking apps share a recurring paradox: they're either too cold and functional, or so simplified they stop being useful after the first few weeks.</p>
-            <p><strong>Too cold</strong> — Lists, forms, dry statistics. Emotion becomes a text field and the experience doesn't invite you back.</p>
-            <p><strong>Too empty</strong> — Five emojis can't capture the emotional complexity of a real day.</p>
-            <p>None solve all three conditions at once — Being fast in the moment, accumulating value over time, and feeling good to use. And none has a distinctive, memorable visual identity: they're all wellness clones in clean sans-serif on white.</p>
-            <p>The opportunity was treating emotion as light, not as data.</p>
-          </div>
-        </details>
-        <details class="lume-accordion">
-          <summary>
-            Process &amp; Approach
-            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </summary>
-          <div class="lume-accordion-body">
-            <p>I approached the project in this order, deliberately:</p>
-            <p><strong>1. Concept before screens.</strong> Before opening Figma I defined the central metaphor — emotions as light — because a strong visual system only emerges from a strong idea. The metaphor then shaped every decision: form (spheres), behavior (they breathe, they pulse), color (radial gradients with a white core).</p>
-            <p><strong>2. System before features.</strong> I built the five-state system, the palette and the typography before designing any screen. This forced hard decisions early (how many moods, which typefaces, day/night mode) instead of accumulating them as debt.</p>
-            <p><strong>3. Full design in Figma, then functional prototype on top.</strong> The complete product — screens, user flows, design system, interactions — was designed in Figma following a traditional product design process. Then I went further: I built a functional, interactive prototype in HTML/CSS/JS using Claude. The reason was design quality, not a technical preference. Lume's core microinteraction — dragging a sphere of light — can only be properly evaluated if you feel it move. A Figma preview would have given a false quality signal.</p>
-            <p><strong>4. Iteration on the microinteraction.</strong> Once functional, I tuned the breathe animation, the offset of the concentric rings, and the propagation of color across the UI until the gesture felt alive, not programmed.</p>
-          </div>
-        </details>
-        <details class="lume-accordion">
-          <summary>
-            Key Design Decisions
-            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </summary>
-          <div class="lume-accordion-body">
-            <p><strong>Five moods, not seven.</strong> More states would make the check-in slower and less honest. Fewer would lose meaningful nuance (Reflection and Shadow are different; Radiant and Energy too). Five is where the everyday spectrum is covered without overwhelming.</p>
-            <p><strong>Spheres, not icons.</strong> An icon would have felt categorical and tech-flavored. The sphere is organic, alive, interior. The white core reinforces the light metaphor without having to explain it.</p>
-            <p><strong>Code prototype on top of Figma, not instead of it.</strong> The full design — screens, flows, system — was built in Figma first. But Lume's quality lives in its behavior: how the sphere breathes, how color propagates, how day mode fades in. That had to be felt, not previewed. So after completing the Figma design, I built a live HTML/CSS/JS prototype using Claude.</p>
-            <p><strong>Two CSS variables for the entire color system.</strong> <code>--mood</code> and <code>--mood-r</code> update in real time when the state changes and propagate color across the whole UI. Adding a new mood is a single object in an array. Technical elegance protects visual coherence over time.</p>
-          </div>
-        </details>
-        <details class="lume-accordion">
-          <summary>
-            Outcome
-            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </summary>
-          <div class="lume-accordion-body">
-            <p>A complete, navigable product — not a mockup:</p>
+            <p class="rol-badge"><strong>Role:</strong> Product Designer end-to-end · Self-initiated · 2026</p>
+            <p>Emotional tracking apps have a problem: they're either too cold, with forms and statistics that don't say anything, or too empty, with a few emojis that don't reflect reality. None of them are fast, useful, and appealing at the same time.</p>
+            <p>I designed Lume Mood from scratch — researching the category, creating a concept, a name, a visual identity, a design system, and complete screens in Figma. Then I built a functional prototype using HTML, CSS and JavaScript with AI assistance, because a product's quality shows in how it behaves, not just in how it looks.</p>
+            <p><strong>What I did:</strong></p>
             <ul>
-              <li>Design system with 5 emotional states, dual day/night palette, and documented typography</li>
-              <li>6 main screens + overlays, all functional</li>
-              <li>Core microinteraction (Glow Pulse) with three coordinated animation layers</li>
-              <li>Catalog of 6 animations, all in pure CSS, each with a specific purpose</li>
-              <li>Web prototype runnable in-browser, no install</li>
-              <li>Complete visual identity: 3 logo variants, type system, documented glassmorphism</li>
+              <li>Built a design system with five emotional states, a day and night color palette, and documented typography</li>
+              <li>Developed six functional screens with overlays</li>
+              <li>Designed a core microinteraction called Glow Pulse, with three coordinated animation layers</li>
+              <li>Built a prototype that runs in the browser with no installation required</li>
             </ul>
           </div>
         </details>
         <details class="lume-accordion">
           <summary>
-            Reflections &amp; Learnings
+            Process
             <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p><strong>What I confirmed:</strong> when the central metaphor is strong, the design system almost builds itself. Every decision — typography, animation, color, interaction — flowed from the same idea (emotions are light, and light moves). This drastically reduces arbitrary style debates.</p>
-            <p><strong>What I'd change:</strong> user research before locking the five-mood system. The decision is defensible, but validating it with real people would have given the argument more weight.</p>
-            <p><strong>What I'm taking to the next project:</strong> when product quality lives in behavior, building a functional prototype after the Figma design is worth the extra step — it's not a replacement for the design process, it's a layer on top of it. And using Claude for that prototyping phase radically speeds up iteration on microinteractions without breaking the design workflow.</p>
+            <p><strong>1.</strong> First, I thought about the concept before designing the screens. Before opening Figma, I defined the central idea: emotions are like light. This idea influenced every decision I made — the shape of the spheres, how they behave, and the colors I used.</p>
+            <p><strong>2.</strong> Then, I built the system before designing the features. I built the five-state system, the color palette, and the typography before designing any screen. This forced me to make hard decisions from the start, rather than leaving them for later.</p>
+            <p><strong>3.</strong> After that, I designed the complete product in Figma and then built a functional prototype in HTML/CSS/JS using Claude. I wanted the core interaction — dragging a sphere of light — to feel real, not just in a Figma preview.</p>
+            <p><strong>4.</strong> Finally, I refined the breathing animation, the movement of the concentric rings, and the color propagation until the interaction felt alive, not programmed.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Design decisions
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p><strong>Five states are enough, not seven.</strong> More states would make the check-in slower and less reliable. Fewer would lose important nuances — "Reflection" and "Shadow" are different, just as "Radiant" and "Energy" are. Five states cover the daily spectrum without overwhelming.</p>
+            <p><strong>Spheres over icons.</strong> An icon would have felt too technological and categorical. The sphere looks organic and alive, and its interior is more expressive. The white core reinforces the idea of light naturally.</p>
+            <p><strong>The functional prototype was built with code on top of the Figma design, not replacing it.</strong> Everything was designed in Figma first. But Lume's real quality lies in its behavior: how the sphere pulses, how the color expands, and how day mode activates. You have to experience it, not just preview it.</p>
+            <p><strong>The entire color system uses just two CSS variables:</strong> <code>--mood</code> and <code>--mood-r</code>. These update in real time when the state changes and propagate color throughout the interface. Adding a new mood state is as simple as adding an object to a list.</p>
           </div>
         </details>
       </div>
@@ -1532,15 +1486,27 @@
             <a class="finder-link view-mobile-btn" href="#" onclick="event.preventDefault();if(window.innerWidth<=768){window.open('proyectos/phone-pitch/movil-limpio.html','_blank');}else{openPhoneModal('proyectos/phone-pitch/movil-limpio.html');}">View Mobile Version →</a>
           </div>
         </div>
-        <details class="lume-accordion">
+        <details class="lume-accordion" open>
           <summary>
-            About the project
+            The project
             <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>A strategic proposal to change the way customers compare products on the website of a leading mobile company. The problem was that many users were abandoning key pages, support tickets were rising, and the bounce rate was 63%. The response had to be visually compelling and analytically sound.</p>
-            <p>Instead of a slide deck, I built the proposal inside a phone. On desktop it unfolds horizontally — like turning your phone to watch a video. Each section works like a standalone app with its own visual style and interaction: numbers that animate on scroll, live charts, a framework with five pillars and projected metrics, and a real-time chat that lets the client ask questions about the proposal during the presentation.</p>
-            <p>Until recently, building something like this required a full team: a developer, an interaction designer, and someone to tie it all together. Now I can do it alone, with full autonomy. Claude is my tool: it turns my design decisions into working code, makes changes in seconds, and lets me reach a level of execution I couldn't have achieved before as a designer.</p>
+            <p class="rol-badge"><strong>Role:</strong> UX/UI Designer · Strategy · Client Project</p>
+            <p>A leading mobile company had a problem on their product comparison page: 63% bounce rate, rising support tickets, users dropping off exactly where conversion mattered most.</p>
+            <p>The proposal had to be as strong in form as in substance. So instead of a slide deck, I built it inside a phone.</p>
+            <p>On desktop it unfolds horizontally — like turning your phone to watch a video. Each section works like a standalone app: animated counters on scroll, live charts, a 5-pillar framework with projected metrics, and a real-time chat so the client can ask questions during the presentation itself.</p>
+            <p><em>The format is the message.</em></p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            How I built it
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>Claude is my execution tool: it turns my design decisions into working code in seconds. I don't delegate the judgement — I delegate the implementation. That lets me reach a level of execution that simply wasn't accessible to a designer working without a technical team.</p>
+            <p>Interactive HTML · CSS/JS animations · dynamic charts · real-time chat · context-aware responsive (desktop / mobile).</p>
           </div>
         </details>
       </div>
@@ -1580,18 +1546,27 @@
             style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
           ></video>
         </div>
-        <details class="lume-accordion">
+        <details class="lume-accordion" open>
           <summary>
-            About the project
+            The project
             <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>Imagine Pinterest truly understanding what you need. Instead of showing you random images, it gives you three complete creative concepts — each with its own colour palette, typography, and story. That's BriefCanvas.</p>
-            <p>Every creative knows what it feels like to have a brief in front of you and a blank page with no idea where to start. BriefCanvas uses artificial intelligence to turn any brief into three fully formed visual concepts in under a minute. Each concept has its own style: colour palette, typeface, narrative, cultural references, and an AI-generated moodboard. Three different directions to start working from. Not random images — ideas built from what you described. A way out of the creative block, with clarity instead of noise.</p>
-            <p>The process works like this: you input the brief as text → the AI acts as a senior creative director and returns a structured JSON with over 180 fields (tone, palettes, typefaces, cultural references, visual keywords…) → one node generates the image URLs → the final node assembles everything into a navigable interactive HTML deck.</p>
-            <p>Why Greek visual? Think of it as Pinterest, but two thousand years old. Ancient Greece was a place where many cultures went to find aesthetic ideas. The Romans did it. The Renaissance did it. The Bauhaus did it. That classical style still shapes design today. That's where the marble, bronze, and Cormorant Garamond typeface come from. <em>"Olympus decides. Three paths from the same trunk."</em></p>
-            <p>The cover image has a special effect: as you move your cursor, the light shifts and reveals what was hidden behind the white marble — a Greek figure gathering fruit from a tree. The ideas waiting there for you.</p>
-            <p>I'm a designer. I had worked with n8n before, but this was my first workflow of this scale. It wasn't my territory, but it fascinated me enough that I wanted to learn whatever it took to build it.</p>
+            <p class="rol-badge"><strong>Role:</strong> Creative Direction + AI Automation · Self-initiated · 2026</p>
+            <p>The blank page after a brief is something we all know. You have the project, the deadline, and nothing else. BriefCanvas solves exactly that: you input the brief and in under a minute you have three complete creative directions. Each one includes a colour palette, typography, cultural references, and an AI-generated moodboard.</p>
+            <p>This isn't an inspiration tool — it's a system that works like an experienced creative director. It analyses the project, makes aesthetic decisions, and gives you three different paths to move forward with.</p>
+            <p>I built it using n8n and Gemini 2.5 Flash, with an auxiliary Node.js server and over 180 structured data fields in JSON format. The final output is automatically assembled into an interactive, navigable HTML deck.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            How it works
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>The full flow: you input the brief as text → the AI acts as a senior creative director and returns a structured JSON with over 180 fields (tone, palettes, typefaces, cultural references, visual keywords…) → one node generates the image URLs → the final node assembles everything into a navigable interactive HTML deck.</p>
+            <p>The visual aesthetic is classical Greek. Think of it as Pinterest, but two thousand years old. Ancient Greece was a source of aesthetic references for the Romans, the Renaissance, and the Bauhaus. That classical style still shapes design today — hence the marble, the bronze, and the Cormorant Garamond typeface. <em>"Olympus decides. Three paths from the same trunk."</em></p>
+            <p>The cover image has a special effect: as you move your cursor, the light shifts and reveals what was hidden behind the white marble — a Greek figure gathering fruit from a tree. The ideas that were waiting there.</p>
           </div>
         </details>
       </div>
@@ -1628,12 +1603,13 @@
         <div class="lume-ctas">
           <a class="finder-btn" href="proyectos/lanzarote/gallery.html">View Full Gallery →</a>
         </div>
-        <details class="lume-accordion">
+        <details class="lume-accordion" open>
           <summary>
-            About the project
+            The project
             <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
+            <p class="rol-badge"><strong>Role:</strong> Art Direction · Photography · Personal Project</p>
             <p>You don't just photograph Lanzarote — you direct it. An island that looks like it was designed by someone obsessed with contrast: volcanic black, whitewashed walls, absolute blue. Before I even picked up the camera, the mood was already clear in my head: raw light, clean framing, people occupying the space without over-posing.</p>
             <p>This project is the result of a week applying the same process I use in any other job: define a vision, make quick decisions about what to include and what to leave out, and execute with intent. There's no production team, but there is direction. Every image serves a purpose.</p>
             <p>Keep what matters. Let go of everything else.</p>
@@ -1699,15 +1675,32 @@
           <img src="proyectos/kiosko/3.webp" alt="Piccadilly Kiosk — view 3">
           <img src="proyectos/kiosko/4.webp" alt="Piccadilly Kiosk — view 4">
         </div>
-        <details class="lume-accordion">
+        <details class="lume-accordion" open>
           <summary>
-            About the project
+            The project
             <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>City Sightseeing Worldwide is the global reference for hop-on hop-off tourist buses, operating in over 130 cities and serving more than 14 million tourists per year.</p>
-            <p>As the designer for the international department, I provided design services to some of the company's most prominent franchises — London, Dubai and Abu Dhabi, among others. I led the complete design process of the physical kiosk located at the Piccadilly Circus underground entrance, one of the most iconic tourist and commercial landmarks in the world.</p>
-            <p>My role was end-to-end: from visual conceptualisation to coordination with the London franchise operator, managing review rounds, on-demand changes and constant communication between teams. It wasn't just about producing graphic assets — it was about maintaining brand coherence in an extremely high-visibility physical environment, ensuring every design decision served both the global City Sightseeing identity and the specific demands of the space.</p>
+            <p class="rol-badge"><strong>Role:</strong> Designer · International Department · City Sightseeing</p>
+            <p>City Sightseeing Worldwide is the largest hop-on/hop-off tourist bus network in the world, operating in 130 cities and serving 14 million tourists per year.</p>
+            <p>Within the international department, I worked on projects for franchises including London, Dubai and Abu Dhabi. One of the most prominent was the physical kiosk at the Piccadilly Circus underground entrance — not a screen, not an app, but a real space in one of the highest footfall locations in Europe.</p>
+            <p><strong>What I delivered:</strong></p>
+            <ul>
+              <li>Full visual concept for the kiosk: identity, signage and spatial composition.</li>
+              <li>Adaptation of the global brand to the London physical environment.</li>
+              <li>Coordination with the London franchise operator, including review rounds, on-demand changes and final sign-off.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Process & management
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>The challenge wasn't just designing something that looked good — it was designing intelligently within a global brand system and making sure everything made it to production without breaking down along the way.</p>
+            <p>I worked from City Sightseeing's brand guidelines and adapted them to the specific demands of the space: physical dimensions, lighting conditions and reading distance. Every decision had to work both on screen and printed at full scale.</p>
+            <p>Project management was just as central as the design itself. Constant communication with the London team, quick turnarounds on last-minute changes, and coordination between the central department and the local franchise to keep brand coherence intact in an environment with no room for error.</p>
           </div>
         </details>
       </div>
@@ -1744,15 +1737,16 @@
             <img src="proyectos/sony/1.webp" alt="Sony Pictures · Monster Hunter 2" style="width:100%;display:block;object-fit:cover" draggable="false">
           </div>
         </div>
-        <details class="lume-accordion">
+        <details class="lume-accordion" open>
           <summary>
-            About the project
+            The project
             <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>For the release of Monster Hunter, Sony Pictures launched an international competition open to all artists. I entered with a flat design illustration — my go-to visual language — created on iPad Pro, a tool I had just added to my workflow and wanted to push further for digital illustration.</p>
-            <p>I almost didn't submit it. It's a global competition with an incredibly high standard. I sent it anyway.</p>
-            <p>The illustration was selected and shared by Sony Pictures' official accounts, the film's official page, and international Sony profiles across more than eight countries: the UK, Russia, Italy, Belgium, Colombia, Latin America, Central America and Ukraine. I was named a finalist.</p>
+            <p class="rol-badge"><strong>Role:</strong> Illustrator · International Competition · Finalist</p>
+            <p>Sony Pictures ran an international illustration competition to launch the Monster Hunter film. My piece was selected as a finalist and shared on Sony Pictures' official social media accounts across more than eight countries: the UK, Russia, Italy, Belgium, Colombia, Latin America, Central America and Ukraine.</p>
+            <p>My illustration is flat design — the visual language I naturally work in. I made it on my iPad Pro, a tool I had just started using. I wanted to see how far I could take it.</p>
+            <p>I almost didn't enter. The competition is open worldwide and the standard is incredibly high. I entered anyway.</p>
           </div>
         </details>
       </div>
@@ -1794,16 +1788,16 @@
         <div class="lume-ctas" style="padding:0 20px 16px">
           <button class="finder-btn" onclick="launchReminderDemo()">See reminder notification →</button>
         </div>
-        <details class="lume-accordion">
+        <details class="lume-accordion" open>
           <summary>
-            Context
+            The project
             <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>It happened to me all the time. Normal Google Calendar notifications just didn't catch my attention. Switching between tabs, windows, focus mode and my workflow made me show up late or miss meetings entirely.</p>
-            <p>I realised the problem wasn't the existence of the notification, but how it looked within the operating system. Most reminders work as secondary desktop elements.</p>
-            <p>I wanted something different: an interaction that was impossible to ignore, but without being aggressive or invasive. So I framed the project as a small experience integrated into macOS.</p>
-            <p>The idea was to turn the start of a meeting into a highly recognisable visual event: a plane crossing the top of the screen carrying a banner with the meeting info and a join button. Instead of a static window or a standard notification, I went for something with movement and narrative.</p>
+            <p class="rol-badge"><strong>Role:</strong> Design + AI-assisted development · Self-initiated · 2026</p>
+            <p>I had a problem with Google Calendar notifications. Switching between screens, focus mode and my workflow meant I kept showing up late to meetings. The problem wasn't that notifications didn't exist — it was that they didn't get my attention.</p>
+            <p>I decided to design and build a solution. I created an animated plane that crosses the screen carrying the meeting info and a direct button to join. It floats over any application, doesn't interrupt my desktop, and disappears automatically when the meeting ends.</p>
+            <p>I built it in Python with AI assistance.</p>
           </div>
         </details>
         <details class="lume-accordion">
