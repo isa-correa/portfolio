@@ -1408,6 +1408,10 @@
           <img src="proyectos/lume-mood/movil4.webp" alt="Lume Mood — screen 4">
           <video src="proyectos/lume-mood/video-lume.mp4" autoplay muted loop playsinline></video>
         </div>
+        <div class="lume-ctas">
+          <a class="finder-btn" href="https://isa-correa.github.io/lume-mood/app.html" target="_blank">View Interactive Prototype →</a>
+          <a class="finder-link" href="https://isa-correa.github.io/lume-mood/" target="_blank">View Process in Detail →</a>
+        </div>
         <!-- Accordions -->
         <details class="lume-accordion" open>
           <summary>
@@ -1498,11 +1502,6 @@
             <p><strong>What I'm taking to the next project:</strong> when product quality lives in behavior, building a functional prototype after the Figma design is worth the extra step — it's not a replacement for the design process, it's a layer on top of it. And using Claude for that prototyping phase radically speeds up iteration on microinteractions without breaking the design workflow.</p>
           </div>
         </details>
-        <!-- CTAs -->
-        <div class="lume-ctas">
-          <a class="finder-btn" href="https://isa-correa.github.io/lume-mood/app.html" target="_blank">View Interactive Prototype →</a>
-          <a class="finder-link" href="https://isa-correa.github.io/lume-mood/" target="_blank">View Process in Detail →</a>
-        </div>
       </div>
     </div>
     <div class="win-resize">⌟</div>
@@ -1533,6 +1532,10 @@
         <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;cursor:zoom-in" onclick="openLightbox([{type:'img',src:'proyectos/phone-pitch/phone-cover.webp'}],0)">
           <img src="proyectos/phone-pitch/phone-cover.webp" alt="The Phone Pitch" style="width:100%;display:block;object-fit:cover" draggable="false">
         </div>
+        <div class="lume-ctas">
+          <a class="finder-btn" href="proyectos/phone-pitch/movil-limpio.html" target="_blank">View Desktop Version →</a>
+          <a class="finder-link view-mobile-btn" href="#" onclick="event.preventDefault();if(window.innerWidth<=768){window.open('proyectos/phone-pitch/movil-limpio.html','_blank');}else{openPhoneModal('proyectos/phone-pitch/movil-limpio.html');}">View Mobile Version →</a>
+        </div>
         <details class="lume-accordion">
           <summary>
             About the project
@@ -1544,10 +1547,6 @@
             <p>Until recently, building something like this required a full team: a developer, an interaction designer, and someone to tie it all together. Now I can do it alone, with full autonomy. Claude is my tool: it turns my design decisions into working code, makes changes in seconds, and lets me reach a level of execution I couldn't have achieved before as a designer.</p>
           </div>
         </details>
-        <div class="lume-ctas">
-          <a class="finder-btn" href="proyectos/phone-pitch/movil-limpio.html" target="_blank">View Desktop Version →</a>
-          <a class="finder-link view-mobile-btn" href="#" onclick="event.preventDefault();if(window.innerWidth<=768){window.open('proyectos/phone-pitch/movil-limpio.html','_blank');}else{openPhoneModal('proyectos/phone-pitch/movil-limpio.html');}">View Mobile Version →</a>
-        </div>
       </div>
     </div>
     <div class="win-resize">⌟</div>
@@ -1630,6 +1629,9 @@
           <img src="proyectos/lanzarote/9.webp" alt="Lanzarote — photo 9">
           <img src="proyectos/lanzarote/pinterest.webp" alt="Lanzarote — Pinterest">
         </div>
+        <div class="lume-ctas">
+          <a class="finder-btn" href="proyectos/lanzarote/gallery.html">View Full Gallery →</a>
+        </div>
         <details class="lume-accordion">
           <summary>
             About the project
@@ -1668,9 +1670,6 @@
             <p>83,682 impressions and a 5.3% engagement rate, all organic. 878 saves, the highest-value action on the platform, indicating genuine content retention and long-term discoverability. 3,579 pin clicks confirm the image holds attention beyond the feed. 38 pins, zero paid promotion.</p>
           </div>
         </details>
-        <div class="lume-ctas">
-          <a class="finder-btn" href="proyectos/lanzarote/gallery.html">View Full Gallery →</a>
-        </div>
       </div>
     </div>
     <div class="win-resize">⌟</div>
@@ -2845,6 +2844,15 @@ function hideMobileNotifs() {
     }
   }, { passive: true });
 })();
+
+document.addEventListener('toggle', function(e) {
+  if (!e.target.matches('details.lume-accordion') || !e.target.open) return;
+  var container = e.target.closest('.project-meta');
+  if (!container) return;
+  container.querySelectorAll('details.lume-accordion').forEach(function(d) {
+    if (d !== e.target) d.removeAttribute('open');
+  });
+}, true);
 
 </script>
 
