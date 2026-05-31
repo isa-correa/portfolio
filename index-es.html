@@ -917,6 +917,15 @@
 
     /* WIN-ABOUT foto más pequeña */
     #win-about img[alt="Isa Correa"] { width: 80px !important; height: 80px !important; }
+
+    /* SCROLL en iOS */
+    .win-body { -webkit-overflow-scrolling: touch; }
+
+    /* PROJECT WINDOWS: padding-bottom para que el contenido no quede cortado */
+    .project-meta { padding-bottom: 28px !important; }
+
+    /* LUME-MEDIA: 2 columnas en móvil (en vez de 4) */
+    .lume-media { grid-template-columns: repeat(2, 1fr) !important; }
   }
 </style>
 <!-- Google tag (gtag.js) -->
