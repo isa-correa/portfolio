@@ -2366,6 +2366,7 @@ function switchTab(tabId) {
 function sendMail() {
   const subject = document.getElementById('mail-subject').textContent || 'Hola Isa';
   const body = document.getElementById('mail-body').value || '';
+  gtag('event', 'contact_form_send', { page_language: 'es' });
   window.location.href = `mailto:isacorreaur@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
@@ -2996,5 +2997,55 @@ document.addEventListener('toggle', function(e) {
   </section>
 
 </main>
+
+<script>
+// ── GA4 CLICK TRACKING ────────────────────────────────────────────────────────
+(function() {
+  var LANG = 'es';
+
+  document.addEventListener('click', function(e) {
+    var t = e.target.closest('a, [data-win], .dock-item, .mail-send-blue, .mail-send-mobile, .notif');
+    if (!t) return;
+
+    // Proyectos: iconos del escritorio
+    if (t.dataset && t.dataset.win) {
+      gtag('event', 'project_open', { project_name: t.dataset.win, page_language: LANG });
+
+    // Notificaciones flotantes
+    } else if (t.classList.contains('notif')) {
+      gtag('event', 'project_open', { project_name: t.id, page_language: LANG });
+
+    // Iconos del dock
+    } else if (t.classList.contains('dock-item')) {
+      var tooltip = t.querySelector('.dock-tooltip');
+      gtag('event', 'dock_click', { app_name: tooltip ? tooltip.textContent.trim() : 'unknown', page_language: LANG });
+
+    // LinkedIn
+    } else if (t.href && t.href.indexOf('linkedin.com') !== -1) {
+      gtag('event', 'social_click', { platform: 'linkedin', page_language: LANG });
+
+    // mailto
+    } else if (t.href && t.href.indexOf('mailto:') === 0) {
+      var rawSubject = t.href.split('subject=')[1] || '';
+      var subject = decodeURIComponent(rawSubject.split('&')[0]);
+      var isCVRequest = subject.toLowerCase().indexOf('cv') !== -1;
+      gtag('event', isCVRequest ? 'cv_request' : 'contact_email_click', { subject: subject, page_language: LANG });
+
+    // tel:
+    } else if (t.href && t.href.indexOf('tel:') === 0) {
+      gtag('event', 'contact_phone_click', { page_language: LANG });
+
+    // Botón Send del formulario (por si acaso el onclick no llega a sendMail)
+    } else if (t.classList.contains('mail-send-blue') || t.classList.contains('mail-send-mobile')) {
+      // ya cubierto por sendMail(), no duplicar
+
+    // Enlace externo (prototipos, certificados, etc.)
+    } else if (t.href && t.href.indexOf(location.origin) !== 0 &&
+               t.href.indexOf('mailto:') !== 0 && t.href.indexOf('tel:') !== 0) {
+      gtag('event', 'outbound_link_click', { url: t.href, link_text: t.textContent.trim().slice(0, 100), page_language: LANG });
+    }
+  });
+})();
+</script>
 </body>
 </html>
