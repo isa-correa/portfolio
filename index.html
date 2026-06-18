@@ -781,6 +781,7 @@
     .file-icon .thumb img { width: 68px !important; }
     #file-briefcanvas .thumb img { width: 90px !important; }
     #file-calendar-notification .thumb img { width: 90px !important; }
+    #file-origami .thumb img { width: 90px !important; }
     .file-icon .fname { font-size: 12px; }
 
     /* WINDOWS - centradas horizontal; el JS centra vertical */
@@ -1074,6 +1075,13 @@
         <img src="proyectos/sony/monster-hunter-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
       </div>
       <div class="fname">Sony-Pictures</div>
+    </div>
+
+    <div class="file-icon" id="file-origami" data-win="win-origami">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/origami/png/avion-icon.webp" draggable="false" style="width:110px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">origami-live</div>
     </div>
 
     <div class="file-icon" id="file-calendar-notification" data-win="win-calendar-notification">
@@ -1763,6 +1771,82 @@
     <div class="win-resize">⌟</div>
   </div>
 
+  <div class="window project-window" id="win-origami" style="top:130px;left:340px;width:555px;height:500px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-origami')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-origami')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-origami')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">origami.live</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Web · Interactivity · Vibe Coding · Conceptual</div>
+        <div class="project-title">Interactive Experience · Origami</div>
+        <div class="project-tags">
+          <span class="project-tag">Web</span>
+          <span class="project-tag">Interactivity</span>
+          <span class="project-tag">Vibe Coding</span>
+          <span class="project-tag">Animation</span>
+          <span class="project-tag">Conceptual</span>
+        </div>
+        <div style="margin:14px 20px 16px;border-radius:10px;overflow:hidden;background:#000;position:relative">
+          <video
+            src="proyectos/origami/origami.mp4"
+            poster="proyectos/origami/cover-video.webp"
+            preload="none"
+            controls
+            playsinline
+            style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+          ></video>
+        </div>
+        <div class="lume-ctas" style="padding: 0 20px 16px">
+          <a class="finder-btn" href="proyectos/origami/index.html" target="_blank">See project →</a>
+        </div>
+        <details class="lume-accordion" open>
+          <summary>
+            The project
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p class="rol-badge"><strong>Role:</strong> Design + AI-assisted development · Self-initiated · 2026</p>
+            <p>I built a website that reacts to your hand movement, and then you can doodle on it.</p>
+            <p>Close your fist and a paper plane transforms into a star and then into a crumpled ball. Open your hand and the cycle reverses. "Destroying is a way of creating."</p>
+            <p>The interior is a grid-paper notebook where you can draw freely with a pencil or fluorescent markers.</p>
+            <p>It's a conceptual landing about origami. Two distinct interactive experiences that together form something coherent: a notebook that first surprises you on the cover and then invites you to mess it up and make it yours.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Design
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>The cover works with the camera. Close your fist and a paper plane transforms into a star and then into a crumpled ball. Open your hand and the cycle reverses.</p>
+            <p>Destroying is another way of creating. On the way to coming apart, something appears. An intermediate form. Possibility in transit.</p>
+            <p>The plane → star → ball sequence wasn't a visual whim: it's the argument of the project. The intermediate step was necessary for the metaphor to really work.</p>
+            <p>The interior is a grid-paper notebook where you can draw freely with a pencil or fluorescent markers, no instructions. The cover generates the moment of surprise. The interior gives the space to stay.</p>
+            <p>The entire visual language — cream palette, fluorescent accents in pink, cyan and yellow, low-poly aesthetic — revolves around paper as material, process and possibility.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Interaction &amp; Technical
+            <svg class="acc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>The gestural interaction uses MediaPipe Hands for real-time hand detection. The gesture acts as a trigger between two states, not as continuous frame-by-frame control.</p>
+            <p>That decision was deliberate: continuous control would have been more spectacular on paper, but it was fragile and put technology ahead of experience. A clean trigger between states gives fluidity, robustness and confidence. In interaction design, confidence is the most important metric.</p>
+            <p>The interior drawing mode uses an overlaid canvas with pointer events, pencil with line-width variation and markers with ink behaviour. Two tools, two visual personalities, no instructions needed.</p>
+            <p>All the development was done with AI-assisted programming, which let me tackle technical challenges outside my usual stack — cross-browser compatibility, real-time detection performance, visual state compositing — while staying focused on design and experience decisions.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
   <div class="window project-window" id="win-calendar-notification" style="top:130px;left:340px;width:555px;height:500px">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-calendar-notification')">
       <div class="win-buttons">
@@ -2188,7 +2272,8 @@ updateClock(); setInterval(updateClock, 1000);
     'file-piccadilly':{ x: cx - 240, y: 370 },
     'file-briefcanvas':{ x: cx -  20, y: 420 },
     'file-sony':      { x: cx + 200, y: 350 },
-    'file-calendar-notification': { x: cx - 440, y: 330 }
+    'file-calendar-notification': { x: cx - 440, y: 330 },
+    'file-origami':               { x: cx - 600, y: 240 }
   };
   const minX = 60;
   const maxX = window.innerWidth - 120;
@@ -2974,6 +3059,12 @@ document.addEventListener('toggle', function(e) {
       <h3>Calendar-Reminder — macOS UX Productivity Tool</h3>
       <p>macOS · Vibe Coding · Google Calendar · UX · Animation · Productivity</p>
       <p>A custom macOS notification system for Google Calendar meetings: a plane animation crossing the top of the screen carrying a banner with the meeting info and a direct join button. Designed to solve the problem of missing meetings due to standard notifications blending into background noise.</p>
+    </article>
+
+    <article>
+      <h3>origami.live — Interactive Web Experience</h3>
+      <p>Web · Interactivity · Vibe Coding · Animation · Conceptual · MediaPipe</p>
+      <p>A conceptual landing about origami with two interactive experiences. The cover uses MediaPipe Hands for real-time hand gesture detection: closing a fist transforms a paper plane into a star and then a crumpled ball; opening the hand reverses the cycle. The interior is a grid-paper notebook where users can draw freely with a pencil or fluorescent markers. Built with AI-assisted programming.</p>
     </article>
   </section>
 
