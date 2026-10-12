@@ -119,6 +119,51 @@
   .lang-other { color:rgba(255,255,255,0.38); text-decoration:none; font-weight:400; transition:color 0.15s; }
   .lang-other:hover { color:rgba(255,255,255,0.8); }
 
+  /* ── SPOTLIGHT ──────────────────────────────────── */
+  #menubar .spotlight-btn { display:flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:3px; cursor:pointer; color: rgba(255,255,255,0.75); transition: color 0.15s; }
+  #menubar .spotlight-btn:hover, #menubar .spotlight-btn:focus-visible { color:#fff; outline:none; }
+  #menubar .spotlight-btn:focus-visible { box-shadow: 0 0 0 2px rgba(255,255,255,0.7); }
+  #menubar .right .spotlight-btn svg { fill: none; stroke: currentColor; }
+
+  #spotlight { position: fixed; inset: 0; z-index: 100000; display: none; }
+  #spotlight.open { display: block; }
+  #spotlight .sp-box {
+    position: absolute; top: 18%; left: 50%;
+    width: min(640px, calc(100vw - 24px));
+    transform: translateX(-50%);
+    background: rgba(242,238,232,0.98);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12);
+    overflow: hidden;
+    font-family: var(--sans);
+    animation: spotlightIn 0.25s ease-out;
+  }
+  @keyframes spotlightIn { from { opacity: 0; transform: translateX(-50%) scale(0.97); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+  #spotlight .sp-field { display:flex; align-items:center; gap:12px; padding: 14px 18px; }
+  #spotlight .sp-field svg { flex-shrink:0; color: var(--text-light); }
+  #spotlight .sp-input { flex:1; min-width:0; border:none; outline:none; background:transparent; font: inherit; font-size: 20px; color: var(--text); user-select: text; -webkit-user-select: text; }
+  #spotlight .sp-input::placeholder { color: var(--text-light); }
+  #spotlight .sp-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.6s cubic-bezier(0.22, 0.8, 0.3, 1); }
+  #spotlight .sp-more-in { min-height: 0; overflow: hidden; opacity: 0; transition: opacity 0.4s ease 0.15s; }
+  #spotlight.expanded .sp-more { grid-template-rows: 1fr; }
+  #spotlight.expanded .sp-more-in { opacity: 1; }
+  #spotlight .sp-list { max-height: min(420px, 56vh); overflow-y: auto; padding: 4px 8px 8px; border-top: 1px solid rgba(0,0,0,0.08); }
+  #spotlight .sp-list:empty { display:none; }
+  #spotlight .sp-group { padding: 10px 10px 4px; font-size: 13px; font-weight: 600; color: var(--text-light); }
+  #spotlight .sp-row { display:flex; align-items:center; gap:12px; padding: 6px 10px; border-radius: 3px; cursor: default; color: var(--text); }
+  #spotlight .sp-row img { width: 32px; height: 32px; object-fit: contain; flex-shrink:0; pointer-events:none; -webkit-user-drag:none; }
+  #spotlight .sp-text { flex:1; min-width:0; display:flex; flex-direction:column; }
+  #spotlight .sp-name { font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #spotlight .sp-desc { font-size: 13px; color: var(--text-mid); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #spotlight .sp-enter { font-size: 13px; opacity: 0; }
+  #spotlight .sp-row[aria-selected="true"] { background: rgba(0,100,215,0.85); color: #fff; }
+  #spotlight .sp-row[aria-selected="true"] .sp-desc { color: rgba(255,255,255,0.85); }
+  #spotlight .sp-row[aria-selected="true"] .sp-enter { opacity: 1; }
+  #spotlight .sp-empty { padding: 18px 12px; font-size: 15px; color: var(--text-mid); }
+  #spotlight .sp-foot { display:flex; gap:16px; padding: 8px 18px; border-top: 1px solid rgba(0,0,0,0.08); font-size: 13px; color: var(--text-mid); }
+  @media (prefers-reduced-motion: reduce) { #spotlight .sp-box { animation: none; } #spotlight .sp-more, #spotlight .sp-more-in { transition: none; } }
+
   /* ── DESKTOP AREA ────────────────────────────────── */
   #workspace {
     position: fixed;
@@ -433,16 +478,50 @@
     overflow: hidden;
     position: relative;
   }
-  .dock-tooltip {
-    position: absolute; bottom: calc(100% + 10px);
-    left: 50%; transform: translateX(-50%);
-    background: rgba(40,40,40,0.88);
-    color: #fff; font-size:13px; font-weight: 500;
-    padding: 4px 10px; border-radius: 7px;
-    white-space: nowrap; pointer-events: none;
-    opacity: 0; transition: opacity 0.15s;
+  /* luz bajo las apps abiertas */
+  .dock-item::after {
+    content: ''; position: absolute; top: calc(100% + 2px); left: 50%;
+    width: 4px; height: 4px; margin-left: -2px; border-radius: 50%;
+    background: var(--text-mid);
+    opacity: 0; transform: scale(0.3);
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .dock-item:hover .dock-tooltip { opacity: 1; }
+  .dock-item.is-open::after { opacity: 1; transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) { .dock-item::after { transition: none; } }
+  /* bote del dock al abrir */
+  .dock-icon.dock-bounce { animation: dockBounce 1s linear; }
+  @keyframes dockBounce {
+    0%   { transform: translateY(0);     animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+    45%  { transform: translateY(-12px); animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5); }
+    90%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .dock-icon.dock-bounce { animation: none; } }
+  .dock-tooltip {
+    position: absolute; bottom: calc(100% + 19px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px) scale(0.6);
+    transform-origin: 50% 100%;
+    background: rgba(40,40,40,0.92);
+    color: #fff; font-size:13px; font-weight: 500;
+    padding: 5px 11px; border-radius: 8px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0;
+    z-index: 3;
+  }
+  .dock-tooltip::after {
+    content: ''; position: absolute; top: 100%; left: 50%;
+    width: 12px; height: 7px; transform: translateX(-50%);
+    background: inherit;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+  .dock-item:hover { z-index: 2; }
+  .dock-item:hover .dock-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    transition: opacity 0.12s ease-out, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @media (prefers-reduced-motion: reduce) { .dock-item:hover .dock-tooltip { transition: none; } }
   .dock-separator {
     width: 1px; height: 40px;
     background: rgba(0,0,0,0.15);
@@ -757,6 +836,12 @@
 
     /* MENUBAR */
     #menubar .menu-items span:not(:first-child) { display: none; }
+    #menubar { padding: 0 10px 0 8px; }
+    #menubar .apple { margin-right: 8px; }
+    #menubar .right { gap: 10px; }
+    #spotlight .sp-box { top: 44px; }
+    #spotlight .sp-list { max-height: 50vh; }
+    #spotlight .sp-foot { display: none; }
 
     /* WORKSPACE - 3-col grid centrado vertical + horizontal */
     #workspace {
@@ -1021,6 +1106,7 @@
     <div class="right">
       <span><svg width="18" height="12" viewBox="0 0 22 13" fill="none"><rect x="0.5" y="0.5" width="18" height="12" rx="2.5" stroke="currentColor" stroke-opacity="0.6"/><rect x="2" y="2" width="14" height="9" rx="1.5" fill="currentColor" fill-opacity="0.7"/><path d="M19.5 4.5v4c1-.67 1.5-1.2 1.5-2s-.5-1.33-1.5-2z" fill="currentColor" fill-opacity="0.4"/></svg></span>
       <span><svg width="14" height="12" viewBox="0 0 22 18" fill="currentColor" opacity="0.7"><path d="M11 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM.41 5.35a15 15 0 0 1 21.18 0l-2.12 2.12a12 12 0 0 0-16.94 0L.41 5.35zM4.65 9.59a9 9 0 0 1 12.7 0l-2.12 2.12a6 6 0 0 0-8.48 0L4.65 9.59z"/></svg></span>
+      <span class="spotlight-btn" id="spotlight-btn" role="button" tabindex="0" aria-label="Search" title="Search (⌘ space)" onclick="openSpotlight()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSpotlight();}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></span>
       <span class="lang-switch">
         <span class="lang-current">EN</span>
         <span class="lang-sep">·</span>
@@ -1186,7 +1272,8 @@
             <h3 style="margin-bottom:10px">I can do...</h3>
             <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Anything</div>
             <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Experience design for AI agents & tools</div>
-            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Design systems & product design</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Design systems</div>
+            <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Product design</div>
             <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI creative production · end-to-end</div>
             <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Art Direction & Creative Direction</div>
             <div class="can-do-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0"><circle cx="9" cy="9" r="9" fill="#f0a500"/><path d="M5 9.2l2.6 2.6L13 6.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Motion graphics & AI video production</div>
@@ -2240,6 +2327,20 @@
 
 </div><!-- /desktop -->
 
+<!-- SPOTLIGHT -->
+<div id="spotlight" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="sp-box">
+    <div class="sp-field">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <input class="sp-input" id="sp-input" type="text" role="combobox" aria-expanded="true" aria-controls="sp-list" aria-autocomplete="list" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Search projects, apps and more">
+    </div>
+    <div class="sp-more"><div class="sp-more-in">
+    <div class="sp-list" id="sp-list" role="listbox" aria-label="Results"></div>
+    <div class="sp-foot"><span>↑↓ move</span><span>↵ open</span><span>esc close</span></div>
+    </div></div>
+  </div>
+</div>
+
 <!-- REMINDER OVERLAY -->
 <iframe id="reminder-overlay"
   src=""
@@ -2995,6 +3096,189 @@ document.addEventListener('toggle', function(e) {
   });
 }, true);
 
+</script>
+
+<script>
+// ── SPOTLIGHT ─────────────────────────────────────────────────────────────────
+(function () {
+  var ES = document.documentElement.lang.indexOf('es') === 0;
+  function t(es, en) { return ES ? es : en; }
+  var G = { p: t('Proyectos', 'Projects'), a: t('Aplicaciones', 'Apps'), s: t('Sobre mí', 'About me') };
+  var K = { p: t('Proyecto', 'Project'), a: t('App', 'App'), s: t('Sobre mí', 'About me') };
+
+  var items = [
+    { g:'p', icon:'proyectos/lume-mood/lume-mood-cover.webp', win:'win-lume',
+      n:'Lume Mood', d:t('App iOS de seguimiento emocional','iOS app for emotional check-ins'),
+      k:'ios app producto product design system figma emocional ux mood prototipo' },
+    { g:'p', icon:'proyectos/briefcanvas/briefcanvas-icon.webp', win:'win-briefcanvas',
+      n:'BriefCanvas', d:t('Agente de ideación creativa en n8n','Creative ideation agent built in n8n'),
+      k:'n8n agente agent ia ai gemini brief workflow automatizacion automation direccion creativa' },
+    { g:'p', icon:'proyectos/phone-pitch/phone-cover.webp', win:'win-phone',
+      n:'The Phone Pitch', d:t('Estrategia en HTML interactivo','Strategy deck as interactive HTML'),
+      k:'html interactivo claude code vibe coding presentacion pitch estrategia telefonia' },
+    { g:'p', icon:'proyectos/kiosko/kiosko-cover.webp', win:'win-piccadilly',
+      n:'Piccadilly Kiosk', d:t('Diseño ambiental, Londres 2025','Environmental design, London 2025'),
+      k:'londres london city sightseeing kiosco kiosk senaletica signage branding ambiental' },
+    { g:'p', icon:'proyectos/lanzarote/cover-lanzarote.webp', win:'win-lanza',
+      n:'Lanzarote Photoshoot', d:t('Fotografía lifestyle y dirección de arte','Lifestyle photography and art direction'),
+      k:'foto fotografia photo photography pinterest lanzarote editorial' },
+    { g:'p', icon:'proyectos/sony/monster-hunter-cover.webp', win:'win-sony',
+      n:'Sony Pictures', d:t('Ilustración finalista, Monster Hunter','Finalist illustration, Monster Hunter'),
+      k:'ilustracion illustration monster hunter ipad concurso contest finalista' },
+    { g:'p', icon:'proyectos/origami/png/avion-icon.webp', win:'win-origami',
+      n:'origami.live', d:t('Experiencia web interactiva con gestos','Interactive web experience with hand gestures'),
+      k:'mediapipe canvas web animacion animation gestos gestures interactividad' },
+    { g:'p', icon:'proyectos/notificacion-calendar/icon.webp', win:'win-calendar-notification',
+      n:'Calendar Reminder', d:t('Notificación personalizada para macOS','Custom notification for macOS'),
+      k:'macos python calendar calendario notificacion notification ux reuniones' },
+
+    { g:'a', icon:'icons/figma.webp', win:'win-figma', n:'Figma', d:t('Cómo trabajo en Figma','How I work in Figma'), k:'figma diseno design ui' },
+    { g:'a', icon:'icons/claude.webp', win:'win-claude', n:t('Herramientas IA','AI Tools'), d:'Claude Code, Runway, Midjourney, Gemini', k:'claude code runway midjourney gemini firefly ia ai herramientas tools llm' },
+    { g:'a', icon:'icons/creative.webp', win:'win-adobe', n:'Adobe', d:'After Effects, Photoshop, Illustrator, Premiere', k:'adobe after effects photoshop illustrator premiere indesign lightroom motion video' },
+    { g:'a', icon:'icons/teams1.webp', win:'win-teams', n:'Teams', d:t('Cómo colaboro con equipos','How I work with teams'), k:'teams equipo team colaboracion collaboration slack jira notion' },
+    { g:'a', icon:'icons/mail.webp', win:'win-mail', n:t('Contacto','Contact'), d:t('Escríbeme','Send me a message'), k:'contacto contact mail email correo linkedin hablar hire contratar' },
+    { g:'a', icon:'icons/trash.webp', win:'win-trash', n:t('Papelera','Trash'), d:t('Lo que no cabe en el CV','What did not fit in the CV'), k:'papelera trash curiosidades fun viajes travel' },
+    { g:'a', icon:'icons/wallpaper/main.webp', win:'win-wallpaper', n:t('Fondo de pantalla','Wallpaper'), d:t('Cambia el fondo del escritorio','Change the desktop background'), k:'fondo wallpaper pantalla escritorio desktop' },
+
+    { g:'s', icon:'icons/notas.webp', win:'win-about', tab:'tab-about', n:t('Sobre mí','About me'), d:t('Quién hay detrás del portfolio','Who is behind the portfolio'), k:'perfil bio quien isa isabel correa profile' },
+    { g:'s', icon:'icons/notas.webp', win:'win-about', tab:'tab-exp', n:t('Experiencia','Experience'), d:'Plexus Tech, Accenture, City Sightseeing, Hannun', k:'plexus tech accenture bbva city sightseeing hannun eye trabajo empleo cv curriculum experiencia profesional agente accesibilidad accessibility agent' },
+    { g:'s', icon:'icons/notas.webp', win:'win-about', tab:'tab-skills', n:t('Habilidades','Skills'), d:t('IA y producto, diseño, desarrollo, idiomas','AI and product, design, development, languages'), k:'skills habilidades herramientas tools n8n llm agentic design systems ux research prompt idiomas languages ingles' },
+    { g:'s', icon:'icons/notas.webp', win:'win-about', tab:'tab-certs', n:t('Certificaciones','Certifications'), d:'Anthropic, Runway, Google, Microsoft', k:'certificaciones certificados certifications anthropic claude runway google gemini microsoft copilot' },
+    { g:'s', icon:'icons/notas.webp', win:'win-about', tab:'tab-edu', n:t('Formación','Education'), d:t('Udacity y Universidad de Córdoba','Udacity and Universidad de Córdoba'), k:'formacion education udacity universidad cordoba nanodegree grado diseno grafico product manager ux estudios' }
+  ];
+
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  items.forEach(function (it) { it.h = norm(it.n + ' ' + it.d + ' ' + it.k + ' ' + K[it.g]); it.nn = norm(it.n); });
+
+  var root = document.getElementById('spotlight');
+  var input = document.getElementById('sp-input');
+  var list = document.getElementById('sp-list');
+  var shown = [], sel = 0, lastFocus = null, expandTimer = null;
+  function reduceMotion() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+  function search(q) {
+    q = norm(q).trim();
+    if (!q) return items.slice();
+    var words = q.split(/\s+/);
+    var out = [];
+    items.forEach(function (it) {
+      if (!words.every(function (w) { return it.h.indexOf(w) !== -1; })) return;
+      var score = it.nn.indexOf(q) === 0 ? 0 : it.nn.indexOf(q) > 0 ? 1 : words.every(function (w) { return it.nn.indexOf(w) !== -1; }) ? 2 : 3;
+      out.push({ it: it, score: score });
+    });
+    out.sort(function (a, b) { return a.score - b.score; });
+    return out.map(function (o) { return o.it; });
+  }
+
+  function render() {
+    shown = search(input.value);
+    if (sel >= shown.length) sel = 0;
+    list.innerHTML = '';
+    if (!shown.length) {
+      var e = document.createElement('div');
+      e.className = 'sp-empty';
+      e.textContent = t('Sin resultados para «', 'No results for "') + input.value.trim() + t('»', '"');
+      list.appendChild(e);
+      input.removeAttribute('aria-activedescendant');
+      return;
+    }
+    var lastG = null;
+    shown.forEach(function (it, i) {
+      if (it.g !== lastG) {
+        var h = document.createElement('div');
+        h.className = 'sp-group'; h.setAttribute('role', 'presentation'); h.textContent = G[it.g];
+        list.appendChild(h); lastG = it.g;
+      }
+      var r = document.createElement('div');
+      r.className = 'sp-row'; r.id = 'sp-opt-' + i; r.setAttribute('role', 'option');
+      r.setAttribute('aria-selected', i === sel ? 'true' : 'false');
+      r.innerHTML = '<img alt=""><span class="sp-text"><span class="sp-name"></span><span class="sp-desc"></span></span><span class="sp-enter" aria-hidden="true">↵</span>';
+      r.querySelector('img').src = it.icon;
+      r.querySelector('.sp-name').textContent = it.n;
+      r.querySelector('.sp-desc').textContent = it.d;
+      r.addEventListener('mousemove', function () { if (sel !== i) { setSel(i, false); } });
+      r.addEventListener('click', function () { run(it); });
+      list.appendChild(r);
+    });
+    input.setAttribute('aria-activedescendant', 'sp-opt-' + sel);
+  }
+
+  function setSel(i, scroll) {
+    var rows = list.querySelectorAll('.sp-row');
+    if (!rows.length) return;
+    rows[sel] && rows[sel].setAttribute('aria-selected', 'false');
+    sel = (i + rows.length) % rows.length;
+    rows[sel].setAttribute('aria-selected', 'true');
+    input.setAttribute('aria-activedescendant', rows[sel].id);
+    if (scroll !== false) rows[sel].scrollIntoView({ block: 'nearest' });
+  }
+
+  function run(it) {
+    closeSpotlight(true);
+    openWindow(it.win);
+    if (window.bounceDock) bounceDock(it.win);
+    if (it.tab) switchTab(it.tab);
+  }
+
+  window.openSpotlight = function () {
+    if (root.classList.contains('open')) { input.focus(); return; }
+    lastFocus = document.activeElement;
+    input.value = ''; sel = 0; render();
+    root.classList.add('open');
+    input.focus();
+    clearTimeout(expandTimer);
+    expandTimer = setTimeout(function () { root.classList.add('expanded'); }, reduceMotion() ? 0 : 320);
+  };
+  window.closeSpotlight = function (skipRestore) {
+    clearTimeout(expandTimer);
+    root.classList.remove('open', 'expanded');
+    if (!skipRestore && lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+  };
+
+  input.addEventListener('input', function () { sel = 0; render(); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setSel(sel + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setSel(sel - 1); }
+    else if (e.key === 'Enter') { e.preventDefault(); if (shown[sel]) run(shown[sel]); }
+  });
+  root.addEventListener('mousedown', function (e) { if (e.target === root) closeSpotlight(); });
+
+  document.addEventListener('keydown', function (e) {
+    var open = root.classList.contains('open');
+    var combo = (e.metaKey || e.ctrlKey) && (e.code === 'Space' || e.key.toLowerCase() === 'k');
+    if (combo) { e.preventDefault(); open ? closeSpotlight() : window.openSpotlight(); return; }
+    if (e.key === 'Escape' && open) { e.preventDefault(); closeSpotlight(); }
+  }, true);
+})();
+</script>
+
+<script>
+// ── DOCK: bote al abrir ───────────────────────────────────────────────────────
+window.bounceDock = function (winId) {
+  var item = document.querySelector('.dock-item[onclick*="\'' + winId + '\'"]');
+  var icon = item && item.querySelector('.dock-icon');
+  if (!icon) return;
+  icon.classList.remove('dock-bounce');
+  void icon.offsetWidth;
+  icon.classList.add('dock-bounce');
+};
+document.querySelectorAll('.dock-item').forEach(function (item) {
+  var icon = item.querySelector('.dock-icon');
+  if (!icon) return;
+  item.addEventListener('click', function () { icon.classList.remove('dock-bounce'); void icon.offsetWidth; icon.classList.add('dock-bounce'); });
+  icon.addEventListener('animationend', function () { icon.classList.remove('dock-bounce'); });
+});
+// luz bajo las apps abiertas
+(function () {
+  document.querySelectorAll('.dock-item').forEach(function (item) {
+    var m = /openWindow\('([^']+)'\)/.exec(item.getAttribute('onclick') || '');
+    var w = m && document.getElementById(m[1]);
+    if (!w) return;
+    function sync() { item.classList.toggle('is-open', w.classList.contains('visible')); }
+    new MutationObserver(sync).observe(w, { attributes: true, attributeFilter: ['class'] });
+    sync();
+  });
+})();
 </script>
 
 <!-- SEO semantic layer: all content structured for search engine indexing. Visually hidden, fully crawlable. -->
