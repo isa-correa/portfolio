@@ -736,11 +736,23 @@
   /* ── LIGHTBOX ────────────────────────────────────── */
   #lightbox {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.93);
+    background: rgba(0,0,0,0.55);
+    -webkit-backdrop-filter: blur(22px) saturate(1.1);
+    backdrop-filter: blur(22px) saturate(1.1);
     z-index: 999999;
-    display: none; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.28s ease, visibility 0s linear 0.28s;
   }
-  #lightbox.open { display: flex; }
+  #lightbox.open {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity 0.28s ease, visibility 0s;
+  }
+  #lightbox:not(.open) #lb-content > * { transform: scale(0.94); }
+  #lb-content > * { transition: transform 0.28s cubic-bezier(.4,0,.2,1); }
+  @media (prefers-reduced-motion: reduce) {
+    #lightbox, #lightbox.open, #lb-content > * { transition: none; }
+  }
   #lb-content { display: flex; align-items: center; justify-content: center; }
   #lb-content img, #lb-content video {
     max-width: 88vw; max-height: 88vh;
@@ -2979,6 +2991,7 @@ let lbItems = [], lbCurrent = 0;
 
 function openLightbox(items, index) {
   lbItems = items; lbCurrent = index;
+  clearTimeout(lbClearTimer);
   renderLbItem();
   document.getElementById('lightbox').classList.add('open');
 }
@@ -3001,9 +3014,15 @@ function renderLbItem() {
 function lbNext() { lbCurrent = (lbCurrent + 1) % lbItems.length; renderLbItem(); }
 function lbPrev() { lbCurrent = (lbCurrent - 1 + lbItems.length) % lbItems.length; renderLbItem(); }
 
+let lbClearTimer = null;
 function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.getElementById('lb-content').innerHTML = '';
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('open')) return;
+  lb.classList.remove('open');
+  const wrap = document.getElementById('lb-content');
+  wrap.querySelectorAll('video').forEach(v => { try { v.pause(); } catch (e) {} });
+  clearTimeout(lbClearTimer);
+  lbClearTimer = setTimeout(() => { if (!lb.classList.contains('open')) wrap.innerHTML = ''; }, 320);
 }
 
 // Click outside to close

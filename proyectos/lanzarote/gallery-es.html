@@ -309,9 +309,22 @@
   /* ── LIGHTBOX ────────────────────────────────────── */
   #lightbox {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.55);
+    -webkit-backdrop-filter: blur(22px) saturate(1.1);
+    backdrop-filter: blur(22px) saturate(1.1);
     z-index: 999999;
-    display: none; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.28s ease, visibility 0s linear 0.28s;
+  }
+  #lightbox.open { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.28s ease, visibility 0s; }
+  #lightbox:not(.open) #lb-img { transform: scale(0.94); transition: transform 0.28s cubic-bezier(.4,0,.2,1); }
+
+  /* salida de la página hacia el escritorio */
+  body.loaded.leaving { opacity: 0; transition: opacity 0.4s cubic-bezier(.4,0,.2,1); }
+  body.leaving .window { transform: scale(0.97); transition: transform 0.4s cubic-bezier(.4,0,.2,1); }
+  @media (prefers-reduced-motion: reduce) {
+    #lightbox, #lightbox.open, #lightbox:not(.open) #lb-img, body.loaded.leaving, body.leaving .window { transition: none; }
   }
   #lb-img {
     max-width: 90vw; max-height: 90vh;
@@ -440,7 +453,7 @@
 <div class="window visible" style="width:calc(100vw - 120px);height:calc(100vh - 120px);top:50px;left:60px;position:fixed;display:flex;flex-direction:column;">
   <div class="win-titlebar">
     <div class="win-buttons">
-      <button class="win-btn close" onclick="window.location.href='../../index-es.html'"><span class="btn-icon">✕</span></button>
+      <button class="win-btn close" onclick="goHome('../../index-es.html')"><span class="btn-icon">✕</span></button>
       <button class="win-btn minimize"><span class="btn-icon">−</span></button>
       <button class="win-btn maximize"><span class="btn-icon">+</span></button>
     </div>
@@ -522,36 +535,36 @@
 </div>
 
 <!-- BACK BUTTON (mobile only) -->
-<a id="mobile-back-btn" href="../../index-es.html" style="position:fixed;top:12px;left:12px;z-index:200;align-items:center;gap:5px;background:rgba(0,0,0,0.38);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;border-radius:20px;padding:7px 14px 7px 10px;color:#fff;font-size:15px;font-weight:500;text-decoration:none;cursor:pointer">
+<a id="mobile-back-btn" href="../../index-es.html" onclick="goHome(this.getAttribute('href'));return false;" style="position:fixed;top:12px;left:12px;z-index:200;align-items:center;gap:5px;background:rgba(0,0,0,0.38);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;border-radius:20px;padding:7px 14px 7px 10px;color:#fff;font-size:15px;font-weight:500;text-decoration:none;cursor:pointer">
   <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 2 2 8 8 14"/></svg>
   Volver
 </a>
 
 <!-- DOCK -->
 <div id="dock">
-  <div class="dock-item" onclick="window.location.href='../../index-es.html'">
+  <div class="dock-item" onclick="goHome('../../index-es.html')">
     <div class="dock-icon di-figma"><img src="../../icons/figma.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
     <div class="dock-tooltip">Figma</div>
   </div>
 
-  <div class="dock-item" onclick="window.location.href='../../index-es.html'">
+  <div class="dock-item" onclick="goHome('../../index-es.html')">
     <div class="dock-icon di-claude"><img src="../../icons/claude.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
     <div class="dock-tooltip">Claude</div>
   </div>
 
-  <div class="dock-item" onclick="window.location.href='../../index-es.html'">
+  <div class="dock-item" onclick="goHome('../../index-es.html')">
     <div class="dock-icon di-cc"><img src="../../icons/creative.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
     <div class="dock-tooltip">Adobe</div>
   </div>
 
   <div class="dock-separator"></div>
 
-  <div class="dock-item" onclick="window.location.href='../../index-es.html'">
+  <div class="dock-item" onclick="goHome('../../index-es.html')">
     <div class="dock-icon di-mail"><img src="../../icons/mail.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
     <div class="dock-tooltip">Contacto</div>
   </div>
 
-  <div class="dock-item" onclick="window.location.href='../../index-es.html'">
+  <div class="dock-item" onclick="goHome('../../index-es.html')">
     <div class="dock-icon di-notes"><img src="../../icons/notas.webp" style="width:100%;height:100%;object-fit:cover;border-radius:11px"></div>
     <div class="dock-tooltip">Sobre mí</div>
   </div>
@@ -578,6 +591,15 @@
 </div>
 
 <script>
+// ── SALIDA SUAVE AL ESCRITORIO ─────────────────
+function goHome(url) {
+  if (document.body.classList.contains('leaving')) return;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.classList.add('leaving');
+  setTimeout(() => { window.location.href = url; }, reduce ? 0 : 400);
+}
+window.addEventListener('pageshow', e => { if (e.persisted) document.body.classList.remove('leaving'); });
+
 // ── CLOCK ──────────────────────────────────────
 function updateClock() {
   const now = new Date();
@@ -609,7 +631,7 @@ const lbImgs = Array.from({length: 23}, (_, i) => `${i+1}.webp`);
 function openLb(i) {
   lbIndex = i;
   renderLb();
-  document.getElementById('lightbox').style.display = 'flex';
+  document.getElementById('lightbox').classList.add('open');
 }
 function renderLb() {
   const img = document.getElementById('lb-img');
@@ -619,13 +641,13 @@ function renderLb() {
   img.style.animation = 'lbIn 0.2s ease forwards';
   document.getElementById('lb-counter').textContent = `${lbIndex+1} / ${lbImgs.length}`;
 }
-function closeLb() { document.getElementById('lightbox').style.display = 'none'; }
+function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
 function lbNext() { lbIndex = (lbIndex+1) % lbImgs.length; renderLb(); }
 function lbPrev() { lbIndex = (lbIndex-1+lbImgs.length) % lbImgs.length; renderLb(); }
 
 document.getElementById('lightbox').addEventListener('click', e => { if(e.target.id==='lightbox') closeLb(); });
 document.addEventListener('keydown', e => {
-  if (document.getElementById('lightbox').style.display !== 'flex') return;
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
   if (e.key==='Escape') closeLb();
   else if (e.key==='ArrowRight'||e.key==='ArrowDown') { e.preventDefault(); lbNext(); }
   else if (e.key==='ArrowLeft'||e.key==='ArrowUp') { e.preventDefault(); lbPrev(); }
@@ -643,6 +665,10 @@ document.addEventListener('keydown', e => {
 })();
 
 const bgVideo = document.getElementById('bg-video');
+try {
+  const wp = JSON.parse(localStorage.getItem('portfolio-wallpaper'));
+  if (bgVideo && wp && wp.url) { bgVideo.src = /^(https?:)?\/\//.test(wp.url) ? wp.url : '../../' + wp.url; if (wp.poster) bgVideo.poster = wp.poster.replace(/^icons\//, '../../icons/'); bgVideo.load(); bgVideo.play().catch(() => {}); }
+} catch (e) {}
 function revealPage() {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
