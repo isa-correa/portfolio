@@ -619,6 +619,11 @@
   }
   .lume-accordion-body p { margin-bottom: 10px; }
   .lume-accordion-body p:last-child { margin-bottom: 0; }
+  .lume-accordion .lume-accordion { margin: 10px 0 0; }
+  .lume-accordion .lume-accordion:last-child { margin-bottom: 0; }
+  .lume-accordion .lume-accordion summary { font-size:13.5px; background: rgba(0,0,0,0.02); }
+  .lume-accordion-body ul { margin: 0 0 10px; padding-left: 18px; }
+  .lume-accordion-body li { margin-bottom: 4px; }
   .rol-badge { display:inline-block; background:rgba(0,100,215,0.07); border:1px solid rgba(0,100,215,0.18); border-radius:6px; padding:6px 12px; font-size:13.5px; margin-bottom:12px; }
   .lume-ctas { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 20px; }
   .project-cta-outline {
@@ -1154,6 +1159,13 @@
         <img src="proyectos/briefcanvas/briefcanvas-icon.webp" draggable="false" style="width:96px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
       </div>
       <div class="fname">✨BriefCanvas</div>
+    </div>
+
+    <div class="file-icon" id="file-clearway" data-win="win-clearway">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/clearway/clearway-icon.png" alt="" draggable="false" style="width:72px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">ClearWay</div>
     </div>
 
     <div class="file-icon" id="file-sony" data-win="win-sony">
@@ -1704,6 +1716,218 @@
             <p>El flujo completo es este: introduces el briefing en texto → la IA actúa como director creativo senior y devuelve un JSON estructurado con más de 180 campos (tono, paletas, tipografías, referentes, keywords visuales…) → un nodo genera las URLs de las imágenes → el último nodo ensambla todo en un deck HTML interactivo y navegable.</p>
             <p>La estética del resultado es griega clásica. Piénsalo como Pinterest, pero de hace dos mil años. La antigua Grecia fue una fuente de referencias estéticas para los romanos, el Renacimiento y la Bauhaus. Ese estilo clásico sigue influyendo en el diseño actual. De ahí vienen el mármol, el bronce y la tipografía Cormorant Garamond. <em>"El Olimpo decide. Tres caminos salen del mismo tronco."</em></p>
             <p>La imagen de portada tiene un efecto especial: al mover el cursor, la luz cambia y revela lo que había tras el mármol blanco: una figura griega recogiendo frutos de un árbol. Las ideas que esperaban ahí.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: CLEARWAY -->
+  <div class="window project-window" id="win-clearway" style="top:130px;left:300px;width:555px;height:500px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-clearway')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-clearway')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-clearway')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">ClearWay.agent</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">AI Product Design · Agentes · Accesibilidad · UX/UI</div>
+        <div class="project-title">ClearWay</div>
+        <div class="project-tags">
+          <span class="project-tag">IA</span>
+          <span class="project-tag">Claude Code</span>
+          <span class="project-tag">Figma</span>
+          <span class="project-tag">Accesibilidad</span>
+          <span class="project-tag">Sistema de diseño</span>
+          <span class="project-tag">Prototipo funcional</span>
+        </div>
+
+        <details class="lume-accordion" open>
+          <summary>
+            El proyecto
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p class="rol-badge"><strong>Rol:</strong> Product Designer end-to-end · Proyecto propio · 2026</p>
+            <p>La accesibilidad suele llegar tarde. Se descubre con la web ya programada, cuando arreglar un contraste o un foco significa reabrir el diseño, volver a pasar por desarrollo y explicárselo a alguien que ya había cerrado la tarea.</p>
+            <p>ClearWay la mueve al único sitio donde sale barata: el Figma. Le pasas el enlace de un diseño y el agente lo revisa. Lo que encuentra no llega en un informe aparte, lo deja dentro del propio archivo: anotaciones sobre las pantallas, marcadores numerados, un informe con un hallazgo por fila y un resumen, con la letra y los colores del diseño. Y no toca ni un píxel, solo añade encima.</p>
+            <p>Son dos piezas que se explican entre sí: un agente que vive en Claude Code y un tablero que diseñé en Figma y prototipé en HTML para trabajar con él sin depender del chat. Diseñar un agente es diseñar un contrato de comportamiento: qué hace sin preguntar, cuándo para, qué nunca toca y cómo admite que no sabe algo. Esas decisiones acabaron siendo el brief de la interfaz.</p>
+            <p>Lo probé con ClearWay mismo. Revisó las 70 pantallas y los 52 componentes del tablero y, de unos 4.200 avisos de las herramientas, quedaron 27 hallazgos reales. He arreglado 16, entre ellos los dos que bloqueaban: el texto del menú activo no llegaba al contraste mínimo (4,29 a 1, y la norma pide 4,5) y ahora llega a 7,45 a 1.</p>
+            <p><strong>Lo que hice fue:</strong></p>
+            <ul>
+              <li>Diseñar el comportamiento del agente: dos paradas, nunca toca el diseño y valida siempre una persona</li>
+              <li>Construirlo en Claude Code con el conector de Figma, con sus cinco herramientas dentro</li>
+              <li>Diseñar el tablero completo: 70 pantallas en 9 secciones y un sistema de diseño con 52 componentes</li>
+              <li>Prototiparlo en HTML, CSS y JavaScript con Claude</li>
+              <li>Pasar el agente por su propia interfaz y arreglar lo que encontró</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="lume-accordion">
+          <summary>
+            El agente
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <div style="margin:0 0 12px;border-radius:8px;overflow:hidden;background:#000;position:relative">
+              <video
+                id="clearway-agente-video"
+                src="proyectos/clearway/clearway-agente.mp4"
+                poster="proyectos/clearway/clearway-agente-cover.jpg"
+                preload="none"
+                controls
+                playsinline
+                style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+              ></video>
+            </div>
+
+            <details class="lume-accordion" open>
+              <summary>
+                Qué hace
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>Le pasas el enlace de un diseño de Figma y revisa contraste, foco, tamaños y estados, y también textos, títulos, regiones, orden de lectura, formularios, texto ampliado, movimiento y coherencia entre pantallas, con WCAG 2.2 AA y EN 301 549 como referencia.</p>
+                <p>El resultado lo deja dentro del archivo: anotaciones sobre las pantallas, marcadores numerados, un informe con un hallazgo por fila y un resumen, con la letra y los colores del diseño.</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Cómo funciona
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>Pasas el enlace → el agente lee el archivo → <strong>primera parada</strong>: te enseña el plan y te pregunta de una vez lo que necesita → analiza sin interrumpirte → <strong>segunda parada</strong>: te enseña hallazgos y dudas → con tu visto bueno, lo escribe en el archivo.</p>
+                <p>Lo construí en Claude Code con el conector de Figma y le puse las cinco herramientas dentro (revisar, auditar, anotar, comparar y código), para que una actualización ajena no le rompa el comportamiento. Las originales solo entendían capas en inglés, así que añadí pasadas que leen el castellano.</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Decisiones de diseño
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p><strong>Dos paradas, ni una más.</strong> Una antes de analizar y otra antes de escribir. Lo que se escribe en el archivo lo ve más gente, así que ahí se pide permiso. Con menos paradas el agente parece descontrolado y con más se convierte en un formulario.</p>
+                <p><strong>Nunca toca el diseño.</strong> Es la regla que hace que alguien se atreva a lanzarlo sobre el trabajo de otro equipo. Arreglar un hallazgo es una petición aparte, sobre el componente real y de uno en uno.</p>
+                <p><strong>Medir, no opinar.</strong> Cada hallazgo lleva su medida. Lo que Figma no deja comprobar, como el lector de pantalla o el zoom, lo dice en un apartado propio en vez de darlo por bueno.</p>
+                <p><strong>Lo que bloquea va primero.</strong> Cuatro niveles: bloquea, conviene revisar, para saber y está bien. Incluir lo que está bien dice qué ya se comprobó y no hace falta volver a mirar.</p>
+                <p><strong>Las dudas no paran el análisis.</strong> Si algo depende de un dato que no tiene, como si "Home" es un nombre del cliente o inglés, lo apunta como duda con opciones, una siempre "No lo sé", y sigue trabajando.</p>
+                <p><strong>La IA propone, una persona valida.</strong> Cada informe lleva escrito quién lo valida por parte del cliente. Si nadie lo sabe, pone "por definir".</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Probado con ella misma
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>Pasé ClearWay por su propia interfaz: las 70 pantallas y los 52 componentes que usan. De unos 4.200 avisos de las herramientas salieron <strong>27 hallazgos</strong>: 2 que bloqueaban, 16 que convenía revisar y 9 para saber. He arreglado 16, entre ellos los dos que bloqueaban. Quedan 10 pendientes y 1 descartado.</p>
+                <ul>
+                  <li><strong>Contraste:</strong> el texto del menú activo daba 4,29 a 1 y la norma pide 4,5. Ahora da 7,45 a 1, y lo heredan 62 pantallas.</li>
+                  <li><strong>Teclado:</strong> "Saltar al contenido" existía en el sistema, pero ninguna de las 64 pantallas con menú lateral lo usaba.</li>
+                  <li><strong>Lector de pantalla:</strong> 274 botones solo con icono y 112 casillas de tabla sin nombre.</li>
+                  <li><strong>Estructura:</strong> en 20 pantallas el título principal era la sección y no el contenido.</li>
+                  <li><strong>Foco:</strong> faltaba en el marcador del visor y en las opciones del desplegable.</li>
+                  <li><strong>Idioma:</strong> unos 66 textos decían "Home" en una interfaz en castellano.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Lo que aprendió y lo que falta
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>ClearWay marcó mal el orden de lectura en las tarjetas de dudas, que van en dos columnas, porque comparaba controles sueltos fila a fila. Lo descarté y ajusté la herramienta: ahora compara primero las tarjetas y después los controles dentro de cada una.</p>
+                <p>La interfaz solo existe en versión de escritorio, así que a 320 px se pierde contenido. Es el hallazgo que sigue pendiente y el siguiente paso. Lo que Figma no deja probar (lector de pantalla, orden real del teclado y zoom) queda dicho en el informe, y los 16 arreglos están a la espera de que los valide una persona.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <details class="lume-accordion">
+          <summary>
+            La interfaz
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <div style="margin:0 0 12px;border-radius:8px;overflow:hidden;background:#000;position:relative">
+              <video
+                id="clearway-producto-video"
+                src="proyectos/clearway/clearway-producto.mp4"
+                poster="proyectos/clearway/clearway-producto-cover.jpg"
+                preload="none"
+                controls
+                playsinline
+                style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+              ></video>
+            </div>
+
+            <details class="lume-accordion" open>
+              <summary>
+                Por qué hacía falta
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>El agente funciona en el chat, pero una revisión de accesibilidad no es una conversación: son decenas de hallazgos que alguien tiene que ordenar, discutir y aceptar o descartar. Faltaba un sitio donde trabajar con él.</p>
+                <p>Diseñé el tablero como un producto completo: 70 pantallas en 9 secciones y un sistema de diseño con 52 componentes.</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Proceso
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p><strong>1.</strong> Primero, las reglas. Diez bloques de "Cómo funciona" antes de dibujar nada. Son las reglas del agente traducidas a interfaz: si el agente para dos veces, el tablero tiene dos paradas.</p>
+                <p><strong>2.</strong> Luego, la arquitectura. Seis secciones y un menú siempre visible, con el mapa de navegación dibujado antes que cualquier pantalla.</p>
+                <p><strong>3.</strong> Después, los flujos. Recorrí "Auditar un diseño" con sus decisiones y sus errores, no solo el camino feliz.</p>
+                <p><strong>4.</strong> Y por último el sistema y las pantallas: primero los tokens y los componentes, después las 70 pantallas.</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Sistema de diseño
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>Tokens de color, una escala tipográfica en Inter con tres pesos y familias de componentes: iconos, botones, etiquetas, formularios, filtros, navegación, acceso, resultados de auditoría y superposiciones.</p>
+                <p>Está hecho para que la accesibilidad no sea un añadido: los colores de texto pasan contraste AA, cada uno indica su ratio, y los estados de foco forman parte de cada componente.</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Pantallas y estados
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>Setenta pantallas en nueve secciones: acceso e inicio, proyectos, historial, nueva auditoría, análisis, resultado, comparar, ajustes y búsqueda.</p>
+                <p>Cada una tiene su caso límite diseñado: vacío, enlace sin permiso, auditoría en pausa, sin resultados. Un producto no se juzga por su mejor día.</p>
+              </div>
+            </details>
+
+            <details class="lume-accordion">
+              <summary>
+                Prototipo y movimiento
+                <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="lume-accordion-body">
+                <p>Lo construí en HTML, CSS y JavaScript con Claude, navegable de principio a fin, con un cliente inventado para que se sintiera real.</p>
+                <p>Su movimiento es la marea: el símbolo se llena de agua y una marea trae los resultados. El agua es el hilo de la marca y también marca el ritmo de la espera.</p>
+              </div>
+            </details>
           </div>
         </details>
       </div>
@@ -2405,6 +2629,7 @@ updateClock(); setInterval(updateClock, 1000);
     'file-lanza':     { x: cx + 150, y: 175 },
     'file-piccadilly':{ x: cx - 240, y: 370 },
     'file-briefcanvas':{ x: cx -  20, y: 420 },
+    'file-clearway':  { x: cx + 110, y: 500 },
     'file-sony':      { x: cx + 200, y: 350 },
     'file-calendar-notification': { x: cx - 440, y: 330 },
     'file-origami':               { x: cx - 600, y: 240 }
@@ -3090,10 +3315,10 @@ function hideMobileNotifs() {
 
 document.addEventListener('toggle', function(e) {
   if (!e.target.matches('details.lume-accordion') || !e.target.open) return;
-  var container = e.target.closest('.project-meta');
-  if (!container) return;
-  container.querySelectorAll('details.lume-accordion').forEach(function(d) {
-    if (d !== e.target) d.removeAttribute('open');
+  var container = e.target.parentElement;
+  if (!container || !e.target.closest('.project-meta')) return;
+  Array.prototype.forEach.call(container.children, function(d) {
+    if (d !== e.target && d.matches('details.lume-accordion')) d.removeAttribute('open');
   });
 }, true);
 
@@ -3111,6 +3336,9 @@ document.addEventListener('toggle', function(e) {
     { g:'p', icon:'proyectos/lume-mood/lume-mood-cover.webp', win:'win-lume',
       n:'Lume Mood', d:t('App iOS de seguimiento emocional','iOS app for emotional check-ins'),
       k:'ios app producto product design system figma emocional ux mood prototipo' },
+    { g:'p', icon:'proyectos/clearway/clearway-icon.png', win:'win-clearway',
+      n:'ClearWay', d:t('Agente de accesibilidad para Figma y su interfaz','Accessibility agent for Figma and its interface'),
+      k:'accesibilidad accessibility wcag agente agent claude code figma sistema de diseno design system tablero prototipo ia ai' },
     { g:'p', icon:'proyectos/briefcanvas/briefcanvas-icon.webp', win:'win-briefcanvas',
       n:'BriefCanvas', d:t('Agente de ideación creativa en n8n','Creative ideation agent built in n8n'),
       k:'n8n agente agent ia ai gemini brief workflow automatizacion automation direccion creativa' },
