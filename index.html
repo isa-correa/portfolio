@@ -865,6 +865,7 @@
       display: grid !important;
       grid-template-columns: repeat(3, 1fr);
       align-content: center;
+      align-content: safe center;
       justify-content: center;
       gap: 20px 8px;
       padding: 12px;
@@ -1283,11 +1284,11 @@
       <div class="fname">Lume-Mood.product-design</div>
     </div>
 
-    <div class="file-icon" id="file-phone" data-win="win-phone">
+    <div class="file-icon" id="file-art" data-win="win-art">
       <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
-        <img src="proyectos/phone-pitch/phone-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+        <img src="proyectos/art-technologist/art-technologist-icon.webp" alt="" draggable="false" style="width:84px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
       </div>
-      <div class="fname">The-Phone-Pitch</div>
+      <div class="fname">Art&amp;<wbr>Technologist.ai</div>
     </div>
 
     <div class="file-icon" id="file-lanza" data-win="win-lanza">
@@ -1337,6 +1338,13 @@
         <img src="proyectos/notificacion-calendar/icon.webp" draggable="false" style="width:110px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
       </div>
       <div class="fname">Calendar-Reminder</div>
+    </div>
+
+    <div class="file-icon" id="file-phone" data-win="win-phone">
+      <div class="thumb" style="background:none;border-radius:0;overflow:visible;width:auto;height:auto;box-shadow:none;display:flex;align-items:flex-end;justify-content:center">
+        <img src="proyectos/phone-pitch/phone-cover.webp" draggable="false" style="width:60px;height:auto;object-fit:unset;border-radius:0;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 3px 6px rgba(0,0,0,0.12));pointer-events:none;-webkit-user-drag:none">
+      </div>
+      <div class="fname">The-Phone-Pitch</div>
     </div>
 
     <!-- NOTIFICATIONS -->
@@ -1866,6 +1874,90 @@
             <p>The full flow: you input the brief as text → the AI acts as a senior creative director and returns a structured JSON with over 180 fields (tone, palettes, typefaces, cultural references, visual keywords…) → one node generates the image URLs → the final node assembles everything into a navigable interactive HTML deck.</p>
             <p>The visual aesthetic is classical Greek. Think of it as Pinterest, but two thousand years old. Ancient Greece was a source of aesthetic references for the Romans, the Renaissance, and the Bauhaus. That classical style still shapes design today — hence the marble, the bronze, and the Cormorant Garamond typeface. <em>"Olympus decides. Three paths from the same trunk."</em></p>
             <p>The cover image has a special effect: as you move your cursor, the light shifts and reveals what was hidden behind the white marble — a Greek figure gathering fruit from a tree. The ideas that were waiting there.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="win-resize">⌟</div>
+  </div>
+
+  <!-- PROJECT: ART&TECHNOLOGIST -->
+  <div class="window project-window" id="win-art" style="top:130px;left:240px;width:555px;height:500px">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-art')">
+      <div class="win-buttons">
+        <button class="win-btn close" onclick="closeWindow('win-art')"><span class="btn-icon">✕</span></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('win-art')"><span class="btn-icon">−</span></button>
+        <button class="win-btn maximize"><span class="btn-icon">+</span></button>
+      </div>
+      <div class="win-title">Art&amp;Technologist.ai</div>
+    </div>
+    <div class="win-body" style="padding:0;overflow-y:auto">
+      <div class="project-meta" style="padding-top:20px">
+        <div class="project-type">Interactive Experience · Presentations · AI · UX/UI</div>
+        <div class="project-title">Art&amp;Technologist.ai</div>
+        <div class="project-tags">
+          <span class="project-tag">AI</span>
+          <span class="project-tag">Design</span>
+          <span class="project-tag">Technology</span>
+          <span class="project-tag">Presentations</span>
+          <span class="project-tag">Interaction</span>
+          <span class="project-tag">Claude</span>
+        </div>
+        <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;background:#000;position:relative">
+          <video
+            id="art-technologist-video"
+            src="proyectos/art-technologist/art-technologist.mp4"
+            poster="proyectos/art-technologist/art-technologist-cover.jpg"
+            preload="none"
+            controls
+            playsinline
+            aria-label="Art&amp;Technologist.ai video"
+            style="width:100%;display:block;aspect-ratio:16/9;object-fit:contain;background:#000"
+          ></video>
+        </div>
+        <details class="lume-accordion" open>
+          <summary>
+            The project
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p class="rol-badge"><strong>Role:</strong> Design, direction and development · Personal project · 2026</p>
+            <p>Almost every presentation looks the same: white background, bullet points, an arrow to change slide and, above all, the same order and the same dynamic. That is why none of them is remembered. This is my answer: a presentation that doesn't look like a presentation. It is a scene where the cursor is a robot, Pepper, who looks at you, moves with you and anticipates what you want to do.</p>
+            <p>It lives at the intersection of three things: design, technology and AI. None is enough on its own. Design decides what you feel, technology makes it possible and AI brings what makes the screen seem attentive.</p>
+            <p>What appears inside the folders is sample content. What is shown here is the experience.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            How it works
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p><strong>It follows your gaze.</strong> Pepper is your cursor, and looks where you look. From the first second, the screen knows you are there.</p>
+            <p><strong>It gets ahead.</strong> It tries to guess where you are heading and gets there before you, to give you the answer before you ask for it. Like AI when it works well: it saves you the trip.</p>
+            <p><strong>If you change course, it recalculates.</strong> If you head somewhere else, Pepper notices and finds the new direction straight away, like a GPS. It never insists on what it had in mind.</p>
+            <p><strong>You decide.</strong> Pepper proposes, but your judgment is the only valid option. The click is always yours, and the folder opens only when you decide. It is the rule I work with AI by: it proposes, the person chooses.</p>
+            <p><strong>Five layers.</strong> The video takes it apart to show how it is built: character, ambience, content, attention and dialogue.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            Why it matters
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>A presentation lasts as long as it lasts. What is remembered is what was seen. And when a client sees something they don't know how was made and that their usual consultancy, their agency or their own template could not replicate, they stop comparing prices and start asking how to get it.</p>
+            <p>That is what I want to show: that form sells too. A designer who masters technology and AI doesn't deliver prettier slides, they deliver something you can't get from a template. And for whoever saw it, it creates a need that not just anyone can meet.</p>
+          </div>
+        </details>
+        <details class="lume-accordion">
+          <summary>
+            How it is made
+            <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lume-accordion-body">
+            <p>It is a flat web page (HTML, CSS and JavaScript, no frameworks) that opens with a double click. Pepper was born from AI-generated images and came to life with short video clips. The project video was recorded frame by frame with a virtual clock, so two recordings come out identical.</p>
+            <p>Claude was my execution tool throughout. I decide what is seen and how it feels, and it turns that into code.</p>
           </div>
         </details>
       </div>
@@ -2781,6 +2873,7 @@ updateClock(); setInterval(updateClock, 1000);
     'file-piccadilly':{ x: cx - 240, y: 370 },
     'file-briefcanvas':{ x: cx -  20, y: 420 },
     'file-clearway':  { x: cx + 110, y: 500 },
+    'file-art':       { x: cx - 330, y: 520 },
     'file-sony':      { x: cx + 200, y: 350 },
     'file-calendar-notification': { x: cx - 440, y: 330 },
     'file-origami':               { x: cx - 600, y: 240 }
@@ -3500,6 +3593,9 @@ document.addEventListener('toggle', function(e) {
     { g:'p', icon:'proyectos/briefcanvas/briefcanvas-icon.webp', win:'win-briefcanvas',
       n:'BriefCanvas', d:t('Agente de ideación creativa en n8n','Creative ideation agent built in n8n'),
       k:'n8n agente agent ia ai gemini brief workflow automatizacion automation direccion creativa' },
+    { g:'p', icon:'proyectos/art-technologist/art-technologist-icon.webp', win:'win-art',
+      n:'Art&Technologist.ai', d:t('Presentación interactiva con IA','Interactive AI presentation'),
+      k:'interactive presentation pepper robot cursor ai claude design technology experience html video' },
     { g:'p', icon:'proyectos/phone-pitch/phone-cover.webp', win:'win-phone',
       n:'The Phone Pitch', d:t('Estrategia en HTML interactivo','Strategy deck as interactive HTML'),
       k:'html interactivo claude code vibe coding presentacion pitch estrategia telefonia' },
@@ -3741,6 +3837,12 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
       <h3>The Phone Pitch — Interactive HTML Strategy Presentation</h3>
       <p>Interactive HTML · Strategy · UX/UI · AI · Claude Code · Front-end · Vibe-coding</p>
       <p>A strategic proposal to change the way customers compare products on the website of a leading mobile company. Built inside a phone-shaped interface: on desktop it unfolds horizontally — like turning your phone to watch a video. Each section works like a standalone app with animated numbers on scroll, live charts, a five-pillar framework with projected metrics, and a real-time chat that lets the client ask questions during the presentation. Built end-to-end with Claude Code, reducing production time to a fraction of a traditional dev team.</p>
+    </article>
+
+    <article>
+      <h3>Art&amp;Technologist.ai: the presentation that looks back</h3>
+      <p>AI · Design · Technology · Presentations · Interaction · Claude</p>
+      <p>A presentation that doesn't look like a presentation: the cursor is a robot, Pepper, that follows your gaze, gets ahead of what you want to do and recalculates if you change course. The person always decides. Design, technology and AI for unique presentations that get remembered.</p>
     </article>
 
     <article>
