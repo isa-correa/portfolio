@@ -55,6 +55,10 @@
     --radio-notif: 22px;
     --radio-menu: 14px;
     --menubar-h: 28px;
+    --mb-text: #fff;
+    --mb-soft: rgba(255,255,255,0.88);
+    --mb-faint: rgba(255,255,255,0.72);
+    --mb-halo: rgba(0,0,0,0.38);
     --dock-h: 72px;
     --btn-red: #ff5f57;
     --btn-yellow: #febc2e;
@@ -102,38 +106,53 @@
     100% { background-position: 5px -5px; }
   }
 
+  /* fondos claros (tulipanes): el texto de la barra pasa a oscuro para que se lea */
+  html.menu-dark {
+    --mb-text: #111;
+    --mb-soft: rgba(17,17,17,0.85);
+    --mb-faint: rgba(17,17,17,0.68);
+    --mb-halo: rgba(255,255,255,0.5);
+  }
+  /* con texto oscuro la barra lleva un velo blanco: sin él, las zonas oscuras del fondo se comen las letras */
+  html.menu-dark #menubar {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
   /* ── MENU BAR ────────────────────────────────────── */
   #menubar {
     position: fixed; top: 0; left: 0; right: 0;
     height: var(--menubar-h);
-    background: rgba(40,40,42,0.92);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(0,0,0,0.4);
+    /* barra transparente como en el macOS reciente: el texto va directo sobre el fondo de pantalla */
+    background: transparent;
+    border-bottom: 0;
     display: flex; align-items: center;
     padding: 0 16px;
     z-index: 9999;
     font-size:15px; font-weight: 500;
-    color: #fff;
+    color: var(--mb-text);
+    text-shadow: 0 0 10px var(--mb-halo);
   }
-  #menubar .apple { font-size:17px; margin-right: 16px; color: #fff; }
-  #menubar .apple svg { fill: #fff; }
+  #menubar .apple { font-size:17px; margin-right: 16px; color: var(--mb-text); }
+  #menubar .apple svg { fill: var(--mb-text); }
   #menubar .menu-items { display: flex; gap: 16px; }
-  #menubar .menu-items span { opacity: 0.75; font-weight: 400; cursor: default; color: #fff; }
-  #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: #fff; }
-  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: rgba(255,255,255,0.75); }
-  #menubar .right svg { fill: rgba(255,255,255,0.75); }
+  #menubar .menu-items span { opacity: 0.85; font-weight: 400; cursor: default; color: var(--mb-text); }
+  #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: var(--mb-text); }
+  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: var(--mb-soft); }
+  #menubar .right svg { fill: var(--mb-soft); }
   #clock { font-variant-numeric: tabular-nums; }
   .lang-switch { display:flex; align-items:center; gap:3px; font-size:13px; letter-spacing:0.02em; }
-  .lang-current { color:#fff; font-weight:600; }
-  .lang-sep { color:rgba(255,255,255,0.25); }
-  .lang-other { color:rgba(255,255,255,0.38); text-decoration:none; font-weight:400; transition:color 0.15s; }
-  .lang-other:hover { color:rgba(255,255,255,0.8); }
+  .lang-current { color:var(--mb-text); font-weight:600; }
+  .lang-sep { color:var(--mb-faint); }
+  .lang-other { color:var(--mb-faint); text-decoration:none; font-weight:400; transition:color 0.15s; }
+  .lang-other:hover { color:var(--mb-text); }
 
   /* ── SPOTLIGHT ──────────────────────────────────── */
-  #menubar .spotlight-btn { display:flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:3px; cursor:pointer; color: rgba(255,255,255,0.75); transition: color 0.15s; }
-  #menubar .spotlight-btn:hover, #menubar .spotlight-btn:focus-visible { color:#fff; outline:none; }
-  #menubar .spotlight-btn:focus-visible { box-shadow: 0 0 0 2px rgba(255,255,255,0.7); }
+  #menubar .spotlight-btn { display:flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:3px; cursor:pointer; color: var(--mb-soft); transition: color 0.15s; }
+  #menubar .spotlight-btn:hover, #menubar .spotlight-btn:focus-visible { color:var(--mb-text); outline:none; }
+  #menubar .spotlight-btn:focus-visible { box-shadow: 0 0 0 2px var(--mb-text); }
   #menubar .right .spotlight-btn svg { fill: none; stroke: currentColor; }
 
   #spotlight { position: fixed; inset: 0; z-index: 100000; display: none; }
@@ -436,10 +455,11 @@
   .notif:hover { background: rgba(252,252,252,0.92); }
   .notif-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .notif-icon svg { width: 20px; height: 20px; }
-  .notif-icon-gold { background: rgba(240,165,0,0.15); color: #7a4f00; }
-  .notif-icon-blue { background: rgba(0,100,215,0.12); color: #0064d7; }
-  .notif-icon-green { background: rgba(40,200,64,0.12); color: #0f6b27; }
-  .notif-icon-purple { background: rgba(140,80,200,0.12); color: #8a50c8; }
+  /* iconos de notificación: colores vivos y planos, con el dibujo en tinta oscura (4,6 a 1 o más sobre cada color) */
+  .notif-icon-gold { background: #FFD60A; color: #1d1d1f; }
+  .notif-icon-blue { background: #0A84FF; color: #1d1d1f; }
+  .notif-icon-green { background: #30D158; color: #1d1d1f; }
+  .notif-icon-purple { background: #BF5AF2; color: #1d1d1f; }
   .notif-body { flex: 1; min-width: 0; }
   .notif-app { font-size: 13px; font-weight: 600; color: #5e5e5e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .notif-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 1px; }
@@ -1278,7 +1298,7 @@
 <div id="desktop">
 
   <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" poster="icons/wallpaper/main.webp" muted playsinline autoplay loop></video>
-  <script>(function(){var s=null;try{s=JSON.parse(localStorage.getItem('portfolio-wallpaper'));}catch(e){}if(s&&s.url){var v=document.getElementById('bg-video');v.src=s.url;v.poster=s.poster||'';v.load();v.play().catch(function(){});}})()</script>
+  <script>(function(){var s=null;try{s=JSON.parse(localStorage.getItem('portfolio-wallpaper'));}catch(e){}if(s&&s.url){document.documentElement.classList.toggle('menu-dark',/tulips/.test(s.url));var v=document.getElementById('bg-video');v.src=s.url;v.poster=s.poster||'';v.load();v.play().catch(function(){});}})()</script>
 
   <!-- MENU BAR -->
   <div id="menubar">
@@ -3327,6 +3347,7 @@ document.getElementById('phone-modal').addEventListener('click', e => {
       video.play().catch(function(){});
       grid.querySelectorAll('.wp-thumb').forEach(t => t.classList.remove('active'));
       div.classList.add('active');
+      document.documentElement.classList.toggle('menu-dark',/tulips/.test(wp.url));
       try{localStorage.setItem('portfolio-wallpaper',JSON.stringify({url:wp.url,poster:wp.thumb}));}catch(e){}
     });
     grid.appendChild(div);
@@ -4207,6 +4228,7 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
 
     function pick(i, j, fromPop) {
       var narrow = win.classList.contains('pw-narrow');
+      var samePanel = (i === cur);
       setNav(i, j);
       applyMode();
       var want = groupFor(i);
@@ -4217,12 +4239,15 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
       });
       live.textContent = T.showing + ': ' + (j >= 0 ? secs[i].subs[j].title : secs[i].title);
       var target = j >= 0 ? secs[i].subs[j].node : null;
+      var smooth = reduce ? 'auto' : 'smooth';
       if (narrow) {
-        if (!target && i === 0) layout.scrollTop = 0;
+        if (!target && i === 0) layout.scrollTo({ top: 0, behavior: smooth });
         else scrollInside(target || secs[i].panel);
       } else {
-        main.scrollTop = 0;
+        // otro apartado: contenido nuevo, empieza arriba. El mismo apartado: se desplaza desde donde estás
+        if (!samePanel) main.scrollTop = 0;
         if (target) scrollInside(target);
+        else if (samePanel) main.scrollTo({ top: 0, behavior: smooth });
       }
       if (fromPop) closePop(true);
     }

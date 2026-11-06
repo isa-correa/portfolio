@@ -20,6 +20,10 @@
     --text-mid: #555;
     --text-light: #888;
     --menubar-h: 28px;
+    --mb-text: #fff;
+    --mb-soft: rgba(255,255,255,0.88);
+    --mb-faint: rgba(255,255,255,0.72);
+    --mb-halo: rgba(0,0,0,0.38);
     --dock-h: 72px;
     --btn-red: #ff5f57;
     --btn-yellow: #febc2e;
@@ -65,27 +69,42 @@
     100% { background-position: 5px -5px; }
   }
 
+  /* fondos claros (tulipanes): el texto de la barra pasa a oscuro para que se lea */
+  html.menu-dark {
+    --mb-text: #111;
+    --mb-soft: rgba(17,17,17,0.85);
+    --mb-faint: rgba(17,17,17,0.68);
+    --mb-halo: rgba(255,255,255,0.5);
+  }
+  /* con texto oscuro la barra lleva un velo blanco: sin él, las zonas oscuras del fondo se comen las letras */
+  html.menu-dark #menubar {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
   /* ── MENU BAR ────────────────────────────────────── */
   #menubar {
     position: fixed; top: 0; left: 0; right: 0;
     height: var(--menubar-h);
-    background: rgba(40,40,42,0.92);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(0,0,0,0.4);
+    /* barra transparente como en el macOS reciente: el texto va directo sobre el fondo de pantalla */
+    background: transparent;
+    border-bottom: 0;
     display: flex; align-items: center;
     padding: 0 16px;
     z-index: 9999;
     font-size:15px; font-weight: 500;
-    color: #fff;
+    color: var(--mb-text);
+    text-shadow: 0 0 10px var(--mb-halo);
   }
-  #menubar .apple { font-size:17px; margin-right: 16px; color: #fff; }
-  #menubar .apple svg { fill: #fff; }
+  #menubar .apple { font-size:17px; margin-right: 16px; color: var(--mb-text); }
+  #menubar .apple svg { fill: var(--mb-text); }
   #menubar .menu-items { display: flex; gap: 16px; }
-  #menubar .menu-items span { opacity: 0.75; font-weight: 400; cursor: default; color: #fff; }
-  #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: #fff; }
-  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: rgba(255,255,255,0.75); }
-  #menubar .right svg { fill: rgba(255,255,255,0.75); }
+  #menubar .menu-items span { opacity: 0.85; font-weight: 400; cursor: default; color: var(--mb-text); }
+  #menubar .menu-items span:first-child { font-weight: 600; opacity: 1; color: var(--mb-text); }
+  #menubar .right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size:14px; color: var(--mb-soft); }
+  #menubar .right svg { fill: var(--mb-soft); }
   #clock { font-variant-numeric: tabular-nums; }
 
   /* ── WINDOWS ─────────────────────────────────────── */
@@ -681,6 +700,7 @@ const WALLPAPERS = [
   if (!wp) { try { wp = JSON.parse(localStorage.getItem('portfolio-wallpaper')); } catch (e) {} }
   if (!wp || !wp.url || !bgVideo) return;
   const fix = u => /^(https?:)?\/\//.test(u) ? u : '../../' + u;
+  document.documentElement.classList.toggle('menu-dark',/tulips/.test(wp.url));
   bgVideo.src = fix(wp.url);
   if (wp.poster) bgVideo.poster = fix(wp.poster);
   bgVideo.play().catch(() => {});
