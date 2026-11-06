@@ -4129,6 +4129,14 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
       if (hit.i !== cur || hit.j !== curSub) setNav(hit.i, hit.j);
     }
 
+    // desplaza solo la columna de lectura. scrollIntoView movía también la ventana
+    // y el cuerpo (que tienen overflow oculto) y la ventana se salía de la pantalla
+    function scrollInside(el) {
+      var sc = scroller();
+      var d = el.getBoundingClientRect().top - sc.getBoundingClientRect().top - 8;
+      sc.scrollTo({ top: Math.max(0, sc.scrollTop + d), behavior: reduce ? 'auto' : 'smooth' });
+    }
+
     function pick(i, j, fromPop) {
       var narrow = win.classList.contains('pw-narrow');
       setNav(i, j);
@@ -4143,10 +4151,10 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
       var target = j >= 0 ? secs[i].subs[j].node : null;
       if (narrow) {
         if (!target && i === 0) layout.scrollTop = 0;
-        else (target || secs[i].panel).scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+        else scrollInside(target || secs[i].panel);
       } else {
         main.scrollTop = 0;
-        if (target) target.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+        if (target) scrollInside(target);
       }
       if (fromPop) closePop(true);
     }
@@ -4210,6 +4218,13 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
 
     body.removeAttribute('style');
     body.classList.add('pw-body');
+    // red de seguridad: la ventana y su cuerpo nunca deben desplazarse por dentro
+    [win, body].forEach(function (el) {
+      el.addEventListener('scroll', function () { if (el.scrollTop) el.scrollTop = 0; });
+    });
+    layout.addEventListener('scroll', function () {
+      if (!win.classList.contains('pw-narrow') && layout.scrollTop) layout.scrollTop = 0;
+    });
     body.textContent = '';
     body.appendChild(layout);
     Array.prototype.forEach.call(win.querySelectorAll('.lume-media'), enhanceGallery);
