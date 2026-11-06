@@ -596,6 +596,7 @@ function goHome(url) {
   if (document.body.classList.contains('leaving')) return;
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.add('leaving');
+  try { sessionStorage.setItem('pw-from-gallery', '1'); } catch (e) {}
   setTimeout(() => { window.location.href = url; }, reduce ? 0 : 400);
 }
 window.addEventListener('pageshow', e => { if (e.persisted) document.body.classList.remove('leaving'); });
@@ -665,10 +666,25 @@ document.addEventListener('keydown', e => {
 })();
 
 const bgVideo = document.getElementById('bg-video');
-try {
-  const wp = JSON.parse(localStorage.getItem('portfolio-wallpaper'));
-  if (bgVideo && wp && wp.url) { bgVideo.src = /^(https?:)?\/\//.test(wp.url) ? wp.url : '../../' + wp.url; if (wp.poster) bgVideo.poster = wp.poster.replace(/^icons\//, '../../icons/'); bgVideo.load(); bgVideo.play().catch(() => {}); }
-} catch (e) {}
+const WALLPAPERS = [
+  { url: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4', poster: 'icons/wallpaper/main.webp' },
+  { url: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4', poster: 'icons/wallpaper/ordenador.webp' },
+  { url: 'icons/wallpaper/tulips.mp4', poster: 'icons/wallpaper/tulips.webp' },
+  { url: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260306_074215_04640ca7-042c-45d6-bb56-58b1e8a42489.mp4', poster: 'icons/wallpaper/degradado.webp' }
+];
+(function () {
+  let wp = null;
+  try {
+    const n = parseInt(new URLSearchParams(location.search).get('wp'), 10);
+    if (n >= 0 && n < WALLPAPERS.length) wp = WALLPAPERS[n];
+  } catch (e) {}
+  if (!wp) { try { wp = JSON.parse(localStorage.getItem('portfolio-wallpaper')); } catch (e) {} }
+  if (!wp || !wp.url || !bgVideo) return;
+  const fix = u => /^(https?:)?\/\//.test(u) ? u : '../../' + u;
+  bgVideo.src = fix(wp.url);
+  if (wp.poster) bgVideo.poster = fix(wp.poster);
+  bgVideo.play().catch(() => {});
+})();
 function revealPage() {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -681,11 +697,13 @@ if (bgVideo) {
     revealPage();
   } else {
     bgVideo.addEventListener('canplaythrough', revealPage, { once: true });
-    setTimeout(revealPage, 2000);
+    setTimeout(revealPage, 1200);
   }
 } else {
   revealPage();
 }
+setTimeout(revealPage, 2500);
+window.addEventListener('error', revealPage);
 </script>
 </body>
 </html>

@@ -1228,6 +1228,14 @@
   ]
 }
 </script>
+<style>
+  /* entrada suave al volver de la galería */
+  html.pw-enter { background: #000; }
+  html.pw-enter body { animation: pwEnter 0.6s cubic-bezier(.4,0,.2,1) both; }
+  @keyframes pwEnter { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { html.pw-enter body { animation: none; } }
+</style>
+<script>try{if(sessionStorage.getItem('pw-from-gallery')){sessionStorage.removeItem('pw-from-gallery');var d=document.documentElement;d.classList.add('pw-enter');setTimeout(function(){d.classList.remove('pw-enter');},900);}}catch(e){}</script>
 </head>
 <body>
 
@@ -4196,6 +4204,21 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
     if (heyers[id]) { setTimeout(heyers[id], 900); setTimeout(heyers[id], 9000); }
     return prevOpen.apply(this, arguments);
   };
+})();
+</script>
+<script>
+// El enlace a la galería lleva el fondo elegido, para que la galería lo muestre igual
+(function(){
+  var WP=['main.webp','ordenador.webp','tulips.webp','degradado.webp'];
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href*="lanzarote/gallery"]'); if(!a) return;
+    try{
+      var s=JSON.parse(localStorage.getItem('portfolio-wallpaper')), i=-1;
+      if(s&&s.poster) WP.forEach(function(w,k){ if(s.poster.slice(-w.length)===w) i=k; });
+      var base=a.getAttribute('href').split('?')[0];
+      a.setAttribute('href', i>=0 ? base+'?wp='+i : base);
+    }catch(x){}
+  },true);
 })();
 </script>
 </body>
