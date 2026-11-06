@@ -213,14 +213,20 @@
   #file-art { width: 120px; } /* nombre largo: que no se parta a mitad de palabra */
   /* escritorio pequeño: iconos en cuadrícula ordenada, a la izquierda de las notificaciones */
   #workspace.desk-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
+    display: grid; grid-template-columns: repeat(4, minmax(0, 128px)); justify-content: center;
     align-content: center; align-content: safe center;
-    gap: 20px 8px; padding: 12px 364px 12px 16px; overflow-y: auto;
+    gap: 14px 4px; padding: 12px 364px 12px 16px; overflow-y: auto; overflow-x: hidden;
   }
   #workspace.desk-grid .file-icon {
     position: static; width: auto; display: flex; flex-direction: column; align-items: center;
   }
   #workspace.desk-grid #notifications { position: fixed; top: calc(var(--menubar-h) + 16px); right: 16px; }
+  /* pantalla justa: iconos más pequeños y menos separados antes de recurrir al scroll */
+  #workspace.desk-compact .file-icon, #workspace.desk-compact #file-art { width: 104px; padding: 4px; }
+  #workspace.desk-compact .file-icon .thumb { width: 56px; height: 56px; margin-bottom: 4px; border-radius: 10px; font-size: 26px; }
+  #workspace.desk-compact .file-icon .fname { font-size: 12px; line-height: 1.25; }
+  #workspace.desk-grid.desk-compact { grid-template-columns: repeat(4, minmax(0, 112px)); gap: 6px 2px; padding-top: 8px; padding-bottom: 8px; }
+  #workspace.desk-grid.desk-compact .file-icon, #workspace.desk-grid.desk-compact #file-art { width: auto; }
 
   /* ── FILE ICONS ──────────────────────────────────── */
   .file-icon {
@@ -470,10 +476,19 @@
   .notif-icon-green { background: #A8E6BC; color: #1d1d1f; }
   .notif-icon-purple { background: #DDC4F7; color: #1d1d1f; }
   .notif-body { flex: 1; min-width: 0; }
-  .notif-app { font-size: 13px; font-weight: 600; color: #5e5e5e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .notif-app { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 13px; font-weight: 600; color: #5e5e5e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .notif-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 1px; }
   .notif-desc { font-size: 14px; color: var(--text-mid); line-height: 1.4; }
-  .notif-time { font-size: 12px; color: #5e5e5e; flex-shrink: 0; margin-top: 1px; }
+  .notif-time { font-size: 12px; font-weight: 400; color: #5e5e5e; flex-shrink: 0; text-transform: none; letter-spacing: 0; }
+  /* pantalla justa: solo icono + título + "Ver más"; al pasar el ratón se despliega el texto (el clic sigue abriendo el enlace) */
+  @media (min-width: 769px) {
+    #notifications.notifs-short .notif { padding: 9px 12px; align-items: center; }
+    #notifications.notifs-short .notif-desc { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .3s ease, opacity .2s ease, margin .3s ease; }
+    #notifications.notifs-short .notif-body::after { content: "Ver más"; display: block; font-size: 12px; color: #5e5e5e; text-decoration: underline; }
+    #notifications.notifs-short .notif:hover { align-items: flex-start; }
+    #notifications.notifs-short .notif:hover .notif-desc { max-height: 12em; opacity: 1; margin-top: 2px; }
+    #notifications.notifs-short .notif:hover .notif-body::after { display: none; }
+  }
 
   /* ── MAIL WINDOW ─────────────────────────────────── */
   #win-mail { width: 540px; height: 420px; top: 100px; left: 350px; }
@@ -1437,11 +1452,10 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
         </div>
         <div class="notif-body">
-          <div class="notif-app">Logro</div>
+          <div class="notif-app"><span>Logro</span><span class="notif-time">ahora</span></div>
           <div class="notif-title">Asentada en Londres</div>
           <div class="notif-desc">Diseñé un kiosko en Piccadilly. Sí, ese Piccadilly.</div>
         </div>
-        <span class="notif-time">ahora</span>
       </div>
 
       <div class="notif" id="notif-2" onclick="openWindow('win-briefcanvas')">
@@ -1449,11 +1463,10 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <div class="notif-body">
-          <div class="notif-app">Logro</div>
+          <div class="notif-app"><span>Logro</span><span class="notif-time">hace 2m</span></div>
           <div class="notif-title">El workflow creativo: confirmado</div>
           <div class="notif-desc">n8n, Gemini 2.5 Flash, 180 placeholders y un servidor Node.js auxiliar. Entra un brief. Salen tres direcciones creativas completas.</div>
         </div>
-        <span class="notif-time">hace 2m</span>
       </div>
 
       <div class="notif" id="notif-sony" onclick="openWindow('win-sony')">
@@ -1461,11 +1474,10 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="notif-body">
-          <div class="notif-app">Logro</div>
+          <div class="notif-app"><span>Logro</span><span class="notif-time">hace 3m</span></div>
           <div class="notif-title">Sony la fichó</div>
           <div class="notif-desc">Ilustración compartida por Sony Pictures en más de 8 países.</div>
         </div>
-        <span class="notif-time">hace 3m</span>
       </div>
 
       <div class="notif" id="notif-3" onclick="openWindow('win-about');switchTab('tab-certs')">
@@ -1473,11 +1485,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/><path d="M9 18h6"/></svg>
         </div>
         <div class="notif-body">
-          <div class="notif-app">Logro</div>
+          <div class="notif-app"><span>Logro</span><span class="notif-time">hace 6m</span></div>
           <div class="notif-title">IA antes del hype</div>
           <div class="notif-desc">6 certificaciones. Y contando.</div>
         </div>
-        <span class="notif-time">hace 6m</span>
       </div>
 
     </div>
@@ -2972,23 +2983,32 @@ updateClock(); setInterval(updateClock, 1000);
   function place() {
     var icons = Array.prototype.slice.call(ws.querySelectorAll('.file-icon'));
     if (window.innerWidth <= 768) {            // en móvil manda la cuadrícula del CSS
-      ws.classList.remove('desk-grid');
+      ws.classList.remove('desk-grid', 'desk-compact');
       icons.forEach(function (el) { el.style.left = ''; el.style.top = ''; });
       return;
     }
-    ws.classList.remove('desk-grid');
+    ws.classList.remove('desk-grid', 'desk-compact');
     var W = ws.clientWidth, H = ws.clientHeight;
-    var cw = 0, ch = 0;
-    icons.forEach(function (el) { cw = Math.max(cw, el.offsetWidth); ch = Math.max(ch, el.offsetHeight); });
     var left = 24, right = W - 352;            // 320 de notificaciones + 16 de margen + 16 de aire
     var top = 12, bottom = H - 8;
     var availW = right - left, availH = bottom - top;
     var areaW = Math.min(availW, 1180), areaH = Math.min(availH, 660);
     var sw = areaW / COLS, sh = areaH / ROWS;
-    if (sw < cw + GAP || sh < ch + GAP) {      // no caben: cuadrícula ordenada con scroll
-      ws.classList.add('desk-grid');
-      icons.forEach(function (el) { el.style.left = ''; el.style.top = ''; });
-      return;
+    var cw = 0, ch = 0;
+    function measure() {
+      cw = 0; ch = 0;
+      icons.forEach(function (el) { cw = Math.max(cw, el.offsetWidth); ch = Math.max(ch, el.offsetHeight); });
+    }
+    function fits(gap) { return sw >= cw + gap && sh >= ch + gap; }
+    measure();
+    if (!fits(GAP)) {                          // no caben: primero más pequeños y más juntos
+      ws.classList.add('desk-compact');
+      measure();
+      if (!fits(8)) {                          // ni así: cuadrícula ordenada con scroll
+        ws.classList.add('desk-grid');
+        icons.forEach(function (el) { el.style.left = ''; el.style.top = ''; });
+        return;
+      }
     }
     var x0 = left + (availW - areaW) / 2;
     var y0 = top + (availH - areaH) * 0.25;
@@ -3368,6 +3388,22 @@ document.getElementById('phone-modal').addEventListener('click', e => {
   notifs.forEach((n, i) => {
     setTimeout(() => { n.classList.add('visible'); }, 600 + (i * 250));
   });
+})();
+
+// ── NOTIFICACIONES: si no caben, icono + título + "ver más" ──
+(function() {
+  var nt = document.getElementById('notifications'), ws = document.getElementById('workspace');
+  if (!nt || !ws) return;
+  function fit() {
+    nt.classList.remove('notifs-short');
+    if (window.innerWidth <= 768) return;      // en móvil mandan la campanita y el aviso centrado
+    var avail = ws.getBoundingClientRect().bottom - nt.getBoundingClientRect().top - 8;
+    if (nt.scrollHeight > avail) nt.classList.add('notifs-short');
+  }
+  fit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  var t = null;
+  window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 120); });
 })();
 
 // ── WALLPAPER PICKER ─────────────────────────────
