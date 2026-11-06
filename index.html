@@ -172,6 +172,18 @@
     z-index: 10;
   }
 
+  #file-art { width: 120px; } /* nombre largo: que no se parta a mitad de palabra */
+  /* escritorio pequeño: iconos en cuadrícula ordenada, a la izquierda de las notificaciones */
+  #workspace.desk-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    align-content: center; align-content: safe center;
+    gap: 20px 8px; padding: 12px 364px 12px 16px; overflow-y: auto;
+  }
+  #workspace.desk-grid .file-icon {
+    position: static; width: auto; display: flex; flex-direction: column; align-items: center;
+  }
+  #workspace.desk-grid #notifications { position: fixed; top: calc(var(--menubar-h) + 16px); right: 16px; }
+
   /* ── FILE ICONS ──────────────────────────────────── */
   .file-icon {
     position: absolute;
@@ -406,15 +418,15 @@
   .notif:hover { background: rgba(242,238,232,0.92); }
   .notif-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .notif-icon svg { width: 20px; height: 20px; }
-  .notif-icon-gold { background: rgba(240,165,0,0.15); color: #d4900a; }
+  .notif-icon-gold { background: rgba(240,165,0,0.15); color: #7a4f00; }
   .notif-icon-blue { background: rgba(0,100,215,0.12); color: #0064d7; }
-  .notif-icon-green { background: rgba(40,200,64,0.12); color: #1a9a3a; }
+  .notif-icon-green { background: rgba(40,200,64,0.12); color: #0f6b27; }
   .notif-icon-purple { background: rgba(140,80,200,0.12); color: #8a50c8; }
   .notif-body { flex: 1; min-width: 0; }
-  .notif-app { font-size: 13px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .notif-app { font-size: 13px; font-weight: 600; color: #5e5e5e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
   .notif-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 1px; }
   .notif-desc { font-size: 14px; color: var(--text-mid); line-height: 1.4; }
-  .notif-time { font-size: 12px; color: var(--text-light); flex-shrink: 0; margin-top: 1px; }
+  .notif-time { font-size: 12px; color: #5e5e5e; flex-shrink: 0; margin-top: 1px; }
 
   /* ── MAIL WINDOW ─────────────────────────────────── */
   #win-mail { width: 540px; height: 420px; top: 100px; left: 350px; }
@@ -2863,31 +2875,61 @@ function updateClock() {
 updateClock(); setInterval(updateClock, 1000);
 
 
-// ── POSITION FILE ICONS (fixed, centered) ────────
+// ── COLOCAR ICONOS DEL ESCRITORIO ────────────────
+// Cada icono vive en su propia casilla de una rejilla de 4 x 3, con un desplazamiento fijo dentro
+// de la casilla para que se vea suelto pero nunca se pisen entre sí. La rejilla se calcula sobre
+// el espacio libre real: la pantalla menos las notificaciones, la barra de menú y el dock.
+// Si no caben (pantallas pequeñas) pasan a una cuadrícula ordenada con scroll.
 (function positionIcons() {
-  const cx = window.innerWidth / 2;
-  const positions = {
-    'file-lume':      { x: cx - 280, y: 130 },
-    'file-phone':     { x: cx -  60, y: 220 },
-    'file-lanza':     { x: cx + 150, y: 175 },
-    'file-piccadilly':{ x: cx - 240, y: 370 },
-    'file-briefcanvas':{ x: cx -  20, y: 420 },
-    'file-clearway':  { x: cx + 110, y: 500 },
-    'file-art':       { x: cx - 330, y: 520 },
-    'file-sony':      { x: cx + 200, y: 350 },
-    'file-calendar-notification': { x: cx - 440, y: 330 },
-    'file-origami':               { x: cx - 600, y: 240 }
+  var ws = document.getElementById('workspace');
+  var SLOT = {
+    'file-origami':               [0, 0, 0.15, 0.20],
+    'file-calendar-notification': [0, 1, 0.60, 0.50],
+    'file-lume':                  [1, 0, 0.30, 0.60],
+    'file-piccadilly':            [1, 1, 0.70, 0.30],
+    'file-art':                   [1, 2, 0.40, 0.70],
+    'file-phone':                 [2, 0, 0.50, 0.30],
+    'file-briefcanvas':           [2, 1, 0.25, 0.65],
+    'file-lanza':                 [3, 0, 0.60, 0.50],
+    'file-sony':                  [3, 1, 0.20, 0.40],
+    'file-clearway':              [3, 2, 0.55, 0.60]
   };
-  const minX = 60;
-  const maxX = window.innerWidth - 120;
-  Object.entries(positions).forEach(([id, pos]) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const x = Math.min(Math.max(Math.round(pos.x), minX), maxX);
-      el.style.left = x + 'px';
-      el.style.top  = Math.round(pos.y) + 'px';
+  var COLS = 4, ROWS = 3, GAP = 14;
+
+  function place() {
+    var icons = Array.prototype.slice.call(ws.querySelectorAll('.file-icon'));
+    if (window.innerWidth <= 768) {            // en móvil manda la cuadrícula del CSS
+      ws.classList.remove('desk-grid');
+      icons.forEach(function (el) { el.style.left = ''; el.style.top = ''; });
+      return;
     }
-  });
+    ws.classList.remove('desk-grid');
+    var W = ws.clientWidth, H = ws.clientHeight;
+    var cw = 0, ch = 0;
+    icons.forEach(function (el) { cw = Math.max(cw, el.offsetWidth); ch = Math.max(ch, el.offsetHeight); });
+    var left = 24, right = W - 352;            // 320 de notificaciones + 16 de margen + 16 de aire
+    var top = 12, bottom = H - 8;
+    var availW = right - left, availH = bottom - top;
+    var areaW = Math.min(availW, 1180), areaH = Math.min(availH, 660);
+    var sw = areaW / COLS, sh = areaH / ROWS;
+    if (sw < cw + GAP || sh < ch + GAP) {      // no caben: cuadrícula ordenada con scroll
+      ws.classList.add('desk-grid');
+      icons.forEach(function (el) { el.style.left = ''; el.style.top = ''; });
+      return;
+    }
+    var x0 = left + (availW - areaW) / 2;
+    var y0 = top + (availH - areaH) * 0.25;
+    icons.forEach(function (el) {
+      var s = SLOT[el.id];
+      if (!s || el.dataset.moved) return;      // los que ha movido la persona se respetan
+      el.style.left = Math.round(x0 + s[0] * sw + s[2] * (sw - cw)) + 'px';
+      el.style.top  = Math.round(y0 + s[1] * sh + s[3] * (sh - ch)) + 'px';
+    });
+  }
+  place();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+  var t = null;
+  window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(place, 120); });
 })();
 
 // ── WINDOW MANAGEMENT ───────────────────────────
@@ -2987,6 +3029,7 @@ document.querySelectorAll('.file-icon').forEach(icon => {
     const dx = e.clientX - startX, dy = e.clientY - startY;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
     if (moved) {
+      icon.dataset.moved = '1';
       icon.style.left = (origLeft + dx) + 'px';
       icon.style.top  = (origTop + dy)  + 'px';
     }
