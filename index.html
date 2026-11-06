@@ -82,6 +82,14 @@
     overflow: hidden;
   }
 
+  /* velo rosa para fondos de cielo claro (letra blanca legible) */
+  #bg-tint {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    opacity: 0; transition: opacity .4s ease;
+    background: linear-gradient(180deg, rgba(190,64,112,0.58) 0%, rgba(190,64,112,0.36) 40%, rgba(110,36,80,0.30) 100%);
+  }
+  html.wp-tint #bg-tint { opacity: 1; }
+
   #bg-video {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
@@ -1311,7 +1319,8 @@
 <div id="desktop">
 
   <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" poster="icons/wallpaper/main.webp" muted playsinline autoplay loop></video>
-  <script>(function(){var s=null;try{s=JSON.parse(localStorage.getItem('portfolio-wallpaper'));}catch(e){}if(s&&s.url){document.documentElement.classList.toggle('menu-dark',/tulips/.test(s.url));var v=document.getElementById('bg-video');v.src=s.url;v.poster=s.poster||'';v.load();v.play().catch(function(){});}})()</script>
+  <div id="bg-tint"></div>
+  <script>(function(){var s=null;try{s=JSON.parse(localStorage.getItem('portfolio-wallpaper'));}catch(e){}if(s&&s.url){document.documentElement.classList.toggle('menu-dark',/tulips/.test(s.url));document.documentElement.classList.toggle('wp-tint',s.url.indexOf('hf_20261021_093331_5998f443')>-1);var v=document.getElementById('bg-video');v.src=s.url;v.poster=s.poster||'';v.load();v.play().catch(function(){});}})()</script>
 
   <!-- MENU BAR -->
   <div id="menubar">
@@ -1863,10 +1872,18 @@
           </summary>
           <div class="lume-accordion-body">
             <p class="rol-badge"><strong>Role:</strong> UX/UI Designer · Strategy · Client Project</p>
-            <p>A leading mobile company had a problem on their product comparison page: 63% bounce rate, rising support tickets, users dropping off exactly where conversion mattered most.</p>
-            <p>The proposal had to be as strong in form as in substance. So instead of a slide deck, I built it inside a phone.</p>
-            <p>On desktop it unfolds horizontally — like turning your phone to watch a video. Each section works like a standalone app: animated counters on scroll, live charts, a 5-pillar framework with projected metrics, and a real-time chat so the client can ask questions during the presentation itself.</p>
-            <p><em>The format is the message.</em></p>
+            <p>A product comparison page for mobile phones was losing 63% of its visitors at the exact moment they had to decide, and support tickets kept rising.</p>
+            <p>Explaining the solution in a slide deck would have meant asking the client to imagine an experience while looking at slides. So the proposal is the experience: it lives inside a phone.</p>
+            <p>On desktop the phone turns sideways, like when you rotate it to watch a video. Each section is an app with its own logic: counters that run on scroll, live charts, a five-pillar framework with the metric each one moves, and an assistant the client can question mid-meeting. The journey ends on the before and after.</p>
+            <p>The presenter doesn't explain the proposal, they show it working. <em>The format is the message.</em></p>
+            <p><strong>What I did:</strong></p>
+            <ul>
+              <li>Turned a long diagnosis into nine screens, with one message per screen</li>
+              <li>Designed the phone as a presentation room, with a horizontal version for desktop and a vertical one for mobile</li>
+              <li>Gave each of the five pillars a projected metric, so the proposal can be discussed with numbers</li>
+              <li>Designed the question assistant, so the meeting doesn't stall when the client hesitates</li>
+              <li>Prototyped it in HTML, CSS and JavaScript with Claude</li>
+            </ul>
           </div>
         </details>
         <details class="lume-accordion">
@@ -1875,8 +1892,8 @@
             <svg class="acc-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="lume-accordion-body">
-            <p>Claude is my execution tool: it turns my design decisions into working code in seconds. I don't delegate the judgement — I delegate the implementation. That lets me reach a level of execution that simply wasn't accessible to a designer working without a technical team.</p>
-            <p>Interactive HTML · CSS/JS animations · dynamic charts · real-time chat · context-aware responsive (desktop / mobile).</p>
+            <p>I decide what gets told, in what order and which number shows first. Claude writes the code that makes it work. I don't delegate the judgement, I delegate the implementation, and that lets me deliver a prototype that used to need a technical team.</p>
+            <p>Interactive HTML · CSS/JS animations · dynamic charts · question assistant · context-aware responsive (desktop / mobile).</p>
           </div>
         </details>
       </div>
@@ -3357,7 +3374,7 @@ document.getElementById('phone-modal').addEventListener('click', e => {
   const wallpapers = [
     { id:'wp-1', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4', thumb:'icons/wallpaper/main.webp' },
     { id:'wp-2', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4', thumb:'icons/wallpaper/ordenador.webp' },
-    { id:'wp-3', url:'icons/wallpaper/tulips.mp4', thumb:'icons/wallpaper/tulips.webp' },
+    { id:'wp-3', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261021_093331_5998f443-1b9c-4b62-820c-8219c73c72c4.mp4', thumb:'icons/wallpaper/wp3.webp' },
     { id:'wp-4', url:'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260306_074215_04640ca7-042c-45d6-bb56-58b1e8a42489.mp4', thumb:'icons/wallpaper/degradado.webp' }
   ];
   const grid = document.getElementById('wallpaper-grid');
@@ -3367,7 +3384,8 @@ document.getElementById('phone-modal').addEventListener('click', e => {
     div.className = 'wp-thumb' + (video.src === wp.url ? ' active' : '');
     div.innerHTML = '<img src="' + wp.thumb + '" alt="Wallpaper ' + (i+1) + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div class=wp-placeholder>▶</div>\'">';
     div.addEventListener('click', function() {
-      video.poster = '';
+      video.poster = wp.thumb;
+      document.documentElement.classList.toggle('wp-tint', wp.id === 'wp-3');
       video.src = wp.url;
       video.load();
       video.play().catch(function(){});
@@ -3537,10 +3555,14 @@ openWindow = function(id) {
     const w = document.getElementById(id);
     if (!w) return;
     requestAnimationFrame(() => {
-      const wh = w.offsetHeight;
       const vh = window.innerHeight;
-      const top = Math.max(38, Math.round((vh - 74 - 28 - wh) / 2) + 28);
-      w.style.top  = top + 'px';
+      const DOCK_ZONE = 86;   // dock (66) + margen inferior (8) + respiro (12)
+      const maxH = vh - 38 - DOCK_ZONE;
+      w.style.setProperty('max-height', maxH + 'px', 'important');
+      const wh = Math.min(w.offsetHeight, maxH);
+      let top = Math.max(38, Math.round((vh - DOCK_ZONE - 28 - wh) / 2) + 28);
+      top = Math.min(top, vh - DOCK_ZONE - wh);
+      w.style.top  = Math.max(38, top) + 'px';
       w.style.left = '3vw';
     });
   }
@@ -4468,7 +4490,7 @@ document.querySelectorAll('.dock-item').forEach(function (item) {
 <script>
 // El enlace a la galería lleva el fondo elegido, para que la galería lo muestre igual
 (function(){
-  var WP=['main.webp','ordenador.webp','tulips.webp','degradado.webp'];
+  var WP=['main.webp','ordenador.webp','wp3.webp','degradado.webp'];
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href*="lanzarote/gallery"]'); if(!a) return;
     try{
