@@ -1144,7 +1144,17 @@
 
   /* columna derecha */
   .pw-main { min-height: 0; overflow-y: auto; padding: 24px 32px 48px; }
-  .pw-panel { max-width: 680px; }
+  .pw-panel { max-width: none; }
+  /* el contenido se adapta al ancho de la ventana: columnas, márgenes y tamaño de letra */
+  .pw-body { container-type: inline-size; }
+  .pw-layout {
+    --pw-side: clamp(300px, 30cqw, 440px);
+    --pw-t-body: clamp(16px, 0.9cqw + 8px, 19px);
+    --pw-t-h3: clamp(18px, 0.9cqw + 9px, 23px);
+    --pw-t-h2: clamp(22px, 1.2cqw + 10px, 30px);
+  }
+  .pw-main { padding-left: clamp(32px, 4cqw, 72px); padding-right: clamp(32px, 4cqw, 72px); }
+  .pw-narrow .pw-main { padding-left: 20px; padding-right: 20px; }
   .pw-h2 { font-size: var(--pw-t-h2); font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 16px; }
   .pw-h3 { font-size: var(--pw-t-h3); font-weight: 600; color: var(--text); line-height: 1.35; margin: 32px 0 8px; }
   .pw-sub { scroll-margin-top: 8px; }
@@ -1748,14 +1758,15 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta">
-        <div class="project-type">PRODUCT DESIGN · DESIGN SYSTEM · INTERACTION DESIGN</div>
+        <div class="project-type">Product Design · UX/UI · Design System</div>
         <div class="project-title">Lume Mood</div>
         <!-- Tags -->
         <div class="project-tags">
+          <span class="project-tag">iOS</span>
           <span class="project-tag">Figma</span>
-          <span class="project-tag">Design System</span>
+          <span class="project-tag">Design system</span>
           <span class="project-tag">Microinteractions</span>
-          <span class="project-tag">Functional Prototype</span>
+          <span class="project-tag">Functional prototype</span>
           <span class="project-tag">AI-assisted</span>
         </div>
         <!-- Media gallery -->
@@ -1829,15 +1840,14 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta" style="padding-top:20px">
-        <div class="project-type">Interactive HTML · Strategy · UX/UI</div>
+        <div class="project-type">UX/UI · Strategy · Interactive HTML</div>
         <div class="project-title">The Phone Pitch</div>
         <div class="project-tags">
-          <span class="project-tag">AI</span>
-          <span class="project-tag">UX/UI</span>
-          <span class="project-tag">Interactive Prototype</span>
-          <span class="project-tag">Claude</span>
-          <span class="project-tag">Strategy</span>
+          <span class="project-tag">Claude Code</span>
+          <span class="project-tag">Interactive prototype</span>
           <span class="project-tag">Front-end</span>
+          <span class="project-tag">Strategy</span>
+          <span class="project-tag">Vibe coding</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:14px;margin:14px 0 16px">
           <img src="proyectos/phone-pitch/phone-cover.webp" alt="The Phone Pitch" draggable="false" onclick="openLightbox([{type:'img',src:'proyectos/phone-pitch/phone-cover.webp'}],0)" style="width:250px;height:250px;object-fit:cover;border-radius:8px;flex-shrink:0;cursor:zoom-in">
@@ -1886,14 +1896,14 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta" style="padding-top:20px">
-        <div class="project-type">Generative AI · Workflow · Creative Direction</div>
+        <div class="project-type">Generative AI · Creative Direction · Automation</div>
         <div class="project-title">✨ BriefCanvas</div>
         <div class="project-tags">
-          <span class="project-tag">AI</span>
+          <span class="project-tag">AI agents</span>
           <span class="project-tag">n8n</span>
-          <span class="project-tag">Automation</span>
-          <span class="project-tag">Creative Direction</span>
+          <span class="project-tag">Gemini</span>
           <span class="project-tag">Workflow</span>
+          <span class="project-tag">Creative direction</span>
         </div>
         <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;background:#000;position:relative">
           <video
@@ -1946,15 +1956,14 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta" style="padding-top:20px">
-        <div class="project-type">Interactive Experience · Presentations · AI · UX/UI</div>
+        <div class="project-type">Interactive Experience · Creative Technology · UX/UI</div>
         <div class="project-title">Art&amp;Technologist.ai</div>
         <div class="project-tags">
           <span class="project-tag">AI</span>
-          <span class="project-tag">Design</span>
-          <span class="project-tag">Technology</span>
-          <span class="project-tag">Presentations</span>
-          <span class="project-tag">Interaction</span>
           <span class="project-tag">Claude</span>
+          <span class="project-tag">Interactive presentation</span>
+          <span class="project-tag">Interaction</span>
+          <span class="project-tag">HTML</span>
         </div>
         <div style="margin:14px 0 16px;border-radius:8px;overflow:hidden;background:#000;position:relative">
           <video
@@ -2030,15 +2039,15 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta" style="padding-top:20px">
-        <div class="project-type">AI Product Design · Agents · Accessibility · UX/UI</div>
+        <div class="project-type">AI Product Design · UX/UI · Accessibility</div>
         <div class="project-title">ClearWay</div>
         <div class="project-tags">
-          <span class="project-tag">AI</span>
+          <span class="project-tag">AI agents</span>
+          <span class="project-tag">WCAG</span>
+          <span class="project-tag">Design system</span>
           <span class="project-tag">Claude Code</span>
           <span class="project-tag">Figma</span>
-          <span class="project-tag">Accessibility</span>
-          <span class="project-tag">Design system</span>
-          <span class="project-tag">Working prototype</span>
+          <span class="project-tag">Functional prototype</span>
         </div>
 
         <div class="lume-media cw-shots">
@@ -2256,7 +2265,7 @@
         <div class="project-tags">
           <span class="project-tag">Photography</span>
           <span class="project-tag">Lifestyle</span>
-          <span class="project-tag">Art Direction</span>
+          <span class="project-tag">Art direction</span>
           <span class="project-tag">Editorial</span>
         </div>
         <div class="lume-media">
@@ -2324,15 +2333,14 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta">
-        <div class="project-type">Environmental Design · Signage · London 2025</div>
+        <div class="project-type">Environmental Design · Branding · Signage</div>
         <div class="project-title">Piccadilly Kiosk</div>
         <div class="project-tags">
-          <span class="project-tag">Graphic Design</span>
           <span class="project-tag">Signage</span>
           <span class="project-tag">Branding</span>
-          <span class="project-tag">Project Management</span>
+          <span class="project-tag">Project management</span>
           <span class="project-tag">City Sightseeing</span>
-          <span class="project-tag">London</span>
+          <span class="project-tag">London 2025</span>
         </div>
         <div class="lume-media">
           <img src="proyectos/kiosko/1.webp" alt="Piccadilly Kiosk — view 1">
@@ -2389,10 +2397,9 @@
         <div class="project-title">Sony Pictures · Monster Hunter</div>
         <div class="project-tags">
           <span class="project-tag">Illustration</span>
-          <span class="project-tag">Flat Design</span>
-          <span class="project-tag">Competition</span>
+          <span class="project-tag">Finalist</span>
           <span class="project-tag">Sony Pictures</span>
-          <span class="project-tag">iPad Pro</span>
+          <span class="project-tag">Monster Hunter</span>
         </div>
         <div style="margin:14px 20px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div style="border-radius:8px;overflow:hidden;cursor:zoom-in" onclick="openLightbox([{type:'img',src:'proyectos/sony/monster-hunter-cover.webp'},{type:'img',src:'proyectos/sony/1.webp'}],0)">
@@ -2430,14 +2437,13 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta" style="padding-top:20px">
-        <div class="project-type">Web · Interactivity · Vibe Coding · Conceptual</div>
+        <div class="project-type">Creative Technology · Interactive Web · Computer Vision</div>
         <div class="project-title">Interactive Experience · Origami</div>
         <div class="project-tags">
-          <span class="project-tag">Web</span>
-          <span class="project-tag">Interactivity</span>
-          <span class="project-tag">Vibe Coding</span>
+          <span class="project-tag">MediaPipe</span>
+          <span class="project-tag">Gestures</span>
           <span class="project-tag">Animation</span>
-          <span class="project-tag">Conceptual</span>
+          <span class="project-tag">Vibe coding</span>
         </div>
         <div style="margin:14px 20px 16px;border-radius:10px;overflow:hidden;background:#000;position:relative">
           <video
@@ -2506,14 +2512,14 @@
     </div>
     <div class="win-body" style="padding:0;overflow-y:auto">
       <div class="project-meta" style="padding-top:20px">
-        <div class="project-type">macOS · UX · Vibe Coding · Productivity</div>
+        <div class="project-type">UX/UI · macOS · Productivity</div>
         <div class="project-title">Floating reminder system for Google Calendar</div>
         <div class="project-tags">
+          <span class="project-tag">Python</span>
           <span class="project-tag">macOS</span>
-          <span class="project-tag">Vibe Coding</span>
           <span class="project-tag">Google Calendar</span>
-          <span class="project-tag">UX</span>
           <span class="project-tag">Animation</span>
+          <span class="project-tag">Vibe coding</span>
         </div>
         <div style="margin:14px 20px 16px;border-radius:10px;overflow:hidden;background:#000;position:relative">
           <video
