@@ -315,7 +315,6 @@
     opacity: 0;
   }
   .win-buttons:hover .btn-icon { opacity: 1; }
-  .win-btn.close .btn-icon { color: #fff; }  /* la cruz de cerrar, en blanco */
   .win-title {
     position: absolute;
     left: 0; right: 0;
@@ -644,6 +643,9 @@
     transition: opacity 0.15s, transform 0.15s;
   }
   .lume-media img:hover, .lume-media video:hover { opacity: 0.88; transform: scale(1.02); }
+  .cw-shots img { aspect-ratio: 4/3; object-fit: cover; object-position: top left; box-shadow: 0 4px 14px rgba(0,0,0,0.14); }
+  .pw-media .lume-media.cw-shots > * { flex: 0 0 100%; }
+  .pw-narrow .pw-media .lume-media.cw-shots > * { flex: 0 0 82%; }
   .lume-accordion {
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 8px;
@@ -1402,7 +1404,7 @@
     <div id="notifications">
 
       <!-- Close button (mobile only, shown when notifs are open) -->
-      <button id="notif-close-btn" onclick="hideMobileNotifs();event.stopPropagation()" style="display:none;position:absolute;top:-14px;left:-8px;width:28px;height:28px;border-radius:50%;background:var(--btn-red);border:none;cursor:pointer;z-index:9001;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);color:rgba(0,0,0,0.5);font-size:10px;font-weight:700;line-height:1">✕</button>
+      <button id="notif-close-btn" onclick="hideMobileNotifs();event.stopPropagation()" style="display:none;position:absolute;top:-14px;left:-8px;width:28px;height:28px;border-radius:50%;background:var(--btn-red);border:none;cursor:pointer;z-index:9001;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);color:#000;font-size:14px;font-weight:700;line-height:1">✕</button>
 
       <!-- Bell icon (mobile only) -->
       <div id="notif-bell" style="display:none;position:relative;cursor:pointer;background:rgba(252,252,252,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.85);border-radius:50%;width:50px;height:50px;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.15);animation:bellPulse 2.4s ease-in-out infinite" onclick="showMobileNotifs();event.stopPropagation()">
@@ -2037,6 +2039,14 @@
           <span class="project-tag">Accessibility</span>
           <span class="project-tag">Design system</span>
           <span class="project-tag">Working prototype</span>
+        </div>
+
+        <div class="lume-media cw-shots">
+          <img src="proyectos/clearway/clearway-pantalla-inicio.webp" alt="ClearWay dashboard home: recent sessions and pending findings">
+          <img src="proyectos/clearway/clearway-pantalla-plan.webp" alt="Analysis plan: what the agent will review before it starts">
+          <img src="proyectos/clearway/clearway-pantalla-resultado.webp" alt="Open finding: measurement, who it affects, WCAG criterion and where it is">
+          <img src="proyectos/clearway/clearway-pantalla-dudas.webp" alt="Doubts to resolve: what the agent does not know and asks about">
+          <img src="proyectos/clearway/clearway-pantalla-comparar.webp" alt="Compare two reviews: what was fixed and what is still pending">
         </div>
 
         <details class="lume-accordion" open>
@@ -3247,6 +3257,15 @@ document.getElementById('phone-modal').addEventListener('click', e => {
 (function() {
   const els = document.querySelectorAll('#win-piccadilly .lume-media img, #win-piccadilly .lume-media video');
   const items = [...els].map(el => ({ type: el.tagName.toLowerCase(), src: el.getAttribute('src') }));
+  els.forEach((el, i) => {
+    el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
+  });
+})();
+
+// Wire up clearway media items
+(function() {
+  const els = document.querySelectorAll('#win-clearway .cw-shots img');
+  const items = [...els].map(el => ({ type: 'img', src: el.getAttribute('src') }));
   els.forEach((el, i) => {
     el.addEventListener('click', e => { e.stopPropagation(); openLightbox(items, i); });
   });
